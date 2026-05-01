@@ -1,0 +1,154 @@
+
+:root {
+    --font-ui: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    --bg-top-light: rgba(255, 214, 120, 0.18);
+    --bg-bottom-glow: rgba(40, 20, 70, 0.55);
+    --bg-cinema-start: #0b1020;
+    --bg-cinema-mid: #141b35;
+    --bg-cinema-end: #080b17;
+    --text-main-title: #111;
+    --text-form-title: #3540b5;
+    --text-label: #555;
+    --text-link: #667eea;
+    --text-link-hover: #3f49b8;
+    --card-bg: rgba(255, 255, 255, 0.95);
+    --card-border: rgba(255, 255, 255, 0.2);
+    --field-bg: #f8f9fa;
+    --field-border: #e1e5e9;
+    --field-focus: #667eea;
+    --button-bg: #5f67d8;
+    --button-bg-hover: #4f58c9;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-ui);
+    background:
+        radial-gradient(circle at 50% 18%, var(--bg-top-light) 0%, rgba(255, 214, 120, 0) 38%),
+        radial-gradient(circle at 50% 85%, var(--bg-bottom-glow) 0%, rgba(40, 20, 70, 0) 45%),
+        linear-gradient(180deg, var(--bg-cinema-start) 0%, var(--bg-cinema-mid) 55%, var(--bg-cinema-end) 100%);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 48px 20px 20px;
+}
+
+body > h1 {
+    color: white;
+    margin-bottom: 24px;
+    font-size: 2.2rem;
+}
+
+.accedi {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.accedi h1 {
+    color: var(--text-form-title);
+    font-size: 2.2rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+form {
+    background: var(--card-bg);
+    backdrop-filter: blur(10px);
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    width: 100%;
+    max-width: 400px;
+    border: 1px solid var(--card-border);
+}
+
+.campi_inserimento_credenziali {
+    margin-bottom: 25px;
+    position: relative;
+}
+
+.campi_inserimento_credenziali label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--text-label);
+    font-weight: 500;
+    font-size: 0.95rem;
+    letter-spacing: 0.5px;
+}
+
+.campi_inserimento_credenziali input {
+    width: 100%;
+    padding: 15px 20px;
+    border: 2px solid var(--field-border);
+    border-radius: 12px;
+    font-size: 1rem;
+    background: var(--field-bg);
+    outline: none;
+}
+
+.campi_inserimento_credenziali input:focus {
+    border-color: var(--field-focus);
+    background: white;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.pulsanti {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.pulsanti input[type="submit"] {
+    background: var(--button-bg);
+    color: white;
+    border: none;
+    padding: 15px 40px;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    width: 100%;
+    margin-bottom: 20px;
+    transition: background-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.pulsanti input[type="submit"]:hover {
+    background: var(--button-bg-hover);
+    box-shadow: 0 8px 18px rgba(79, 88, 201, 0.35);
+    transform: translateY(-1px);
+}
+
+.pulsanti a {
+    display: block;
+    color: var(--text-link);
+    text-decoration: none;
+    font-weight: 500;
+    margin-bottom: 10px;
+    padding: 12px 0;
+    border-radius: 8px;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.pulsanti a:hover {
+    background: rgba(95, 103, 216, 0.14);
+    color: var(--text-link-hover);
+}
+
+@media (max-width: 480px) {
+    .accedi h1 {
+        font-size: 2rem;
+    }
+    
+    form {
+        padding: 30px 25px;
+        margin: 10px;
+    }
+}
