@@ -40,7 +40,7 @@ $conn->query($sql);
 $sql = "CREATE TABLE IF NOT EXISTS Utente(
     id_utente INT AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(50) NOT NULL,
-    password_hash VARCHAR(40) NOT NULL,
+    password_hash VARCHAR(40) NOT NULL,#modificare nome nel logico
     email VARCHAR(40) UNIQUE ,
     tipo INT NOT NULL,
     FOREIGN KEY(tipo)  REFERENCES Tipologia_utente(id_tipo)
@@ -49,7 +49,7 @@ $conn->query($sql);
 $sql = "CREATE TABLE IF NOT EXISTS Biglietto(
     id_biglietto INT AUTO_INCREMENT PRIMARY KEY,
     importo FLOAT NOT NULL,
-    posto INT NOT NULL,
+    posto INT NOT NULL,#aggiungi nel logico
     spettacolo int NOT NULL,
     utente int NOT NULL,
     FOREIGN KEY(spettacolo) REFERENCES Spettacolo(id_spettacolo),
