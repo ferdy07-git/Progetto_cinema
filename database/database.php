@@ -12,6 +12,7 @@ $sql = "CREATE TABLE IF NOT EXISTS Film(
     titolo VARCHAR(50) NOT NULL,
     trama TEXT NOT NULL,
     durata VARCHAR(30) NOT NULL,
+    locandina VARCHAR(255) NOT NULL,
     FOREIGN KEY (genere) REFERENCES Genere(id_genere)
 )";
 $conn->query($sql); 
