@@ -1,0 +1,415 @@
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap");
+
+/* ── DESIGN TOKENS ─────────────────────────────── */
+:root {
+    --bg:           #0d0d0f;
+    --surface:      #17171a;
+    --surface-2:    #1f1f24;
+    --border:       rgba(255,255,255,0.08);
+    --border-hover: rgba(255,255,255,0.16);
+
+    --text:         #f0ede8;
+    --text-muted:   #8a8790;
+    --text-dim:     #5a5760;
+
+    --gold:         #c9a84c;
+    --gold-light:   #e8c97a;
+    --gold-dim:     rgba(201,168,76,0.15);
+
+    --radius:       14px;
+    --radius-sm:    8px;
+
+    --font-display: "Playfair Display", Georgia, serif;
+    --font-body:    "DM Sans", system-ui, sans-serif;
+
+    --shadow:       0 4px 24px rgba(0,0,0,0.5);
+    --shadow-gold:  0 8px 32px rgba(201,168,76,0.2);
+}
+
+/* ── RESET ─────────────────────────────────────── */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--text);
+    background: var(--bg);
+    min-height: 100vh;
+}
+
+/* ══════════════════════════════════════════════
+   HOMEPAGE
+══════════════════════════════════════════════ */
+body.page-home {
+    padding: 0 0 4rem;
+}
+
+.site-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.5rem 2.5rem;
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(13,13,15,0.9);
+    backdrop-filter: blur(16px);
+}
+
+.site-header h1 {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 900;
+    letter-spacing: 0.02em;
+    color: var(--gold);
+}
+
+.site-tagline {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+.hero-strip {
+    text-align: center;
+    padding: 4rem 2rem 3rem;
+    background: linear-gradient(180deg, rgba(201,168,76,0.04) 0%, transparent 100%);
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 3rem;
+}
+
+.hero-strip h2 {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    margin-bottom: 0.5rem;
+}
+
+.hero-strip h2 span { color: var(--gold); }
+
+.hero-strip p {
+    color: var(--text-muted);
+    font-size: 1rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+.container {
+    width: 100%;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+}
+
+@media (min-width: 700px) {
+    .container {
+        grid-template-columns: repeat(auto-fill, minmax(460px, 1fr));
+    }
+}
+
+.film-card {
+    display: flex;
+    gap: 1.5rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.75rem;
+    transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s;
+    position: relative;
+    overflow: hidden;
+}
+
+.film-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: var(--radius);
+    box-shadow: inset 0 0 0 1px var(--gold);
+    opacity: 0;
+    transition: opacity 0.25s;
+}
+
+.film-card:hover {
+    border-color: transparent;
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-gold);
+}
+
+.film-card:hover::after { opacity: 1; }
+
+.film-card img {
+    flex-shrink: 0;
+    width: 120px;
+    aspect-ratio: 2/3;
+    object-fit: cover;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+    align-self: flex-start;
+}
+
+.film-info {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.film-info h2 {
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--text);
+}
+
+.film-info .genere {
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--gold);
+    background: var(--gold-dim);
+    border: 1px solid rgba(201,168,76,0.25);
+    border-radius: 20px;
+    padding: 0.25rem 0.75rem;
+    width: fit-content;
+}
+
+.film-info .trama {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    line-height: 1.55;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.film-info .durata {
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.film-info .durata::before { content: '⏱'; }
+
+.spettacolo-info {
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 1rem 1.1rem;
+    margin-top: 0.25rem;
+}
+
+.spettacolo-info h3 {
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--gold);
+    margin-bottom: 0.6rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.spettacolo-info h3::before { content: '🎬'; font-size: 0.9em; }
+
+.spettacolo-info p {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    margin-bottom: 0.3rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.spettacolo-info p:last-child { margin-bottom: 0; }
+.spettacolo-info p:nth-child(2)::before { content: '📅'; font-size: 0.85em; }
+.spettacolo-info p:nth-child(3)::before { content: '🕐'; font-size: 0.85em; }
+.spettacolo-info p:nth-child(4)::before { content: '🏛️'; font-size: 0.85em; }
+
+.btn-acquista {
+    display: block;
+    text-align: center;
+    text-decoration: none;
+    font-family: var(--font-body);
+    font-size: 0.875rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--bg);
+    background: var(--gold);
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--radius-sm);
+    margin-top: auto;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+}
+
+.btn-acquista:hover {
+    background: var(--gold-light);
+    transform: translateY(-1px);
+}
+
+.film-card::after {
+    pointer-events: none;
+}
+
+@media (max-width: 500px) {
+    .film-card { flex-direction: column; }
+    .film-card img { width: 100%; max-width: 140px; }
+    .site-header { padding: 1.25rem 1.5rem; }
+    .container { padding: 0 1.25rem; }
+}
+
+
+/* ══════════════════════════════════════════════
+   PAGINE AUTH (login / registra / recupera)
+══════════════════════════════════════════════ */
+body.page-auth {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1.5rem;
+    background: var(--bg);
+    background-image: radial-gradient(ellipse 60% 40% at 50% 0%, rgba(201,168,76,0.06) 0%, transparent 70%);
+}
+
+.auth-logo {
+    font-family: var(--font-display);
+    font-size: 1.6rem;
+    font-weight: 900;
+    color: var(--gold);
+    letter-spacing: 0.02em;
+    margin-bottom: 2rem;
+    text-align: center;
+    text-decoration: none;
+    display: block;
+}
+
+.auth-logo span {
+    display: block;
+    font-family: var(--font-body);
+    font-size: 0.7rem;
+    font-weight: 400;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-top: 0.15rem;
+}
+
+form {
+    width: 100%;
+    max-width: 420px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 2.5rem 2.25rem;
+    box-shadow: var(--shadow);
+}
+
+.accedi {
+    margin-bottom: 2rem;
+}
+
+.accedi h1 {
+    font-family: var(--font-display);
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: -0.02em;
+}
+
+.campi_inserimento_credenziali {
+    margin-bottom: 1.25rem;
+}
+
+.campi_inserimento_credenziali label {
+    display: block;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+    margin-bottom: 0.5rem;
+}
+
+.campi_inserimento_credenziali input {
+    width: 100%;
+    padding: 0.875rem 1rem;
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    color: var(--text);
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.campi_inserimento_credenziali input:focus {
+    border-color: var(--gold);
+    box-shadow: 0 0 0 3px rgba(201,168,76,0.12);
+}
+
+.campi_inserimento_credenziali input::placeholder {
+    color: var(--text-dim);
+}
+
+.pulsanti {
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.pulsanti input[type="submit"] {
+    width: 100%;
+    font-family: var(--font-body);
+    font-size: 0.875rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--bg);
+    background: var(--gold);
+    border: none;
+    padding: 0.9rem 1.5rem;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+}
+
+.pulsanti input[type="submit"]:hover {
+    background: var(--gold-light);
+    transform: translateY(-1px);
+}
+
+.pulsanti a {
+    display: block;
+    text-align: center;
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    text-decoration: none;
+    padding: 0.5rem;
+    border-radius: var(--radius-sm);
+    transition: color 0.2s;
+}
+
+.pulsanti a:hover { color: var(--gold); }

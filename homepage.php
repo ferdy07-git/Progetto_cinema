@@ -7,6 +7,7 @@
         film.titolo,
         film.trama,
         film.durata,
+        film.locandina,
         genere.nome AS nome_genere,
         spettacolo.id_spettacolo,
         spettacolo.data_spettacolo,
@@ -16,9 +17,9 @@
     FROM film
     INNER JOIN genere 
         ON film.genere = genere.id_genere
-    INNER JOIN spettacolo 
+    LEFT JOIN spettacolo 
         ON film.id_film = spettacolo.film
-    INNER JOIN sala 
+    LEFT JOIN sala 
         ON spettacolo.sala = sala.id_sala
     ORDER BY film.titolo
     ";
@@ -34,15 +35,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Homepage Cinema</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Cinema Palladino</title>
+    <link rel="stylesheet" href="stile.css">
 </head>
 <body class="page-home">
 
     <header class="site-header">
-        <h1>Film in programmazione</h1>
-        <p class="site-tagline">Cinema Palladino — la magia del grande schermo</p>
+        <h1>Cinema Palladino</h1>
+        <p class="site-tagline">La magia del grande schermo</p>
     </header>
+
+    <div class="hero-strip">
+        <h2>Film in <span>programmazione</span></h2>
+        <p>Scegli il tuo spettacolo e acquista il biglietto</p>
+    </div>
 
     <div class="container">
 
@@ -51,44 +57,42 @@
         ?>
 
             <div class="film-card">
-                <img src="img/default-film.svg" alt="Locandina <?php echo $titolo_esc; ?>">
+                <img
+                    src="img/<?php echo htmlspecialchars($row['locandina'] ?? 'default-film.webp'); ?>"
+                    alt="Locandina <?php echo $titolo_esc; ?>"
+                    onerror="this.src='img/default-film.webp'"
+                >
 
                 <div class="film-info">
 
                     <h2><?php echo $titolo_esc; ?></h2>
 
-                    <p class="genere">
-                        Genere: <?php echo $row['nome_genere']; ?>
-                    </p>
+                    <p class="genere"><?php echo htmlspecialchars($row['nome_genere']); ?></p>
 
-                    <p class="trama">
-                        <?php echo $row['trama']; ?>
-                    </p>
+                    <p class="trama"><?php echo htmlspecialchars($row['trama']); ?></p>
 
-                    <p class="durata">
-                        Durata: <?php echo $row['durata']; ?>
-                    </p>
+                    <p class="durata">Durata: <?php echo htmlspecialchars($row['durata']); ?></p>
 
-                    <div class="spettacolo-info">
-                        <h3>Spettacolo disponibile</h3>
+                    <?php if ($row['id_spettacolo']): ?>
+                        <div class="spettacolo-info">
+                            <h3>Spettacolo disponibile</h3>
+                            <p>Data: <?php echo htmlspecialchars($row['data_spettacolo']); ?></p>
+                            <p>Ore <?php echo htmlspecialchars($row['ora_inizio']); ?> &ndash; <?php echo htmlspecialchars($row['ora_fine']); ?></p>
+                            <p>Sala: <?php echo htmlspecialchars($row['nome_sala']); ?></p>
+                        </div>
 
-                        <p>
-                            Data: <?php echo $row['data_spettacolo']; ?>
-                        </p>
+                        <a class="btn-acquista" href="acquista_biglietto.php?id_spettacolo=<?php echo (int)$row['id_spettacolo']; ?>">
+                            Acquista Biglietto
+                        </a>
 
-                        <p>
-                            Ora: <?php echo $row['ora_inizio']; ?> - 
-                            <?php echo $row['ora_fine']; ?>
-                        </p>
+                    <?php else: ?>
+                        <div class="spettacolo-info">
+                            <h3>Nessuno spettacolo programmato</h3>
+                            <p>Torna presto per gli aggiornamenti</p>
+                        </div>
 
-                        <p>
-                            Sala: <?php echo $row['nome_sala']; ?>
-                        </p>
-                    </div>
-
-                    <a href="acquista_biglietto.php?id_spettacolo=<?php echo $row['id_spettacolo']; ?>">
-                        <button>Acquista Biglietto</button>
-                    </a>
+                        <a class="btn-acquista" aria-disabled="true">Non disponibile</a>
+                    <?php endif; ?>
 
                 </div>
             </div>
