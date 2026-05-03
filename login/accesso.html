@@ -1,31 +1,36 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="it">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <title>Accedi</title>
+    <link rel="stylesheet" href="../style.css">
+    <title>Accedi — Cinema Palladino</title>
 </head>
-<body>
-    <h1>Cinema Palladino </h1>
+<body class="page-auth">
+
+    <a class="auth-logo" href="../homepage.php">
+        Cinema Palladino
+        <span>Il tuo cinema</span>
+    </a>
+
     <form action="credenziali.php" method="post">
         <div class="accedi">
             <h1>Accedi</h1>
         </div>
         <div class="campi_inserimento_credenziali">
-            <label>Nome utente</label>
-            <input type="text" required name="nick">
+            <label for="nick">Nome utente</label>
+            <input type="text" id="nick" required name="nick" placeholder="Il tuo username">
         </div>
         <div class="campi_inserimento_credenziali">
-            <label>Password</label>
-            <input type="password" required name="pass">
+            <label for="pass">Password</label>
+            <input type="password" id="pass" required name="pass" placeholder="••••••••">
         </div>
         <div class="pulsanti">
-            <input type="submit" value="ACCEDI">
-            <a href="recupera_password.html">HO DIMENTICATO LA MIA PASSWORD</a>
-            <a href="registra.html">CREA ACCOUNT</a>
+            <input type="submit" value="Accedi">
+            <a href="recupera_password.html">Ho dimenticato la password</a>
+            <a href="registra.html">Crea un account</a>
         </div>
     </form>
-    
+
 </body>
 </html>
