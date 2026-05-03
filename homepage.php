@@ -36,7 +36,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cinema Palladino</title>
-    <link rel="stylesheet" href="stile.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body class="page-home">
 
