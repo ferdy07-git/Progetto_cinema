@@ -29,16 +29,29 @@
         die("Errore nel caricamento dei film: " . htmlspecialchars($conn->error));
     }
 
-    $films = [];
+    $films  = [];
     $generi = [];
+    $sale   = [];
+
+    // UN solo loop per raccogliere tutto
     while ($row = $result->fetch_assoc()) {
         $films[] = $row;
+
         $g = htmlspecialchars($row['nome_genere']);
         if (!in_array($g, $generi)) {
             $generi[] = $g;
         }
+
+        if (!empty($row['nome_sala'])) {
+            $s = htmlspecialchars($row['nome_sala']);
+            if (!in_array($s, $sale)) {
+                $sale[] = $s;
+            }
+        }
     }
+
     sort($generi);
+    sort($sale);
 ?>
 
 <!DOCTYPE html>
@@ -48,7 +61,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cinema Palladino</title>
     <link rel="stylesheet" href="style.css?v=<?php echo time(); ?>">
-
 </head>
 <body class="page-home">
 
@@ -76,6 +88,19 @@
             >
             <button class="search-clear" id="search-clear" title="Cancella ricerca" style="display:none;">✕</button>
         </div>
+
+        <div class="sala-filter">
+            <span class="sala-filter__label">Filtra per sala</span>
+            <div class="sala-filter__buttons">
+                <button class="sala-btn active" data-sala="tutte">Tutte le sale</button>
+                <?php foreach ($sale as $s): ?>
+                <button class="sala-btn" data-sala="<?php echo htmlspecialchars($s, ENT_QUOTES); ?>">
+                    <?php echo htmlspecialchars($s); ?>
+                </button>
+                <?php endforeach; ?>
+            </div>
+        </div>
+
     </div>
 
     <div class="page-layout">
@@ -110,12 +135,14 @@
                 <?php foreach ($films as $row):
                     $titolo_esc = htmlspecialchars($row['titolo'], ENT_QUOTES, 'UTF-8');
                     $genere_esc = htmlspecialchars($row['nome_genere'], ENT_QUOTES, 'UTF-8');
+                    $sala_esc   = htmlspecialchars($row['nome_sala'] ?? '', ENT_QUOTES, 'UTF-8');
                 ?>
 
                     <div class="film-card"
                          data-titolo="<?php echo strtolower($titolo_esc); ?>"
                          data-trama="<?php echo strtolower(htmlspecialchars($row['trama'], ENT_QUOTES, 'UTF-8')); ?>"
-                         data-genere="<?php echo $genere_esc; ?>">
+                         data-genere="<?php echo $genere_esc; ?>"
+                         data-sala="<?php echo $sala_esc; ?>">
 
                         <img
                             src="img/<?php echo htmlspecialchars($row['locandina'] ?? 'default-film.webp'); ?>"
@@ -177,16 +204,19 @@
         const noResults     = document.getElementById('no-results');
         const risultatiInfo = document.getElementById('risultati-info');
         const genereBtns    = document.querySelectorAll('.genere-btn');
+        const salaBtns      = document.querySelectorAll('.sala-btn');
 
         let activeGenere = 'tutti';
+        let activeSala   = 'tutte';
         let searchTerm   = '';
 
         function filter() {
             let visible = 0;
             cards.forEach(card => {
-                const titolo  = card.dataset.titolo  || '';
-                const trama   = card.dataset.trama   || '';
-                const genere  = card.dataset.genere  || '';
+                const titolo = card.dataset.titolo || '';
+                const trama  = card.dataset.trama  || '';
+                const genere = card.dataset.genere || '';
+                const sala   = card.dataset.sala   || '';
 
                 const matchSearch = !searchTerm ||
                     titolo.includes(searchTerm) ||
@@ -195,7 +225,10 @@
                 const matchGenere = activeGenere === 'tutti' ||
                     genere === activeGenere;
 
-                if (matchSearch && matchGenere) {
+                const matchSala = activeSala === 'tutte' ||
+                    sala === activeSala;
+
+                if (matchSearch && matchGenere && matchSala) {
                     card.style.display = '';
                     visible++;
                 } else {
@@ -231,6 +264,16 @@
                 filter();
             });
         });
+
+        salaBtns.forEach(btn => {
+            btn.addEventListener('click', function () {
+                salaBtns.forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                activeSala = this.dataset.sala;
+                filter();
+            });
+        });
+
     })();
     </script>
 
