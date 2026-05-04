@@ -33,15 +33,15 @@
             <label for="conferma_pass">Conferma password</label>
             <input type="password" id="conferma_pass" required name="conferma_pass" placeholder="••••••••">
         </div>
-        <div class="pulsanti">
-            <input type="submit" value="Crea account">
-            <a href="accesso.html">Hai già un account? Accedi</a>
             <?php
             session_start();
             if(isset($_SESSION["check"])&& $_SESSION["check"])
-                print"<label>Registrazione non riuscita</label>";
+                print"<center><label style='color: red'>Registrazione non riuscita</label></center>";
             session_destroy();
             ?>
+        <div class="pulsanti">
+            <input type="submit" value="Crea account">
+            <a href="accesso.html">Hai già un account? Accedi</a>
         </div>
     </form>
 
