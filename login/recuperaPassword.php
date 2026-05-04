@@ -7,7 +7,7 @@ $p2 = $_POST["pas2"];
 
 if ($p1 == $p2) {
 
-    $sql = "SELECT * FROM utente WHERE email = '$mail'";
+    $sql = "SELECT * FROM Utente WHERE email = '$mail'";
     $result = $conn->query($sql);
 
     if ($result->num_rows > 0) {  
