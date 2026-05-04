@@ -1,23 +1,16 @@
 <?php
 require "../database/connessione.php";
-
-
+require "../utils/password.php";
 $nome = $_POST["nick"];
 $pass = $_POST["pass"];
-
-$sql = "SELECT * FROM Utente WHERE nome = '$nome' AND password_hash = '$pass'";
-
-$result = $conn->query($sql);
-
-
-if ($result->num_rows > 0) {
-    header("Location: ../homepage.php");
-    exit();
-} else {
-    header("Location: accesso.html?errore=credenziali_sbagliate");
+$password = encrypt($pass);
+if(check($nome,$password)){
+    session_start();
+    $_SESSION["user"] = $nome;
+    $_SESSION["password"] = $password;
+    header("Location:../homepage.php");
+}else{
 }
-
-
 ?>
 
 
