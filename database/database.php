@@ -58,3 +58,9 @@ $sql = "CREATE TABLE IF NOT EXISTS Biglietto(
 
 )";
 $conn->query($sql);
+$array = explode(";",file_get_contents(__DIR__. '/cinema_database.sql'));
+foreach($array as $q){
+    $sql = $q;
+    $conn->query($sql);
+}
+
