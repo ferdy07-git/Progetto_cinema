@@ -138,7 +138,7 @@
                                     <h3>Spettacolo disponibile</h3>
                                     <p>Data: <?php echo htmlspecialchars($row['data_spettacolo']); ?></p>
                                     <p>Ore <?php echo htmlspecialchars($row['ora_inizio']); ?> &ndash; <?php echo htmlspecialchars($row['ora_fine']); ?></p>
-                                    <p>Sala: <?php echo htmlspecialchars($row['nome_sala']); ?></p>
+                                    <p><?php echo htmlspecialchars($row['nome_sala']); ?></p>
                                 </div>
 
                                 <a class="btn-acquista" href="acquista_biglietto.php?id_spettacolo=<?php echo (int)$row['id_spettacolo']; ?>">
