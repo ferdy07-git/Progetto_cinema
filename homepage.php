@@ -91,7 +91,7 @@
 
                     <a href='#' class='menu-link'><span>🎫</span> Visualizza biglietti</a>
                     <a href='#' class='menu-link'><span>🔑</span> Modifica password</a>
-                    <a href='./login/accesso.html' class='menu-link logout'><span>👋</span> Esci</a>
+                    <a href='./login/logout.php' class='menu-link logout'><span>👋</span> Esci</a>
                 </div>
             </div>
         <?php endif; ?>
