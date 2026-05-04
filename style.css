@@ -658,3 +658,76 @@ form {
 }
 
 .pulsanti a:hover { color: var(--gold); }
+
+/* ── Filtro Sala ─────────────────────────────────── */
+.sala-filter {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.sala-filter__label {
+  font-size: .72rem;
+  font-weight: 600;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: rgba(255 255 255 / .45);
+}
+
+.sala-filter__buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+}
+
+.sala-btn {
+  height: 36px;
+  padding: 0 20px;
+  background: rgba(255 255 255 / .07);
+  color: rgba(255 255 255 / .65);
+  border: 1px solid rgba(255 255 255 / .15);
+  border-radius: 100px;
+  font-family: var(--font, 'DM Sans', sans-serif);
+  font-size: .82rem;
+  font-weight: 500;
+  letter-spacing: .03em;
+  cursor: pointer;
+  backdrop-filter: blur(6px);
+  transition: background .2s ease, color .2s ease,
+              border-color .2s ease, transform .15s ease,
+              box-shadow .2s ease;
+}
+
+.sala-btn:hover {
+  background: rgba(255 255 255 / .14);
+  color: #fff;
+  border-color: rgba(255 255 255 / .35);
+  transform: translateY(-1px);
+}
+
+.sala-btn.active {
+  background: #c9a84c;          /* oro cinema, coerente con il tuo giallo titolo */
+  color: #1a1a1a;
+  border-color: transparent;
+  font-weight: 700;
+  box-shadow: 0 4px 18px rgba(201 168 76 / .40);
+}
+
+.sala-btn.active:hover {
+  background: #d4b55e;
+  transform: translateY(-1px);
+}
+
+@media (max-width: 600px) {
+  .sala-filter__buttons {
+    gap: 6px;
+  }
+  .sala-btn {
+    height: 32px;
+    padding: 0 14px;
+    font-size: .78rem;
+  }
+}
