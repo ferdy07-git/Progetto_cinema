@@ -17,12 +17,13 @@ if ($p1 == $p2) {
         exit();
 
     } else {        
-        header("Location: recuperaPassword.html?errore=utente");
+        header("Location: recupera_password.html?errore=utente");
+
         exit();
     }
 } else {
     
-    header("Location: recuperaPassword.html?errore=password");
+    header("Location: recupera_password.html?errore=password");
     exit();
 }
 ?>
