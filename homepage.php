@@ -1,4 +1,5 @@
 <?php
+    
     include("./database/connessione.php");
 
     $query = "
@@ -33,6 +34,7 @@
     $generi = [];
     $sale   = [];
 
+    // UN solo loop per raccogliere tutto
     while ($row = $result->fetch_assoc()) {
         $films[] = $row;
 
@@ -66,24 +68,30 @@
     <header class="site-header">
         <h1>Cinema Palladino</h1>
         <p class="site-tagline">La magia del grande schermo</p>
+        <?php
+        session_start();
+        if(!(isset($_SESSION["user"]))){
+        print("<a class='btn-accedi' href='./login/accesso.html'>
+            <svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='12' cy='8' r='5'/><path d='M3 21a9 9 0 0 1 18 0'/></svg>
+            Accedi
+        </a>");}else{
+        print"<div class='profile-menu'>
+            <label for='toggle-menu' class='avatar-btn'>JD</label>
+            <input type='checkbox' id='toggle-menu'>
 
-        <!-- PROFILE MENU -->
-        <div class="profile-menu">
-            <label for="toggle-menu" class="avatar-btn">JD</label>
-            <input type="checkbox" id="toggle-menu">
-
-            <div class="dropdown">
-                <div class="user-info">
-                    <span class="name">John Doe</span>
-                    <span class="email">john.doe@esempio.it</span>
+            <div class='dropdown'>
+                <div class='user-info'>
+                    <span class='name'>John Doe</span>
+                    <span class='email'>john.doe@esempio.it</span>
                 </div>
 
-                <a href="#" class="menu-link"><span>🎫</span> Visualizza biglietti</a>
-                <a href="#" class="menu-link"><span>🔑</span> Modifica password</a>
+                <a href='#' class='menu-link'><span>🎫</span> Visualizza biglietti</a>
+                <a href='#' class='menu-link'><span>🔑</span> Modifica password</a>
 
-                <a href="./login/accesso.html" class="menu-link logout"><span>👋</span> Esci</a>
+                <a href='./login/accesso.html' class='menu-link logout'><span>👋</span> Esci</a>
             </div>
-        </div>
+        </div>";}
+        ?>
     </header>
 
     <div class="hero-strip">
@@ -113,6 +121,7 @@
                 <?php endforeach; ?>
             </div>
         </div>
+
     </div>
 
     <div class="page-layout">
@@ -163,9 +172,13 @@
                         >
 
                         <div class="film-info">
+
                             <h2><?php echo $titolo_esc; ?></h2>
+
                             <p class="genere"><?php echo htmlspecialchars($row['nome_genere']); ?></p>
+
                             <p class="trama"><?php echo htmlspecialchars($row['trama']); ?></p>
+
                             <p class="durata">Durata: <?php echo htmlspecialchars($row['durata']); ?></p>
 
                             <?php if ($row['id_spettacolo']): ?>
@@ -175,16 +188,20 @@
                                     <p>Ore <?php echo htmlspecialchars($row['ora_inizio']); ?> &ndash; <?php echo htmlspecialchars($row['ora_fine']); ?></p>
                                     <p><?php echo htmlspecialchars($row['nome_sala']); ?></p>
                                 </div>
+
                                 <a class="btn-acquista" href="acquista_biglietto.php?id_spettacolo=<?php echo (int)$row['id_spettacolo']; ?>">
                                     Acquista Biglietto
                                 </a>
+
                             <?php else: ?>
                                 <div class="spettacolo-info">
                                     <h3>Nessuno spettacolo programmato</h3>
                                     <p>Torna presto per gli aggiornamenti</p>
                                 </div>
+
                                 <a class="btn-acquista" aria-disabled="true">Non disponibile</a>
                             <?php endif; ?>
+
                         </div>
                     </div>
 
@@ -276,15 +293,6 @@
                 activeSala = this.dataset.sala;
                 filter();
             });
-        });
-
-        /* Chiudi dropdown cliccando fuori */
-        document.addEventListener('click', function (e) {
-            const menu = document.querySelector('.profile-menu');
-            const toggle = document.getElementById('toggle-menu');
-            if (menu && !menu.contains(e.target)) {
-                toggle.checked = false;
-            }
         });
 
     })();
