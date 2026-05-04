@@ -18,6 +18,7 @@ if(!($pass == $conf)){
     if($conn->query($sql)==true){
         $_SESSION["user"] = $user;
         $_SESSION["password"] = $password;
+        header("Location: accesso.html");
     }else{
         $_SESSION["check"] = TRUE;
         header("Location:reg.php");
