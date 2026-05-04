@@ -69,36 +69,35 @@
 </head>
 <body class="page-home">
 
-    <header class="site-header">
-        <h1>Cinema Palladino</h1>
-        <p class="site-tagline">La magia del grande schermo</p>
-
-        <?php if (!isset($_SESSION['user'])): ?>
-            <a class='btn-accedi' href='./login/accesso.html'>
-                <svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='12' cy='8' r='5'/><path d='M3 21a9 9 0 0 1 18 0'/></svg>
-                Accedi
-            </a>
-        <?php else: ?>
-            <div class='profile-menu'>
-                <label for='toggle-menu' class='avatar-btn'><?php echo $iniziali; ?></label>
-                <input type='checkbox' id='toggle-menu'>
-
-                <div class='dropdown'>
-                    <div class='user-info'>
-                        <span class='name'><?php echo $nomeUtente; ?></span>
-                        <span class='email'><?php echo $emailUtente; ?></span>
-                    </div>
-
-                    <a href='#' class='menu-link'><span>🎫</span> Visualizza biglietti</a>
-                    <a href='#' class='menu-link'><span>🔑</span> Modifica password</a>
-                    <a href='./login/logout.php' class='menu-link logout'><span>👋</span> Esci</a>
-                </div>
-            </div>
-        <?php endif; ?>
-    </header>
-
     <div class="hero-strip">
-        <h2>Film in <span>programmazione</span></h2>
+        <div class="hero-topbar">
+            <h1 class="hero-site-title">Itis "Luigi di Maggio"</h1>
+
+            
+            <?php if (!isset($_SESSION['user'])): ?>
+                <a class='btn-accedi' href='./login/accesso.html'>
+                    <svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='12' cy='8' r='5'/><path d='M3 21a9 9 0 0 1 18 0'/></svg>
+                    Accedi
+                </a>
+            <?php else: ?>
+                <div class='profile-menu'>
+                    <label for='toggle-menu' class='avatar-btn'><?php echo $iniziali; ?></label>
+                    <input type='checkbox' id='toggle-menu'>
+
+                    <div class='dropdown'>
+                        <div class='user-info'>
+                            <span class='name'><?php echo $nomeUtente; ?></span>
+                            <span class='email'><?php echo $emailUtente; ?></span>
+                        </div>
+
+                        <a href='#' class='menu-link'><span>🎫</span> Visualizza biglietti</a>
+                        <a href='#' class='menu-link'><span>🔑</span> Modifica password</a>
+                        <a href='./login/logout.php' class='menu-link logout'><span>👋</span> Esci</a>
+                    </div>
+                </div>
+            <?php endif; ?>
+        </div>
+        <h2 class="hero-title">Film in <span>programmazione</span></h2>
         <p>Scegli il tuo spettacolo e acquista il biglietto</p>
 
         <div class="search-bar-wrapper">
@@ -112,7 +111,6 @@
             >
             <button class="search-clear" id="search-clear" title="Cancella ricerca" style="display:none;">✕</button>
         </div>
-
         <div class="sala-filter">
             <span class="sala-filter__label">Filtra per sala</span>
             <div class="sala-filter__buttons">
@@ -124,7 +122,9 @@
                 <?php endforeach; ?>
             </div>
         </div>
+
     </div>
+
 
     <div class="page-layout">
 
@@ -151,8 +151,6 @@
 
         <!-- MAIN CONTENT -->
         <main>
-            <div class="risultati-info" id="risultati-info"></div>
-
             <div class="container" id="film-container">
 
                 <?php foreach ($films as $row):
