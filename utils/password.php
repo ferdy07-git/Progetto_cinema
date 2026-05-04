@@ -1,5 +1,5 @@
 <?php
-function encrypt($pass): str{
+function encrypt($pass){
     return hash('sha256',$pass);
 }
 function check($user,$pass) : boolval {
