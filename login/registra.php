@@ -46,9 +46,9 @@ if ($result->num_rows > 0) {
 }else{
 
  $password = encrypt($pass);
-    $sql = "INSERT INTO utente VALUES(NULL,'$user','$password','$mail',1)";
+    $sql = "INSERT INTO utente VALUES(NULL,'$nome','$password','$mail',1)";
     if($conn->query($sql)==true){
-        $_SESSION["user"] = $user;
+        $_SESSION["nome"] = $nome;
         $_SESSION["password"] = $password;
         header("Location: accesso.html");
     }else{
