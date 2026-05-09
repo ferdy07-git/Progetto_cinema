@@ -85,9 +85,9 @@ INSERT INTO `spettacolo` (`id_spettacolo`, `film`, `sala`, `data_spettacolo`, `o
 (34, 22, 2, '2026-05-21', '17:00:00', '18:40:00'),
 (35, 23, 1, '2026-05-21', '20:30:00', '22:38:00'),
 (36, 24, 2, '2026-05-22', '19:00:00', '21:58:00'),
-(37, 25, 1, '2026-05-22', '21:00:00', '23:10:00')
+(37, 25, 1, '2026-05-22', '21:00:00', '23:10:00');
 
 INSERT INTO 'utente' ('id_utente','nome','password_hash','email','tipo') VALUES
-(1, 'admin', '2f8f8acba3134e694faf23803e0b64b940bc5037d602a9c582ddea4d6dcef2dd', 'cinema2026@gmail.com', 3)
+(1, 'admin', '2f8f8acba3134e694faf23803e0b64b940bc5037d602a9c582ddea4d6dcef2dd', 'cinema2026@gmail.com', 3),
 (2, 'venditore', '2f8f8acba3134e694faf23803e0b64b940bc5037d602a9c582ddea4d6dcef2dd', 'venditore2026@gmail.com', 2)
 
