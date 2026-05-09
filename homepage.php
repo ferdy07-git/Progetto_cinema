@@ -57,6 +57,10 @@
     $nomeUtente  = htmlspecialchars($_SESSION['user']  ?? 'Utente');
     $emailUtente = htmlspecialchars($_SESSION['email'] ?? '');
     $iniziali    = strtoupper(substr($_SESSION['user'] ?? 'U', 0, 1));
+
+    // Admin check (coerente con login/accesso.php)
+    $ADMIN_HASH = "2f8f8acba3134e694faf23803e0b64b940bc5037d602a9c582ddea4d6dcef2dd";
+    $isAdmin = isset($_SESSION["user"]) && (($_SESSION["password"] ?? "") === $ADMIN_HASH);
 ?>
 
 <!DOCTYPE html>
@@ -90,6 +94,9 @@
                             <span class='email'><?php echo $emailUtente; ?></span>
                         </div>
 
+                        <?php if ($isAdmin): ?>
+                            <a href='./login/admin/modifica.php' class='menu-link'><span>🛠️</span> Pannello admin</a>
+                        <?php endif; ?>
                         <a href='#' class='menu-link'><span>🎫</span> Visualizza biglietti</a>
                         <a href='#' class='menu-link'><span>🔑</span> Modifica password</a>
                         <a href='./login/logout.php' class='menu-link logout'><span>👋</span> Esci</a>
