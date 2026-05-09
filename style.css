@@ -28,7 +28,6 @@
 
 /* ── RESET ─────────────────────────────────────── */
 *, *::before, *::after {
-    box-sizing: border-box;
     margin: 0;
     padding: 0;
 }
@@ -600,12 +599,10 @@ body.page-auth {
 }
 
 form {
-    width: 100%;
     max-width: 420px;
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: var(--radius);
-    padding: 2.5rem 2.25rem;
     box-shadow: var(--shadow);
 }
 
@@ -897,3 +894,82 @@ form {
             background: rgba(224,92,92,0.08);
             color: #f07070;
         }
+/* ── ADMIN (pannello gestione film) ─────────── */
+.admin-film-card{
+    flex-direction: column;
+    width: min(560px, 100%);
+    max-width: 560px;
+    overflow: visible; /* evita tagli dei pulsanti */
+}
+
+.admin-film-card > img{
+    width: 100%;
+    height: 620px;
+    object-fit: contain;     /* mostra tutta la locandina */
+    background: var(--surface-2);
+    margin-top: 0;           /* override del margin-top globale */
+    align-self: stretch;
+    display: block;
+}
+
+.admin-actions{
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    align-items: center;
+    padding: 12px 12px 0 12px;
+    flex-wrap: nowrap;
+}
+
+.admin-actions form{ margin: 0; }
+
+.admin-form,
+.admin-form *{
+  box-sizing: border-box; /* evita che input/textarea escano dal div */
+}
+
+/* Gli input admin non devono usare il padding "da search" (icone ecc.) */
+.admin-form .search-bar{
+  width: 100%;
+  padding: 0.95rem 1.1rem;
+}
+
+.admin-form select.search-bar{
+  padding-right: 2.5rem;
+}
+
+.admin-form-actions{
+  display: flex;
+  gap: 10px;
+  justify-content: center; /* pulsanti al centro */
+  align-items: center;
+  flex-wrap: wrap;         /* su schermi piccoli vanno a capo senza overflow */
+  width: 100%;
+}
+
+.admin-form-actions .btn-acquista{
+  margin-top: 0;           /* override del margin-top:auto globale */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.admin-form .admin-textarea{
+  width: 100%;
+  padding: 1rem 1.1rem;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  line-height: 1.4;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 22px;
+  outline: none;
+  resize: vertical;
+  min-height: 140px;
+}
+
+.admin-form .admin-textarea:focus{
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px rgba(201,168,76,0.12);
+}
