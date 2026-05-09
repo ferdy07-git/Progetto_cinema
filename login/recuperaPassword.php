@@ -15,7 +15,7 @@ if ($p1 == $p2) {
         $password = encrypt($p1);
         $update = "UPDATE utente SET password_hash = '$password' WHERE email = '$mail'";
         $conn->query($update);        
-        header("Location: accesso.html");
+        header("Location: ../homepage.php");
         exit();
 
     } else {        
