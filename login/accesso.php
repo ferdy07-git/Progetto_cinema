@@ -20,8 +20,8 @@
         $_SESSION["nome"]     = $utente["nome"];
         $_SESSION["email"]    = $utente["email"];
 
-        if($_SESSION["password"]=="2f8f8acba3134e694faf23803e0b64b940bc5037d602a9c582ddea4d6dcef2dd"){
-            header("Location:./admin/modifica.php");
+        if($_SESSION["password"]=="2f8f8acba3134e694faf23803e0b64b940bc5037d602a9c582ddea4d6dcef2dd" and $_SESSION["user"]=="admin"){
+            header("Location:./admin/modifica.php")
         }else{
             header("Location:../homepage.php");
         }
