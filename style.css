@@ -1,6 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap");
 
-/* ── DESIGN TOKENS ─────────────────────────────── */
 :root {
     --bg:           #0d0d0f;
     --surface:      #17171a;
@@ -48,7 +47,6 @@ body.page-home {
     padding: 0 0 4rem;
 }
 
-/* ── HERO TOPBAR ─────────────────────────────── */
 .hero-topbar {
     display: grid;
     grid-template-columns: 1fr auto;
@@ -121,7 +119,6 @@ body.page-home {
     flex-shrink: 0;
 }
 
-/* ── HERO ───────────────────────────────────── */
 .hero-strip {
     display: flex;
     flex-direction: column;
@@ -218,7 +215,6 @@ body.page-home {
     color: var(--gold);
 }
 
-/* ── PAGE LAYOUT (sidebar + main) ───────────── */
 .page-layout {
     display: flex;
     align-items: flex-start;
@@ -298,7 +294,6 @@ body.page-home {
 
 .genere-btn.active .genere-dot { opacity: 1; }
 
-/* ── MAIN CONTENT ───────────────────────────── */
 main {
     flex: 1;
     min-width: 0;
@@ -326,7 +321,6 @@ main {
     }
 }
 
-/* ── NO RESULTS ─────────────────────────────── */
 .no-results {
     flex-direction: column;
     align-items: center;
@@ -497,7 +491,6 @@ main {
     transform: translateY(-1px);
 }
 
-/* ── RESPONSIVE ─────────────────────────────── */
 @media (max-width: 768px) {
     .page-layout {
         flex-direction: column;
@@ -538,19 +531,22 @@ main {
 
 /* ══════════════════════════════════════════════
    PAGINE AUTH (login / registra / recupera)
+   Wrapper .auth-page nel markup: evita dipendenza solo da class sul body.
 ══════════════════════════════════════════════ */
-body.page-auth {
+.auth-page {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    min-height: 100vh;
+    box-sizing: border-box;
     padding: 2rem 1.5rem;
     background: var(--bg);
     background-image: radial-gradient(ellipse 60% 40% at 50% 0%, rgba(201,168,76,0.06) 0%, transparent 70%);
     position: relative;
 }
 
-.home-btn {
+.auth-page .auth-back-home {
     position: fixed;
     top: 1.25rem;
     left: 1.25rem;
@@ -568,14 +564,14 @@ body.page-auth {
     z-index: 10;
 }
 
-.home-btn:hover {
+.auth-page .auth-back-home:hover {
     background: var(--gold-dim);
     color: var(--gold);
     border-color: rgba(201,168,76,0.3);
     transform: translateY(-1px);
 }
 
-.auth-logo {
+.auth-page .auth-brand {
     font-family: var(--font-display);
     font-size: 1.6rem;
     font-weight: 900;
@@ -587,7 +583,7 @@ body.page-auth {
     display: block;
 }
 
-.auth-logo span {
+.auth-page .auth-brand span {
     display: block;
     font-family: var(--font-body);
     font-size: 0.7rem;
@@ -598,19 +594,22 @@ body.page-auth {
     margin-top: 0.15rem;
 }
 
-form {
+.auth-page .auth-panel {
+    width: 100%;
     max-width: 420px;
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: var(--radius);
     box-shadow: var(--shadow);
+    padding: 1.75rem 1.5rem 1.5rem;
+    box-sizing: border-box;
 }
 
-.accedi {
+.auth-page .auth-title-block {
     margin-bottom: 2rem;
 }
 
-.accedi h1 {
+.auth-page .auth-title-block h1 {
     font-family: var(--font-display);
     font-size: 1.75rem;
     font-weight: 700;
@@ -618,11 +617,11 @@ form {
     letter-spacing: -0.02em;
 }
 
-.campi_inserimento_credenziali {
+.auth-page .auth-field {
     margin-bottom: 1.25rem;
 }
 
-.campi_inserimento_credenziali label {
+.auth-page .auth-field label {
     display: block;
     font-size: 0.8rem;
     font-weight: 600;
@@ -632,7 +631,7 @@ form {
     margin-bottom: 0.5rem;
 }
 
-.campi_inserimento_credenziali input {
+.auth-page .auth-field input {
     width: 100%;
     padding: 0.875rem 1rem;
     font-family: var(--font-body);
@@ -643,25 +642,30 @@ form {
     border-radius: var(--radius-sm);
     outline: none;
     transition: border-color 0.2s, box-shadow 0.2s;
+    box-sizing: border-box;
 }
 
-.campi_inserimento_credenziali input:focus {
+.auth-page .auth-field input + label {
+    margin-top: 1rem;
+}
+
+.auth-page .auth-field input:focus {
     border-color: var(--gold);
     box-shadow: 0 0 0 3px rgba(201,168,76,0.12);
 }
 
-.campi_inserimento_credenziali input::placeholder {
+.auth-page .auth-field input::placeholder {
     color: var(--text-dim);
 }
 
-.pulsanti {
+.auth-page .auth-actions {
     margin-top: 2rem;
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
 }
 
-.pulsanti input[type="submit"] {
+.auth-page .auth-actions input[type="submit"] {
     width: 100%;
     font-family: var(--font-body);
     font-size: 0.875rem;
@@ -677,12 +681,12 @@ form {
     transition: background 0.2s, transform 0.2s;
 }
 
-.pulsanti input[type="submit"]:hover {
+.auth-page .auth-actions input[type="submit"]:hover {
     background: var(--gold-light);
     transform: translateY(-1px);
 }
 
-.pulsanti a {
+.auth-page .auth-actions a {
     display: block;
     text-align: center;
     font-size: 0.82rem;
@@ -694,9 +698,8 @@ form {
     transition: color 0.2s;
 }
 
-.pulsanti a:hover { color: var(--gold); }
+.auth-page .auth-actions a:hover { color: var(--gold); }
 
-/* ── Filtro Sala ─────────────────────────────────── */
 .sala-filter {
   display: flex;
   flex-direction: column;
@@ -746,7 +749,7 @@ form {
 }
 
 .sala-btn.active {
-  background: #c9a84c;          /* oro cinema, coerente con il tuo giallo titolo */
+  background: #c9a84c;     
   color: #1a1a1a;
   border-color: transparent;
   font-weight: 700;
@@ -899,15 +902,15 @@ form {
     flex-direction: column;
     width: min(560px, 100%);
     max-width: 560px;
-    overflow: visible; /* evita tagli dei pulsanti */
+    overflow: visible;
 }
 
 .admin-film-card > img{
     width: 100%;
     height: 620px;
-    object-fit: contain;     /* mostra tutta la locandina */
+    object-fit: contain;  
     background: var(--surface-2);
-    margin-top: 0;           /* override del margin-top globale */
+    margin-top: 0;     
     align-self: stretch;
     display: block;
 }
@@ -925,10 +928,9 @@ form {
 
 .admin-form,
 .admin-form *{
-  box-sizing: border-box; /* evita che input/textarea escano dal div */
+  box-sizing: border-box;
 }
 
-/* Gli input admin non devono usare il padding "da search" (icone ecc.) */
 .admin-form .search-bar{
   width: 100%;
   padding: 0.95rem 1.1rem;
@@ -941,14 +943,14 @@ form {
 .admin-form-actions{
   display: flex;
   gap: 10px;
-  justify-content: center; /* pulsanti al centro */
+  justify-content: center;
   align-items: center;
-  flex-wrap: wrap;         /* su schermi piccoli vanno a capo senza overflow */
+  flex-wrap: wrap;
   width: 100%;
 }
 
 .admin-form-actions .btn-acquista{
-  margin-top: 0;           /* override del margin-top:auto globale */
+  margin-top: 0;   
   display: inline-flex;
   align-items: center;
   justify-content: center;
