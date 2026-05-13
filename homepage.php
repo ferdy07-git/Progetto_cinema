@@ -237,34 +237,38 @@
 
     <script>
     (function () {
-        const searchInput   = document.getElementById('search-input');
-        const searchClear   = document.getElementById('search-clear');
-        const cards         = document.querySelectorAll('.film-card');
-        const noResults     = document.getElementById('no-results');
+        const searchInput = document.getElementById('search-input');
+        const searchClear = document.getElementById('search-clear');
+        const cards = document.querySelectorAll('.film-card');
+        const noResults = document.getElementById('no-results');
         const risultatiInfo = document.getElementById('risultati-info');
-        const genereBtns    = document.querySelectorAll('.genere-btn');
-        const salaBtns      = document.querySelectorAll('.sala-btn');
+        const genereBtns = document.querySelectorAll('.genere-btn');
+        const salaBtns = document.querySelectorAll('.sala-btn');
 
         let activeGenere = 'tutti';
-        let activeSala   = 'tutte';
-        let searchTerm   = '';
+        let activeSala = 'tutte';
+        let searchTerm = '';
 
         function filter() {
             let visible = 0;
+
             cards.forEach(card => {
                 const titolo = card.dataset.titolo || '';
-                const trama  = card.dataset.trama  || '';
+                const trama = card.dataset.trama || '';
                 const genere = card.dataset.genere || '';
-                const sala   = card.dataset.sala   || '';
+                const sala = card.dataset.sala || '';
 
-                const matchSearch = !searchTerm ||
+                const matchSearch =
+                    !searchTerm ||
                     titolo.includes(searchTerm) ||
                     trama.includes(searchTerm);
 
-                const matchGenere = activeGenere === 'tutti' ||
+                const matchGenere =
+                    activeGenere === 'tutti' ||
                     genere === activeGenere;
 
-                const matchSala = activeSala === 'tutte' ||
+                const matchSala =
+                    activeSala === 'tutte' ||
                     sala === activeSala;
 
                 if (matchSearch && matchGenere && matchSala) {
@@ -276,11 +280,14 @@
             });
 
             noResults.style.display = visible === 0 ? 'flex' : 'none';
+
             if (risultatiInfo) {
                 risultatiInfo.textContent = visible > 0
-            risultatiInfo.textContent = visible > 0
-                ? visible + (visible === 1 ? ' film trovato' : ' film trovati')
-                : '';
+                    ? visible + (visible === 1 ? ' film trovato' : ' film trovati')
+                    : '';
+            }
+        }
+
         searchInput.addEventListener('input', function () {
             searchTerm = this.value.toLowerCase().trim();
             searchClear.style.display = searchTerm ? 'flex' : 'none';
