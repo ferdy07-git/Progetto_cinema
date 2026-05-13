@@ -56,7 +56,6 @@
     // Dati utente dalla sessione
     $nome  = htmlspecialchars($_SESSION['user']  ?? 'Utente');
     $email = htmlspecialchars($_SESSION['email'] ?? '');
-    $password = $_SESSION["password"];
     $iniziali = strtoupper(substr($_SESSION['user'] ?? 'U', 0, 1));
     }
 ?>
@@ -98,7 +97,7 @@
                             switch($res){
                                 case 1:
                                     print"<a href='#' class='menu-link'><span>🎫</span> Visualizza biglietti</a>
-                                          <a href='#' class='menu-link'><span>🔑</span> Modifica password</a>";
+                                          <a href='./login/recupera_password.html' class='menu-link'><span>🔑</span> Modifica password</a>";
                                 break;
                                 case 2:
                                     print "";
