@@ -933,7 +933,6 @@ main {
 /* ── ADMIN (pannello gestione film) ─────────── */
 .admin-film-card {
     flex-direction: row;
-    width: 100%;
     max-width: 680px;
     overflow: visible;
     align-items: flex-start;
