@@ -34,6 +34,13 @@
             <label for="pass">Password</label>
             <input type="password" id="pass" required name="pass" placeholder="••••••••">
         </div>
+        
+      <?php
+            session_start();
+            if(isset($_SESSION["check"])&& $_SESSION["check"])
+                print"<center><label style='color: red'>Accesso non riuscito</label></center>";
+            session_destroy();
+            ?>
         <div class="auth-actions">
             <input type="submit" value="Accedi">
             <a href="recupera_password.html">Ho dimenticato la password</a>
