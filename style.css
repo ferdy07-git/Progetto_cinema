@@ -1,5 +1,9 @@
 @import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap");
 
+html {
+    font-size: 14px;
+}
+
 /* ── DESIGN TOKENS ─────────────────────────────── */
 :root {
     --bg:           #0d0d0f;
@@ -326,13 +330,13 @@ main {
     width: 100%;
     display: grid;
     grid-template-columns: 1fr;
-    gap: 1.5rem;
+    gap: 1rem;     
     align-items: start;
 }
 
 @media (min-width: 900px) {
-    .container {
-        grid-template-columns: repeat(auto-fill, minmax(440px, 1fr));
+    .container:has(.admin-film-card) {
+        grid-template-columns: repeat(2, 1fr);
     }
 }
 
@@ -927,33 +931,39 @@ main {
             color: #f07070;
         }
 /* ── ADMIN (pannello gestione film) ─────────── */
-.admin-film-card{
-    flex-direction: column;
-    width: min(560px, 100%);
-    max-width: 560px;
-    overflow: visible; /* evita tagli dei pulsanti */
-}
-
-.admin-film-card > img{
+.admin-film-card {
+    flex-direction: row;
     width: 100%;
-    height: 620px;
-    object-fit: contain;     /* mostra tutta la locandina */
-    background: var(--surface-2);
-    margin-top: 0;           /* override del margin-top globale */
-    align-self: stretch;
-    display: block;
+    max-width: 680px;
+    overflow: visible;
+    align-items: flex-start;
 }
 
-.admin-actions{
+.admin-film-card > img {
+    flex-shrink: 0;
+    width: 130px;
+    height: 195px;
+    object-fit: cover;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+}
+
+
+.admin-actions {
     display: flex;
-    gap: 12px;
-    justify-content: center;
-    align-items: center;
-    padding: 12px 12px 0 12px;
+    gap: 10px;
+    justify-content: flex-start;
+    padding: 10px 0 0 0;
     flex-wrap: nowrap;
 }
 
-.admin-actions form{ margin: 0; }
+.admin-actions form { margin: 0; }
+
+.admin-film-card .film-info {
+    flex: 1;
+    min-width: 0;
+}
+
 
 .admin-form,
 .admin-form *{
@@ -1033,3 +1043,4 @@ main {
 .genere-list-wrapper::-webkit-scrollbar-thumb:hover {
     background: var(--gold);
 }
+
