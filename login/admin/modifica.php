@@ -192,32 +192,6 @@ if ($editId > 0) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin - Gestione Film</title>
     <link rel="stylesheet" href="../../style.css?v=<?php echo time(); ?>">
-    <style>
-        /* Override SOLO per la pagina admin */
-        .admin-film-card {
-            flex-direction: column;
-            width: min(520px, 100%);
-            max-width: 520px;
-            overflow: visible;
-        }
-        .admin-film-card > img {
-            width: 100%;
-            height: 460px;
-            object-fit: cover;
-            display: block;
-        }
-        .admin-actions {
-            display: flex;
-            gap: 12px;
-            justify-content: center;
-            align-items: center;
-            padding: 12px 12px 0 12px;
-            flex-wrap: nowrap;
-            overflow: visible;
-        }
-        .admin-actions form { margin: 0; }
-        .admin-film-card .film-info { width: 100%; }
-    </style>
 </head>
 <body class="page-home">
 
