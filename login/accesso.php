@@ -8,23 +8,28 @@
 
     if(check($nome, $password)){
         // Recupera i dati utente dal DB
-        $stmt = $conn->prepare("SELECT nome, email FROM utente WHERE nome = ?");
-        $stmt->bind_param("s", $nome);
-        $stmt->execute();
-        $result = $stmt->get_result();
+        $sql = "SELECT email,tipo FROM utente WHERE nome = '$nome'";
+        $result = $conn->query($sql);
         $utente = $result->fetch_assoc();
-
+        $tipo = $utente["tipo"];
         session_start();
         $_SESSION["user"]     = $nome;
         $_SESSION["password"] = $password;
-        $_SESSION["nome"]     = $utente["nome"];
         $_SESSION["email"]    = $utente["email"];
 
-        if($_SESSION["password"]=="2f8f8acba3134e694faf23803e0b64b940bc5037d602a9c582ddea4d6dcef2dd" and $_SESSION["user"]=="admin"){
-            header("Location:./admin/modifica.php")
-        }else{
-            header("Location:../homepage.php");
-        }
-        
+        switch($tipo){
+            case 1:
+                header("Location:../homepage.php");
+                break;
+            case 2:
+                header("Location:../#.php");
+                break;
+            case 3:
+                header("Location:./admin/modifica.php");
+                break;
+        }     
+    }else{
+        header("Location:accesso.html");
+        $_SESSION["check"] = false;
     }
 ?>
