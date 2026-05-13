@@ -14,8 +14,8 @@
         $tipo = $utente["tipo"];
        
         $_SESSION["user"]     = $nome;
-        $_SESSION["password"] = $password;
         $_SESSION["email"]    = $utente["email"];
+        $_SESSION["tipo"]  = (int)$utente["tipo"];
 
         switch($tipo){
             case 1:
