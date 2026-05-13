@@ -1,7 +1,7 @@
 <?php
     session_start();
     include("./database/connessione.php");
-
+    // locandine film
     $query = "
     SELECT 
         film.id_film,
@@ -52,15 +52,13 @@
 
     sort($generi);
     sort($sale);
-
+    if(isset($_SESSION["user"])){
     // Dati utente dalla sessione
-    $nomeUtente  = htmlspecialchars($_SESSION['user']  ?? 'Utente');
-    $emailUtente = htmlspecialchars($_SESSION['email'] ?? '');
-    $iniziali    = strtoupper(substr($_SESSION['user'] ?? 'U', 0, 1));
-
-    // Admin check (coerente con login/accesso.php)
-    $ADMIN_HASH = "2f8f8acba3134e694faf23803e0b64b940bc5037d602a9c582ddea4d6dcef2dd";
-    $isAdmin = isset($_SESSION["user"]) && (($_SESSION["password"] ?? "") === $ADMIN_HASH);
+    $nome  = htmlspecialchars($_SESSION['user']  ?? 'Utente');
+    $email = htmlspecialchars($_SESSION['email'] ?? '');
+    $password = $_SESSION["password"];
+    $iniziali = strtoupper(substr($_SESSION['user'] ?? 'U', 0, 1));
+    }
 ?>
 
 <!DOCTYPE html>
@@ -90,15 +88,26 @@
 
                     <div class='dropdown'>
                         <div class='user-info'>
-                            <span class='name'><?php echo $nomeUtente; ?></span>
-                            <span class='email'><?php echo $emailUtente; ?></span>
+                            <span class='name'><?php echo $nome; ?></span>
+                            <span class='email'><?php echo $email; ?></span>
                         </div>
 
-                        <?php if ($isAdmin): ?>
-                            <a href='./login/admin/modifica.php' class='menu-link'><span>🛠️</span> Pannello admin</a>
-                        <?php endif; ?>
-                        <a href='#' class='menu-link'><span>🎫</span> Visualizza biglietti</a>
-                        <a href='#' class='menu-link'><span>🔑</span> Modifica password</a>
+                        <?php 
+                            $sql = "SELECT tipo FROM utente WHERE nome = '$nome'";
+                            $res = $conn->query($sql)->fetch_assoc()["tipo"];
+                            switch($res){
+                                case 1:
+                                    print"<a href='#' class='menu-link'><span>🎫</span> Visualizza biglietti</a>
+                                          <a href='#' class='menu-link'><span>🔑</span> Modifica password</a>";
+                                break;
+                                case 2:
+                                    print "";
+                                    break;
+                                case 3:
+                                    print"<a href='./login/admin/modifica.php' class='menu-link'><span>🛠️</span> Pannello admin</a>";
+                                    break; 
+                            }
+                        ?>    
                         <a href='./login/logout.php' class='menu-link logout'><span>👋</span> Esci</a>
                     </div>
                 </div>
