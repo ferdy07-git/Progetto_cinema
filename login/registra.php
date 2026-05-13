@@ -57,13 +57,11 @@ if ($result->num_rows > 0) {
 
  $password = encrypt($pass);
     $sql = "INSERT INTO utente VALUES(NULL,'$nome','$password','$mail',1)";
-    if($conn->query($sql)==true){
-        $_SESSION["nome"] = $nome;
-        $_SESSION["password"] = $password;
-        header("Location: form_accesso.php");
-    }else{
-        $_SESSION["check"] = TRUE;
-        header("Location:reg.php");
-    }
+    if($conn->query($sql) == true){
+    $_SESSION["user"]  = $nome;
+    $_SESSION["email"] = $mail;
+    $_SESSION["tipo"]  = 1;
+    header("Location: ../homepage.php");
+}
 }
 ?>
