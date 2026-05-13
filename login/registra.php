@@ -20,6 +20,16 @@ if($pass !== $conf){
     exit();
 }
 
+if (!(
+    strlen($pass) >= 8 &&
+    preg_match('/[A-Z]/', $pass) &&
+    preg_match('/[\W_]/', $pass)
+)) {
+ $_SESSION["check"] = TRUE;
+    header("Location:reg.php");
+    exit();
+    }
+
 
 $sql = "SELECT nome FROM utente WHERE nome = ?";
 $stmt = $conn->prepare($sql);
@@ -50,7 +60,7 @@ if ($result->num_rows > 0) {
     if($conn->query($sql)==true){
         $_SESSION["nome"] = $nome;
         $_SESSION["password"] = $password;
-        header("Location: accesso.html");
+        header("Location: form_accesso.php");
     }else{
         $_SESSION["check"] = TRUE;
         header("Location:reg.php");
