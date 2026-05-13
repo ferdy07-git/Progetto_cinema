@@ -1,7 +1,7 @@
 <?php
     require "../database/connessione.php";
     require "../utils/password.php";
-
+ session_start();
     $nome = $_POST["nick"];
     $pass = $_POST["pass"];
     $password = encrypt($pass);
@@ -12,7 +12,7 @@
         $result = $conn->query($sql);
         $utente = $result->fetch_assoc();
         $tipo = $utente["tipo"];
-        session_start();
+       
         $_SESSION["user"]     = $nome;
         $_SESSION["password"] = $password;
         $_SESSION["email"]    = $utente["email"];
@@ -29,7 +29,9 @@
                 break;
         }     
     }else{
-        header("Location:accesso.html");
-        $_SESSION["check"] = false;
+        $_SESSION["check"] = TRUE;
+        header("Location:form_accesso.php");
+        
+        
     }
 ?>
