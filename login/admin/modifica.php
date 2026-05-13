@@ -411,60 +411,92 @@ if ($editId > 0) {
     </div>
 
     <script>
-(function () {
-    const searchInput = document.getElementById('search-input');
-    const searchClear = document.getElementById('search-clear');
-    const cards       = document.querySelectorAll('.admin-film-card');
-    const noResults   = document.getElementById('no-results');
-    const genereBtns  = document.querySelectorAll('.genere-btn');
+    (function () {
+        const searchInput = document.getElementById('search-input');
+        const searchClear = document.getElementById('search-clear');
+        const cards = document.querySelectorAll('.film-card');
+        const noResults = document.getElementById('no-results');
+        const risultatiInfo = document.getElementById('risultati-info');
+        const genereBtns = document.querySelectorAll('.genere-btn');
+        const salaBtns = document.querySelectorAll('.sala-btn');
 
-    let activeGenere = 'tutti';
-    let searchTerm   = '';
+        let activeGenere = 'tutti';
+        let activeSala = 'tutte';
+        let searchTerm = '';
 
-    function filter() {
-        let visible = 0;
-        cards.forEach(card => {
-            const titolo = card.dataset.titolo || '';
-            const genere = card.dataset.genere || '';
+        function filter() {
+            let visible = 0;
 
-            const matchSearch = !searchTerm || titolo.includes(searchTerm);
-            const matchGenere = activeGenere === 'tutti' || genere === activeGenere;
+            cards.forEach(card => {
+                const titolo = card.dataset.titolo || '';
+                const trama = card.dataset.trama || '';
+                const genere = card.dataset.genere || '';
+                const sala = card.dataset.sala || '';
 
-            if (matchSearch && matchGenere) {
-                card.style.display = '';
-                visible++;
-            } else {
-                card.style.display = 'none';
+                const matchSearch =
+                    !searchTerm ||
+                    titolo.includes(searchTerm) ||
+                    trama.includes(searchTerm);
+
+                const matchGenere =
+                    activeGenere === 'tutti' ||
+                    genere === activeGenere;
+
+                const matchSala =
+                    activeSala === 'tutte' ||
+                    sala === activeSala;
+
+                if (matchSearch && matchGenere && matchSala) {
+                    card.style.display = '';
+                    visible++;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            noResults.style.display = visible === 0 ? 'flex' : 'none';
+
+            if (risultatiInfo) {
+                risultatiInfo.textContent = visible > 0
+                    ? visible + (visible === 1 ? ' film trovato' : ' film trovati')
+                    : '';
             }
-        });
+        }
 
-        if (noResults) noResults.style.display = visible === 0 ? 'flex' : 'none';
-    }
-
-    searchInput.addEventListener('input', function () {
-        searchTerm = this.value.toLowerCase().trim();
-        searchClear.style.display = searchTerm ? 'flex' : 'none';
-        filter();
-    });
-
-    searchClear.addEventListener('click', function () {
-        searchInput.value = '';
-        searchTerm = '';
-        this.style.display = 'none';
-        searchInput.focus();
-        filter();
-    });
-
-    genereBtns.forEach(btn => {
-        btn.addEventListener('click', function () {
-            genereBtns.forEach(b => b.classList.remove('active'));
-            this.classList.add('active');
-            activeGenere = this.dataset.genere;
+        searchInput.addEventListener('input', function () {
+            searchTerm = this.value.toLowerCase().trim();
+            searchClear.style.display = searchTerm ? 'flex' : 'none';
             filter();
         });
-    });
-})();
-</script>
+
+        searchClear.addEventListener('click', function () {
+            searchInput.value = '';
+            searchTerm = '';
+            this.style.display = 'none';
+            searchInput.focus();
+            filter();
+        });
+
+        genereBtns.forEach(btn => {
+            btn.addEventListener('click', function () {
+                genereBtns.forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                activeGenere = this.dataset.genere;
+                filter();
+            });
+        });
+
+        salaBtns.forEach(btn => {
+            btn.addEventListener('click', function () {
+                salaBtns.forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                activeSala = this.dataset.sala;
+                filter();
+            });
+        });
+
+    })();
+    </script>
 </body>
 </html>
 
