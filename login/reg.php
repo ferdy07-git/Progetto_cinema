@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../style.css?v=2">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
     <title>Registrati — Cinema Palladino</title>
 </head>
 <body>
@@ -36,10 +37,26 @@
         <div class="auth-field">
             <label for="pass">Password</label>
             <input type="password" id="pass" required name="pass" placeholder="••••••••">
+
+            <div class="req-box" id="req-box">
+                <div class="req-item" id="r-len">
+                    <i class="ti ti-circle-dashed"></i> Almeno 8 caratteri
+                </div>
+                <div class="req-item" id="r-upper">
+                    <i class="ti ti-circle-dashed"></i> Almeno una lettera maiuscola (A–Z)
+                </div>
+                <div class="req-item" id="r-special">
+                    <i class="ti ti-circle-dashed"></i> Almeno un carattere speciale (!@#…)
+                </div>
+                <div class="strength-bar"><div class="strength-fill" id="s-fill"></div></div>
+                <div class="strength-label" id="s-label"></div>
+            </div>
         </div>
+
         <div class="auth-field">
             <label for="conferma_pass">Conferma password</label>
             <input type="password" id="conferma_pass" required name="conferma_pass" placeholder="••••••••">
+            <div class="match-msg" id="match-msg"></div>
         </div>
             <?php
             session_start();
@@ -55,3 +72,62 @@
 
 </div>
 </body>
+
+<script>
+    const passInput = document.getElementById('pass');
+    const confInput = document.getElementById('conferma_pass');
+    const reqBox    = document.getElementById('req-box');
+
+    const rules = [
+        { id: 'r-len',     test: v => v.length >= 8,   },
+        { id: 'r-upper',   test: v => /[A-Z]/.test(v), },
+        { id: 'r-special', test: v => /[\W_]/.test(v), },
+    ];
+
+    passInput.addEventListener('input', () => {
+        const v = passInput.value;
+        reqBox.classList.toggle('visible', v.length > 0);
+
+        let met = 0;
+        rules.forEach(r => {
+            const el  = document.getElementById(r.id);
+            const ok  = r.test(v);
+            const ico = el.querySelector('i');
+            if (ok) met++;
+
+            el.className = 'req-item' + (v.length === 0 ? '' : ok ? ' ok' : ' fail');
+            ico.className = 'ti ' + (v.length === 0
+                ? 'ti-circle-dashed'
+                : ok ? 'ti-circle-check' : 'ti-circle-x');
+        });
+
+        // Barra resistenza
+        const fill  = document.getElementById('s-fill');
+        const label = document.getElementById('s-label');
+        const pct   = v.length === 0 ? 0 : Math.round((met / rules.length) * 100);
+        fill.style.width = pct + '%';
+        const levels = ['', '#E24B4A|Troppo debole', '#EF9F27|Debole', '#639922|Discreta', '#1D9E75|Sicura'];
+        const [color, text] = (levels[met] || '').split('|');
+        fill.style.background = color || '';
+        label.textContent     = v.length === 0 ? '' : (text || '');
+
+        checkMatch();
+    });
+
+    confInput.addEventListener('input', checkMatch);
+
+    function checkMatch() {
+        const msg = document.getElementById('match-msg');
+        const cv  = confInput.value;
+        if (!cv) { msg.className = 'match-msg'; return; }
+
+        if (passInput.value === cv) {
+            msg.className   = 'match-msg ok';
+            msg.innerHTML   = '<i class="ti ti-circle-check"></i> Le password coincidono';
+        } else {
+            msg.className   = 'match-msg fail';
+            msg.innerHTML   = '<i class="ti ti-circle-x"></i> Le password non coincidono';
+        }
+    }
+</script>
+</html>
