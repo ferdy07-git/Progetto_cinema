@@ -2,10 +2,8 @@
 session_start();
 require "../../database/connessione.php";
 
-// Admin check (stessa logica di login/accesso.php)
-$ADMIN_HASH = "2f8f8acba3134e694faf23803e0b64b940bc5037d602a9c582ddea4d6dcef2dd";
-if (!isset($_SESSION["user"]) || ($_SESSION["password"] ?? "") !== $ADMIN_HASH) {
-    header("Location:../../homepage.php");
+if (!isset($_SESSION["user"]) || ($_SESSION["tipo"] ?? 0) !== 3) {
+    header("Location: ../../homepage.php");
     exit;
 }
 
