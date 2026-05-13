@@ -1,5 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap");
 
+/* ── DESIGN TOKENS ─────────────────────────────── */
 :root {
     --bg:           #0d0d0f;
     --surface:      #17171a;
@@ -47,6 +48,7 @@ body.page-home {
     padding: 0 0 4rem;
 }
 
+/* ── HERO TOPBAR ─────────────────────────────── */
 .hero-topbar {
     display: grid;
     grid-template-columns: 1fr auto;
@@ -119,6 +121,7 @@ body.page-home {
     flex-shrink: 0;
 }
 
+/* ── HERO ───────────────────────────────────── */
 .hero-strip {
     display: flex;
     flex-direction: column;
@@ -215,6 +218,7 @@ body.page-home {
     color: var(--gold);
 }
 
+/* ── PAGE LAYOUT (sidebar + main) ───────────── */
 .page-layout {
     display: flex;
     align-items: flex-start;
@@ -226,25 +230,33 @@ body.page-home {
 
 /* ── SIDEBAR ────────────────────────────────── */
 .sidebar-generi {
-    flex-shrink: 0;
-    width: 200px;
     position: sticky;
-    top: 180px;
+    top: clamp(14rem, 34vh, 22rem);
+    align-self: flex-start;
+    flex-shrink: 0;
+    width: 220px;
+    box-sizing: border-box;
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: var(--radius);
     padding: 1.5rem 1.25rem;
+    max-height: calc(100vh - clamp(14rem, 34vh, 22rem) - 1.25rem);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    z-index: 10;
 }
 
 .sidebar-title {
     font-family: var(--font-display);
-    font-size: 0.95rem;
+    font-size: 1.05rem;
     font-weight: 700;
     color: var(--text);
     letter-spacing: 0.04em;
     margin-bottom: 1rem;
     padding-bottom: 0.75rem;
     border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
 }
 
 .genere-list {
@@ -259,12 +271,12 @@ body.page-home {
     display: flex;
     align-items: center;
     gap: 0.6rem;
-    padding: 0.55rem 0.75rem;
+    padding: 0.6rem 0.75rem;
     background: none;
     border: none;
     border-radius: var(--radius-sm);
     font-family: var(--font-body);
-    font-size: 0.85rem;
+    font-size: 0.95rem; /* era 0.85rem */
     font-weight: 500;
     color: var(--text-muted);
     cursor: pointer;
@@ -294,7 +306,9 @@ body.page-home {
 
 .genere-btn.active .genere-dot { opacity: 1; }
 
+/* ── MAIN CONTENT ───────────────────────────── */
 main {
+    flex: 1;
     flex: 1;
     min-width: 0;
 }
@@ -313,6 +327,7 @@ main {
     display: grid;
     grid-template-columns: 1fr;
     gap: 1.5rem;
+    align-items: start;
 }
 
 @media (min-width: 900px) {
@@ -321,6 +336,7 @@ main {
     }
 }
 
+/* ── NO RESULTS ─────────────────────────────── */
 .no-results {
     flex-direction: column;
     align-items: center;
@@ -344,6 +360,7 @@ main {
 /* ── FILM CARD ──────────────────────────────── */
 .film-card {
     display: flex;
+    align-items: flex-start;
     gap: 1.5rem;
     background: var(--surface);
     border: 1px solid var(--border);
@@ -380,8 +397,6 @@ main {
     object-fit: cover;
     border-radius: var(--radius-sm);
     border: 1px solid var(--border);
-    align-self: flex-start;
-    margin-top: 20px;
 }
 
 .film-info {
@@ -419,6 +434,8 @@ main {
     line-height: 1.55;
     display: -webkit-box;
     -webkit-box-orient: vertical;
+    -webkit-line-clamp: 5;
+    line-clamp: 5;
     overflow: hidden;
 }
 
@@ -491,6 +508,7 @@ main {
     transform: translateY(-1px);
 }
 
+/* ── RESPONSIVE ─────────────────────────────── */
 @media (max-width: 768px) {
     .page-layout {
         flex-direction: column;
@@ -500,6 +518,16 @@ main {
     .sidebar-generi {
         width: 100%;
         position: static;
+        max-height: none;
+        overflow: visible;
+    }
+
+    .genere-list-wrapper {
+        overflow: visible;
+        flex: none;
+        min-height: 0;
+        margin-right: 0;
+        padding-right: 0;
     }
 
     .genere-list {
@@ -700,6 +728,7 @@ main {
 
 .auth-page .auth-actions a:hover { color: var(--gold); }
 
+/* ── Filtro Sala ─────────────────────────────────── */
 .sala-filter {
   display: flex;
   flex-direction: column;
@@ -749,7 +778,7 @@ main {
 }
 
 .sala-btn.active {
-  background: #c9a84c;     
+  background: #c9a84c;          /* oro cinema, coerente con il tuo giallo titolo */
   color: #1a1a1a;
   border-color: transparent;
   font-weight: 700;
@@ -902,15 +931,15 @@ main {
     flex-direction: column;
     width: min(560px, 100%);
     max-width: 560px;
-    overflow: visible;
+    overflow: visible; /* evita tagli dei pulsanti */
 }
 
 .admin-film-card > img{
     width: 100%;
     height: 620px;
-    object-fit: contain;  
+    object-fit: contain;     /* mostra tutta la locandina */
     background: var(--surface-2);
-    margin-top: 0;     
+    margin-top: 0;           /* override del margin-top globale */
     align-self: stretch;
     display: block;
 }
@@ -928,9 +957,10 @@ main {
 
 .admin-form,
 .admin-form *{
-  box-sizing: border-box;
+  box-sizing: border-box; /* evita che input/textarea escano dal div */
 }
 
+/* Gli input admin non devono usare il padding "da search" (icone ecc.) */
 .admin-form .search-bar{
   width: 100%;
   padding: 0.95rem 1.1rem;
@@ -943,14 +973,14 @@ main {
 .admin-form-actions{
   display: flex;
   gap: 10px;
-  justify-content: center;
+  justify-content: center; /* pulsanti al centro */
   align-items: center;
-  flex-wrap: wrap;
+  flex-wrap: wrap;         /* su schermi piccoli vanno a capo senza overflow */
   width: 100%;
 }
 
 .admin-form-actions .btn-acquista{
-  margin-top: 0;   
+  margin-top: 0;           /* override del margin-top:auto globale */
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -974,4 +1004,32 @@ main {
 .admin-form .admin-textarea:focus{
   border-color: var(--gold);
   box-shadow: 0 0 0 3px rgba(201,168,76,0.12);
+}
+.genere-list-wrapper {
+    overflow-y: auto;
+    overflow-x: hidden;
+    flex: 1 1 auto;
+    min-height: 0;
+    overscroll-behavior: contain;
+    margin-right: -0.5rem;
+    padding-right: 0.5rem;
+    -webkit-overflow-scrolling: touch;
+}
+
+.genere-list-wrapper::-webkit-scrollbar {
+    width: 5px;
+}
+
+.genere-list-wrapper::-webkit-scrollbar-track {
+    background: var(--surface-2);
+    border-radius: 4px;
+}
+
+.genere-list-wrapper::-webkit-scrollbar-thumb {
+    background: rgba(201,168,76,0.4);
+    border-radius: 4px;
+}
+
+.genere-list-wrapper::-webkit-scrollbar-thumb:hover {
+    background: var(--gold);
 }
