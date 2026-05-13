@@ -228,9 +228,41 @@ if ($editId > 0) {
                 </a>
             <?php endif; ?>
         </div>
+            <div class="search-bar-wrapper" style="margin-top: 14px;">
+                <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                <input
+                    type="text"
+                    id="search-input"
+                    class="search-bar"
+                    placeholder="Cerca un film per titolo..."
+                    autocomplete="off"
+                >
+                <button class="search-clear" id="search-clear" title="Cancella ricerca" style="display:none;">✕</button>
+            </div>
     </div>
 
     <div class="page-layout">
+        <aside class="sidebar-generi">
+            <h3 class="sidebar-title">Generi</h3>
+            <div class="genere-list-wrapper">
+                <ul class="genere-list">
+                    <li>
+                        <button class="genere-btn active" data-genere="tutti">
+                            <span class="genere-dot"></span>
+                            Tutti i film
+                        </button>
+                    </li>
+                    <?php foreach ($generi as $g): ?>
+                    <li>
+                        <button class="genere-btn" data-genere="<?php echo htmlspecialchars($g['nome'], ENT_QUOTES); ?>">
+                            <span class="genere-dot"></span>
+                            <?php echo htmlspecialchars($g['nome']); ?>
+                        </button>
+                    </li>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
+        </aside>
         <main style="width:100%">
             <div class="container" id="film-container">
 
@@ -345,7 +377,9 @@ if ($editId > 0) {
                     $id = (int)$row["id_film"];
                     $titolo_esc = htmlspecialchars($row['titolo'], ENT_QUOTES, 'UTF-8');
                 ?>
-                    <div class="film-card admin-film-card">
+                    <div class="film-card admin-film-card"
+                    data-titolo="<?php echo strtolower(htmlspecialchars($row['titolo'], ENT_QUOTES, 'UTF-8')); ?>"
+                    data-genere="<?php echo htmlspecialchars($row['nome_genere'], ENT_QUOTES, 'UTF-8'); ?>">
                         <img
                             src="../../img/<?php echo htmlspecialchars($row['locandina'] ?? 'default-film.webp'); ?>"
                             alt="Locandina <?php echo $titolo_esc; ?>"
@@ -376,6 +410,61 @@ if ($editId > 0) {
         </main>
     </div>
 
+    <script>
+(function () {
+    const searchInput = document.getElementById('search-input');
+    const searchClear = document.getElementById('search-clear');
+    const cards       = document.querySelectorAll('.admin-film-card');
+    const noResults   = document.getElementById('no-results');
+    const genereBtns  = document.querySelectorAll('.genere-btn');
+
+    let activeGenere = 'tutti';
+    let searchTerm   = '';
+
+    function filter() {
+        let visible = 0;
+        cards.forEach(card => {
+            const titolo = card.dataset.titolo || '';
+            const genere = card.dataset.genere || '';
+
+            const matchSearch = !searchTerm || titolo.includes(searchTerm);
+            const matchGenere = activeGenere === 'tutti' || genere === activeGenere;
+
+            if (matchSearch && matchGenere) {
+                card.style.display = '';
+                visible++;
+            } else {
+                card.style.display = 'none';
+            }
+        });
+
+        if (noResults) noResults.style.display = visible === 0 ? 'flex' : 'none';
+    }
+
+    searchInput.addEventListener('input', function () {
+        searchTerm = this.value.toLowerCase().trim();
+        searchClear.style.display = searchTerm ? 'flex' : 'none';
+        filter();
+    });
+
+    searchClear.addEventListener('click', function () {
+        searchInput.value = '';
+        searchTerm = '';
+        this.style.display = 'none';
+        searchInput.focus();
+        filter();
+    });
+
+    genereBtns.forEach(btn => {
+        btn.addEventListener('click', function () {
+            genereBtns.forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            activeGenere = this.dataset.genere;
+            filter();
+        });
+    });
+})();
+</script>
 </body>
 </html>
 
