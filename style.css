@@ -1044,3 +1044,54 @@ main {
     background: var(--gold);
 }
 
+.req-box {
+    margin-top: 8px;
+    background: #f8f8f8;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 10px 14px;
+    display: none;
+}
+.req-box.visible { display: block; }
+
+.req-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: #888;
+    padding: 3px 0;
+    transition: color 0.2s;
+}
+.req-item i { font-size: 15px; }
+.req-item.ok  { color: #1D9E75; }
+.req-item.fail { color: #E24B4A; }
+
+.strength-bar {
+    height: 4px;
+    border-radius: 2px;
+    background: #e0e0e0;
+    margin-top: 8px;
+    overflow: hidden;
+}
+.strength-fill {
+    height: 100%;
+    border-radius: 2px;
+    transition: width 0.3s, background 0.3s;
+    width: 0%;
+}
+.strength-label {
+    font-size: 11px;
+    color: #aaa;
+    text-align: right;
+    margin-top: 3px;
+}
+.match-msg {
+    font-size: 12px;
+    margin-top: 6px;
+    display: none;
+    align-items: center;
+    gap: 5px;
+}
+.match-msg.ok   { color: #1D9E75; display: flex; }
+.match-msg.fail { color: #E24B4A; display: flex; }
