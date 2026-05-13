@@ -2,40 +2,46 @@
 session_start();
 if(isset($_SESSION["user"])){
     header("Location:homepage.php");
+    exit();
 }
+
 require "../utils/password.php";
 require "../database/connessione.php";
-$user = $_POST["nick"];
-$pass = $_POST["pass"];
-$conf = $_POST["conferma_pass"];
+
+$pass = $_POST["pas1"];
+$conf = $_POST["pas2"];
 $mail = $_POST["email"];
-if(!($pass == $conf)){
+
+// 1. Controllo coincidenza password
+if ($pass !== $conf) {
+    header("Location: recupera_password.html?errore=credenziali");
+    exit();
+}
+
+// 2. Controllo se la mail esiste nel database
+// Nota: Ho corretto la query aggiungendo "FROM utente"
+$sql_check = "SELECT email FROM utente WHERE email = '$mail'";
+$result = $conn->query($sql_check);
+
+if ($result->num_rows == 0) {
+    // La mail non esiste
+    header("Location: recupera_password.html?errore=credenziali");
+    exit();
+} 
+
+// 3. Se siamo qui, la mail esiste e le password coincidono: procediamo con l'UPDATE
+$password_criptata = encrypt($pass);
+$sql_update = "UPDATE utente SET password_hash = '$password_criptata' WHERE email = '$mail'";
+
+if ($conn->query($sql_update) === TRUE) {
+    // Recuperiamo il nome utente per la sessione (opzionale, ma utile)
+    $res_utente = $result->fetch_assoc();
     
-    $_SESSION["check"] = TRUE;
-    header("Location:reg.php");
-}else if{
-    $sql = "SELECT nome FROM utente WHERE nome = ?";
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("s", $nome);
-$stmt->execute();
-
-$result = $stmt->get_result();
-
-if ($result->num_rows > 0) {
-    $_SESSION["check"] = TRUE;
-    header("Location:reg.php");
-}
-}
-else{
-    $password = encrypt($pass);
-    $sql = "INSERT INTO utente VALUES(NULL,'$user','$password','$mail',1)";
-    if($conn->query($sql)==true){
-        $_SESSION["user"] = $user;
-        $_SESSION["password"] = $password;
-        header("Location: ../homepage.php");
-    }else{
-        $_SESSION["check"] = TRUE;
-        header("Location:reg.php");
-    }
+    // Login automatico dopo il cambio password
+    $_SESSION["user"] = $mail; // O il nick se lo recuperi con una SELECT
+    $_SESSION["password"] = $password_criptata;
+    
+    header("Location: ../homepage.php");
+    exit();
 }
 ?>
