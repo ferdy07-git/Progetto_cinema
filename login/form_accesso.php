@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../style.css?v=2">
+     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
     <title>Accedi — Cinema Palladino</title>
 </head>
 <body>
@@ -17,7 +18,7 @@
     </a>
 
     <a class="auth-brand" href="../homepage.php">
-        Cinema Palladino
+        Cinema Itis "Luigi di Maggio
         <span>Il tuo cinema</span>
     </a>
 
@@ -32,7 +33,12 @@
         </div>
         <div class="auth-field">
             <label for="pass">Password</label>
-            <input type="password" id="pass" required name="pass" placeholder="••••••••">
+            <div class="pass-wrapper">
+                <input type="password" id="pass" required name="pass" placeholder="••••••••">
+                <button type="button" class="toggle-pass" aria-label="Mostra password" data-target="pass">
+                    <i class="ti ti-eye" aria-hidden="true"></i>
+                </button>
+            </div>
         </div>
         
       <?php
@@ -50,4 +56,18 @@
 
 </div>
 </body>
+
+<script>
+    document.querySelectorAll('.toggle-pass').forEach(btn => {
+    btn.addEventListener('click', () => {
+        const input = document.getElementById(btn.dataset.target);
+        const icon  = btn.querySelector('i');
+        const show  = input.type === 'password';
+
+        input.type      = show ? 'text' : 'password';
+        icon.className  = show ? 'ti ti-eye-off' : 'ti ti-eye';
+        btn.setAttribute('aria-label', show ? 'Nascondi password' : 'Mostra password');
+    });
+});
+</script>
 </html>
