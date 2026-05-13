@@ -66,7 +66,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cinema Palladino</title>
+    <title>Cinema Itis "Luigi di Maggio"</title>
     <link rel="stylesheet" href="style.css?v=<?php echo time(); ?>">
 </head>
 <body class="page-home">
@@ -147,22 +147,24 @@
         <!-- SIDEBAR GENERI -->
         <aside class="sidebar-generi">
             <h3 class="sidebar-title">Generi</h3>
-            <ul class="genere-list">
-                <li>
-                    <button class="genere-btn active" data-genere="tutti">
-                        <span class="genere-dot"></span>
-                        Tutti i film
-                    </button>
-                </li>
-                <?php foreach ($generi as $g): ?>
-                <li>
-                    <button class="genere-btn" data-genere="<?php echo htmlspecialchars($g, ENT_QUOTES); ?>">
-                        <span class="genere-dot"></span>
-                        <?php echo htmlspecialchars($g); ?>
-                    </button>
-                </li>
-                <?php endforeach; ?>
-            </ul>
+            <div class="genere-list-wrapper">
+                <ul class="genere-list">
+                    <li>
+                        <button class="genere-btn active" data-genere="tutti">
+                            <span class="genere-dot"></span>
+                            Tutti i film
+                        </button>
+                    </li>
+                    <?php foreach ($generi as $g): ?>
+                    <li>
+                        <button class="genere-btn" data-genere="<?php echo htmlspecialchars($g, ENT_QUOTES); ?>">
+                            <span class="genere-dot"></span>
+                            <?php echo htmlspecialchars($g); ?>
+                        </button>
+                    </li>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
         </aside>
 
         <!-- MAIN CONTENT -->
@@ -274,11 +276,11 @@
             });
 
             noResults.style.display = visible === 0 ? 'flex' : 'none';
+            if (risultatiInfo) {
+                risultatiInfo.textContent = visible > 0
             risultatiInfo.textContent = visible > 0
                 ? visible + (visible === 1 ? ' film trovato' : ' film trovati')
                 : '';
-        }
-
         searchInput.addEventListener('input', function () {
             searchTerm = this.value.toLowerCase().trim();
             searchClear.style.display = searchTerm ? 'flex' : 'none';
