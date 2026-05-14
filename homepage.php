@@ -206,7 +206,7 @@
                                     <p><?php echo htmlspecialchars($row['nome_sala']); ?></p>
                                 </div>
 
-                                 <a class="btn-acquista" href="./login/seleziona_film.php?id_spettacolo=<?php echo (int)$row['id_spettacolo']; ?>">
+                                 <a class="btn-acquista" href="./login/biglietti/seleziona_film.php?id_spettacolo=<?php echo (int)$row['id_spettacolo']; ?>">
                                     Acquista Biglietto
                                 </a>
 
