@@ -66,7 +66,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cinema Itis "Luigi di Maggio"</title>
-    <link rel="stylesheet" href="style.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" href="./login/style/style.css?v=<?php echo time(); ?>">
 </head>
 <body class="page-home">
 
