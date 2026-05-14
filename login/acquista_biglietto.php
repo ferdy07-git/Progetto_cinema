@@ -55,153 +55,160 @@
     <title>Acquista biglietto</title>
     <link rel="stylesheet" href="../style.css">
     <style>
-        .film-card {
-            display: grid;
-            grid-template-columns: 180px 1fr 1fr;
-            gap: 1.5rem;
-            align-items: start;
-            border-radius: 12px;
-            padding: 1.5rem;
-            margin: 2rem auto;
-            max-width: 1200px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.4);
-        }
+    .film-card {
+        display: grid;
+        grid-template-columns: 180px 1fr 1fr;
+        gap: 1.5rem;
+        align-items: start;
+        border-radius: 12px;
+        padding: 1.5rem;
+        margin: 2rem auto;
+        max-width: 1200px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+    }
 
-        .film-poster img {
-            width: 100%;
-            border-radius: 8px;
-            object-fit: cover;
-            display: block;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.5);
-        }
+    .film-poster img {
+        width: 100%;
+        border-radius: 8px;
+        object-fit: cover;
+        display: block;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+    }
 
-        .film-info h2 {
-            font-size: 1.2rem;
-            margin: 0 0 0.5rem 0;
-        }
+    .film-info h2 {
+        font-size: 1.2rem;
+        margin: 0 0 0.5rem 0;
+    }
 
-        /* ── Selezione posti ── */
-        .posti-right {
-            border-radius: 10px;
-            padding: 1.2rem;
-            border: 1px solid #333;
-            background: #111;
-        }
+    /* ── Selezione posti ── */
+    .posti-right {
+        border-radius: 10px;
+        padding: 1.2rem;
+        border: 1px solid #333;
+        background: #111;
+    }
 
-        .posti-right h3 {
-            margin: 0 0 0.8rem;
-            font-size: 1rem;
-            color: #fff;
-            text-align: center;
-        }
+    .posti-right h3 {
+        margin: 0 0 0.8rem;
+        font-size: 1rem;
+        color: #fff;
+        text-align: center;
+    }
 
-        /* Schermo */
-        .schermo {
-            width: 80%;
-            margin: 0 auto 1.2rem;
-            padding: 6px 0;
-            background: linear-gradient(to bottom, #555, #222);
-            border-radius: 4px 4px 40% 40% / 4px 4px 20px 20px;
-            text-align: center;
-            font-size: 0.7rem;
-            color: #aaa;
-            letter-spacing: 2px;
-        }
+    /* Schermo */
+    .schermo {
+        width: 80%;
+        margin: 0 auto 1.2rem;
+        padding: 6px 0;
+        background: linear-gradient(to bottom, #555, #222);
+        border-radius: 4px 4px 40% 40% / 4px 4px 20px 20px;
+        text-align: center;
+        font-size: 0.7rem;
+        color: #aaa;
+        letter-spacing: 2px;
+    }
 
-        /* Griglia posti */
-        .griglia-posti {
-            display: grid;
-            gap: 4px;
-            justify-content: center;
-            margin-bottom: 1rem;
-            overflow-y: auto;
-            max-height: 300px;
-            scrollbar-width: thin;
-            scrollbar-color: rgba(255,255,255,0.25) transparent;
-        }
+    /* Griglia posti */
+    .griglia-posti {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 14px;
+        margin-bottom: 1rem;
+        overflow-y: auto;
+        max-height: 300px;
+        scrollbar-width: thin;
+        scrollbar-color: rgba(255,255,255,0.25) transparent;
+    }
 
-        .posto-btn {
-            width: 26px;
-            height: 26px;
-            border-radius: 4px 4px 0 0;
-            border: none;
-            cursor: pointer;
-            font-size: 0;
-            transition: transform 0.1s, background 0.15s;
-            position: relative;
-        }
-        .posto-btn:hover:not(.occupato) {
-            transform: scale(1.15);
-        }
-        .posto-btn.libero    { background: #2ecc71; }
-        .posto-btn.selezionato { background: #f39c12; }
-        .posto-btn.occupato  { background: #555; cursor: not-allowed; }
+    /* Riga singola */
+    .row-label {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+    }
 
-        /* Label riga */
-        .row-label {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            margin-bottom: 4px;
-        }
-        .row-letter {
-            width: 18px;
-            font-size: 0.65rem;
-            color: #888;
-            text-align: center;
-            flex-shrink: 0;
-        }
+    .row-letter {
+        width: 18px;
+        font-size: 0.65rem;
+        color: #888;
+        text-align: center;
+        flex-shrink: 0;
+    }
 
-        /* Legenda */
-        .legenda {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            margin-bottom: 1rem;
-            font-size: 0.75rem;
-            color: #ccc;
-        }
-        .legenda span {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-        .legenda-box {
-            width: 14px;
-            height: 14px;
-            border-radius: 3px;
-            display: inline-block;
-        }
+    /* Corridoio centrale */
+    .corridoio {
+        width: 44px;
+        height: 26px;
+        flex-shrink: 0;
+    }
 
-        /* Riepilogo */
-        .riepilogo {
-            border-top: 1px solid #333;
-            padding-top: 0.8rem;
-            font-size: 0.85rem;
-            color: #ccc;
-            text-align: center;
-        }
-        .riepilogo strong {
-            color: #f39c12;
-        }
+    .posto-btn {
+        width: 26px;
+        height: 26px;
+        border-radius: 4px 4px 0 0;
+        border: none;
+        cursor: pointer;
+        font-size: 0;
+        transition: transform 0.1s, background 0.15s;
+    }
+    .posto-btn:hover:not(.occupato) {
+        transform: scale(1.15);
+    }
+    .posto-btn.libero      { background: #2ecc71; }
+    .posto-btn.selezionato { background: #f39c12; }
+    .posto-btn.occupato    { background: #555; cursor: not-allowed; }
 
-        /* Bottone conferma */
-        .btn-conferma {
-            display: block;
-            width: 100%;
-            margin-top: 0.8rem;
-            padding: 0.6rem;
-            background: #e74c3c;
-            color: #fff;
-            border: none;
-            border-radius: 6px;
-            font-size: 0.9rem;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-        .btn-conferma:hover { background: #c0392b; }
-        .btn-conferma:disabled { background: #555; cursor: not-allowed; }
-    </style>
+    /* Legenda */
+    .legenda {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        margin-bottom: 1rem;
+        font-size: 0.75rem;
+        color: #ccc;
+    }
+    .legenda span {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+    .legenda-box {
+        width: 14px;
+        height: 14px;
+        border-radius: 3px;
+        display: inline-block;
+    }
+
+    /* Riepilogo */
+    .riepilogo {
+        border-top: 1px solid #333;
+        padding-top: 0.8rem;
+        font-size: 0.85rem;
+        color: #ccc;
+        text-align: center;
+    }
+    .riepilogo strong {
+        color: #f39c12;
+    }
+
+    /* Bottone conferma */
+    .btn-conferma {
+        display: block;
+        width: 100%;
+        margin-top: 0.8rem;
+        padding: 0.6rem;
+        background: #c9a84c;
+        color: #fff;
+        border: none;
+        border-radius: 6px;
+        font-size: 0.9rem;
+        cursor: pointer;
+        transition: background 0.2s;
+    }
+    .btn-conferma:hover    { background: #d9ba5c; }
+    .btn-conferma:disabled { background: #555; cursor: not-allowed; }
+</style>
 </head>
 <body>
 
@@ -310,19 +317,18 @@ document.querySelectorAll('.griglia-posti').forEach(griglia => {
     selezioni[idSpettacolo] = new Set();
 
     for (let r = 0; r < righe; r++) {
-        // Riga con label lettera + pulsanti
         const rowDiv = document.createElement('div');
         rowDiv.className = 'row-label';
-        rowDiv.style.display = 'contents'; // si integra nella grid
 
-        // Label lettera (colonna 1)
+        // Label lettera
         const label = document.createElement('span');
         label.className = 'row-letter';
         label.textContent = lettere[r];
-        griglia.appendChild(label);
+        rowDiv.appendChild(label);
 
-        for (let c = 1; c <= colonne; c++) {
-            const numPosto = r * colonne + c; // 1-based
+        // Posti sinistra (primi 5)
+        for (let c = 1; c <= colonne / 2; c++) {
+            const numPosto = r * colonne + c;
             const btn = document.createElement('button');
             btn.className = 'posto-btn';
             btn.title = `${lettere[r]}${c}`;
@@ -336,9 +342,34 @@ document.querySelectorAll('.griglia-posti').forEach(griglia => {
                 btn.classList.add('libero');
                 btn.addEventListener('click', () => togglePosto(btn, idSpettacolo));
             }
-
-            griglia.appendChild(btn);
+            rowDiv.appendChild(btn);
         }
+
+        // Corridoio centrale
+        const corridoio = document.createElement('div');
+        corridoio.className = 'corridoio';
+        rowDiv.appendChild(corridoio);
+
+        // Posti destra (ultimi 5)
+        for (let c = colonne / 2 + 1; c <= colonne; c++) {
+            const numPosto = r * colonne + c;
+            const btn = document.createElement('button');
+            btn.className = 'posto-btn';
+            btn.title = `${lettere[r]}${c}`;
+            btn.dataset.posto = numPosto;
+            btn.dataset.label = `${lettere[r]}${c}`;
+
+            if (occupati.has(numPosto)) {
+                btn.classList.add('occupato');
+                btn.disabled = true;
+            } else {
+                btn.classList.add('libero');
+                btn.addEventListener('click', () => togglePosto(btn, idSpettacolo));
+            }
+            rowDiv.appendChild(btn);
+        }
+
+        griglia.appendChild(rowDiv);
     }
 });
 
@@ -353,15 +384,14 @@ function togglePosto(btn, idSpettacolo) {
         btn.classList.replace('libero', 'selezionato');
         sel.add(numPosto);
     }
-
     aggiornaRiepilogo(idSpettacolo);
 }
 
 function aggiornaRiepilogo(idSpettacolo) {
-    const sel      = selezioni[idSpettacolo];
-    const riepilogo = document.getElementById(`riepilogo-${idSpettacolo}`);
+    const sel         = selezioni[idSpettacolo];
+    const riepilogo   = document.getElementById(`riepilogo-${idSpettacolo}`);
     const btnConferma = document.getElementById(`btn-${idSpettacolo}`);
-    const colonne  = parseInt(
+    const colonne     = parseInt(
         document.getElementById(`griglia-${idSpettacolo}`).dataset.colonne
     );
 
@@ -371,8 +401,7 @@ function aggiornaRiepilogo(idSpettacolo) {
         return;
     }
 
-    // Converte numeri in etichette es. A3, B7...
-    const etichette = [...sel].sort((a,b)=>a-b).map(n => {
+    const etichette = [...sel].sort((a, b) => a - b).map(n => {
         const r = Math.floor((n - 1) / colonne);
         const c = ((n - 1) % colonne) + 1;
         return `${lettere[r]}${c}`;
@@ -388,7 +417,6 @@ function conferma(idSpettacolo) {
     const sel = selezioni[idSpettacolo];
     if (sel.size === 0) return;
 
-    // Passa i dati alla pagina di pagamento/conferma tramite form POST
     const form = document.createElement('form');
     form.method = 'POST';
     form.action = 'conferma_acquisto.php';
