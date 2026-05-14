@@ -1,6 +1,6 @@
 <?php
 session_start();
-include("../database/connessione.php");
+include("../../database/connessione.php");
 
 $id_spettacolo = isset($_POST['id_spettacolo']) ? intval($_POST['id_spettacolo']) : 0;
 $posti_num     = isset($_POST['posti_num'])   && is_array($_POST['posti_num'])   ? $_POST['posti_num']   : [];
@@ -55,8 +55,8 @@ $totale    = $num_posti * $prezzo_unitario;
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../style.css">
-    <link rel="stylesheet" href="./style_conferma.css">
+    <link rel="stylesheet" href="../style/style.css">
+    <link rel="stylesheet" href="../style/style_conferma.css">
     
 </head>
 <body>
