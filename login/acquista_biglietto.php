@@ -54,161 +54,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Acquista biglietto</title>
     <link rel="stylesheet" href="../style.css">
-    <style>
-    .film-card {
-        display: grid;
-        grid-template-columns: 180px 1fr 1fr;
-        gap: 1.5rem;
-        align-items: start;
-        border-radius: 12px;
-        padding: 1.5rem;
-        margin: 2rem auto;
-        max-width: 1200px;
-        box-shadow: 0 4px 20px rgba(0,0,0,0.4);
-    }
-
-    .film-poster img {
-        width: 100%;
-        border-radius: 8px;
-        object-fit: cover;
-        display: block;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.5);
-    }
-
-    .film-info h2 {
-        font-size: 1.2rem;
-        margin: 0 0 0.5rem 0;
-    }
-
-    /* ── Selezione posti ── */
-    .posti-right {
-        border-radius: 10px;
-        padding: 1.2rem;
-        border: 1px solid #333;
-        background: #111;
-    }
-
-    .posti-right h3 {
-        margin: 0 0 0.8rem;
-        font-size: 1rem;
-        color: #fff;
-        text-align: center;
-    }
-
-    /* Schermo */
-    .schermo {
-        width: 80%;
-        margin: 0 auto 1.2rem;
-        padding: 6px 0;
-        background: linear-gradient(to bottom, #555, #222);
-        border-radius: 4px 4px 40% 40% / 4px 4px 20px 20px;
-        text-align: center;
-        font-size: 0.7rem;
-        color: #aaa;
-        letter-spacing: 2px;
-    }
-
-    /* Griglia posti */
-    .griglia-posti {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 14px;
-        margin-bottom: 1rem;
-        overflow-y: auto;
-        max-height: 300px;
-        scrollbar-width: thin;
-        scrollbar-color: rgba(255,255,255,0.25) transparent;
-    }
-
-    /* Riga singola */
-    .row-label {
-        display: flex;
-        align-items: center;
-        gap: 4px;
-    }
-
-    .row-letter {
-        width: 18px;
-        font-size: 0.65rem;
-        color: #888;
-        text-align: center;
-        flex-shrink: 0;
-    }
-
-    /* Corridoio centrale */
-    .corridoio {
-        width: 44px;
-        height: 26px;
-        flex-shrink: 0;
-    }
-
-    .posto-btn {
-        width: 26px;
-        height: 26px;
-        border-radius: 4px 4px 0 0;
-        border: none;
-        cursor: pointer;
-        font-size: 0;
-        transition: transform 0.1s, background 0.15s;
-    }
-    .posto-btn:hover:not(.occupato) {
-        transform: scale(1.15);
-    }
-    .posto-btn.libero      { background: #2ecc71; }
-    .posto-btn.selezionato { background: #f39c12; }
-    .posto-btn.occupato    { background: #555; cursor: not-allowed; }
-
-    /* Legenda */
-    .legenda {
-        display: flex;
-        justify-content: center;
-        gap: 1rem;
-        margin-bottom: 1rem;
-        font-size: 0.75rem;
-        color: #ccc;
-    }
-    .legenda span {
-        display: flex;
-        align-items: center;
-        gap: 5px;
-    }
-    .legenda-box {
-        width: 14px;
-        height: 14px;
-        border-radius: 3px;
-        display: inline-block;
-    }
-
-    /* Riepilogo */
-    .riepilogo {
-        border-top: 1px solid #333;
-        padding-top: 0.8rem;
-        font-size: 0.85rem;
-        color: #ccc;
-        text-align: center;
-    }
-    .riepilogo strong {
-        color: #f39c12;
-    }
-
-    /* Bottone conferma */
-    .btn-conferma {
-        display: block;
-        width: 100%;
-        margin-top: 0.8rem;
-        padding: 0.6rem;
-        background: #c9a84c;
-        color: #fff;
-        border: none;
-        border-radius: 6px;
-        font-size: 0.9rem;
-        cursor: pointer;
-        transition: background 0.2s;
-    }
-    .btn-conferma:hover    { background: #d9ba5c; }
-    .btn-conferma:disabled { background: #555; cursor: not-allowed; }
-</style>
+    <link rel="stylesheet" href="./style_acquista.css">
 </head>
 <body>
 
@@ -427,17 +273,44 @@ function conferma(idSpettacolo) {
     inputSpettacolo.value = idSpettacolo;
     form.appendChild(inputSpettacolo);
 
-    [...sel].forEach(p => {
-        const inp = document.createElement('input');
-        inp.type  = 'hidden';
-        inp.name  = 'posti[]';
-        inp.value = p;
-        form.appendChild(inp);
+    // ✅ Manda sia il numero (per il DB) che l'etichetta (per la visualizzazione)
+    [...sel].forEach(numPosto => {
+        const btn = document.querySelector(`[data-posto="${numPosto}"]`);
+        const label = btn ? btn.dataset.label : numPosto;
+
+        const inpNumero = document.createElement('input');
+        inpNumero.type  = 'hidden';
+        inpNumero.name  = 'posti_num[]';
+        inpNumero.value = numPosto;
+        form.appendChild(inpNumero);
+
+        const inpLabel = document.createElement('input');
+        inpLabel.type  = 'hidden';
+        inpLabel.name  = 'posti_label[]';
+        inpLabel.value = label;
+        form.appendChild(inpLabel);
     });
+
+    // ✅ Salva in sessionStorage per ripristinare i posti se si torna indietro
+    sessionStorage.setItem('posti_selezionati_' + idSpettacolo, JSON.stringify([...sel]));
 
     document.body.appendChild(form);
     form.submit();
 }
+document.querySelectorAll('.griglia-posti').forEach(griglia => {
+    const idSpettacolo = griglia.dataset.spettacolo;
+    const salvati = sessionStorage.getItem('posti_selezionati_' + idSpettacolo);
+    if (!salvati) return;
+
+    JSON.parse(salvati).forEach(numPosto => {
+        const btn = griglia.querySelector(`[data-posto="${numPosto}"]`);
+        if (btn && btn.classList.contains('libero')) {
+            btn.classList.replace('libero', 'selezionato');
+            selezioni[idSpettacolo].add(numPosto);
+        }
+    });
+    aggiornaRiepilogo(idSpettacolo);
+});
 </script>
 
 </body>
