@@ -114,6 +114,10 @@
             gap: 4px;
             justify-content: center;
             margin-bottom: 1rem;
+            overflow-y: auto;
+            max-height: 300px;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(255,255,255,0.25) transparent;
         }
 
         .posto-btn {
