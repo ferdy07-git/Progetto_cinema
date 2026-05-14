@@ -281,7 +281,7 @@ body.page-home {
     border: none;
     border-radius: var(--radius-sm);
     font-family: var(--font-body);
-    font-size: 0.95rem; /* era 0.85rem */
+    font-size: 0.95rem;
     font-weight: 500;
     color: var(--text-muted);
     cursor: pointer;
@@ -783,7 +783,7 @@ main {
 }
 
 .sala-btn.active {
-  background: #c9a84c;          /* oro cinema, coerente con il tuo giallo titolo */
+  background: #c9a84c;
   color: #1a1a1a;
   border-color: transparent;
   font-weight: 700;
@@ -967,10 +967,9 @@ main {
 
 .admin-form,
 .admin-form *{
-  box-sizing: border-box; /* evita che input/textarea escano dal div */
+  box-sizing: border-box;
 }
 
-/* Gli input admin non devono usare il padding "da search" (icone ecc.) */
 .admin-form .search-bar{
   width: 100%;
   padding: 0.95rem 1.1rem;
@@ -983,14 +982,14 @@ main {
 .admin-form-actions{
   display: flex;
   gap: 10px;
-  justify-content: center; /* pulsanti al centro */
+  justify-content: center;
   align-items: center;
-  flex-wrap: wrap;         /* su schermi piccoli vanno a capo senza overflow */
+  flex-wrap: wrap;
   width: 100%;
 }
 
 .admin-form-actions .btn-acquista{
-  margin-top: 0;           /* override del margin-top:auto globale */
+  margin-top: 0;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -1095,6 +1094,11 @@ main {
 }
 .match-msg.ok   { color: #1D9E75; display: flex; }
 .match-msg.fail { color: #E24B4A; display: flex; }
+
+/* ── PASS WRAPPER ───────────────────────────── */
+.pass-wrapper {
+    position: relative;
+}
 
 .toggle-pass {
     position: absolute;
