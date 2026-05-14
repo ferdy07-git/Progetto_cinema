@@ -1,6 +1,6 @@
 <?php
     session_start();
-    include("../database/connessione.php");
+    include("../../database/connessione.php");
 
     // Recupera dati film + spettacolo
     $id_spettacolo = (int)$_SESSION['id_spettacolo'];
@@ -53,8 +53,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Acquista biglietto</title>
-    <link rel="stylesheet" href="../style.css">
-    <link rel="stylesheet" href="./style_acquista.css">
+    <link rel="stylesheet" href="../style/style.css">
+    <link rel="stylesheet" href="../style/style_acquista.css">
 </head>
 <body>
 
@@ -75,7 +75,7 @@
             <!-- COLONNA 1: locandina -->
             <div class="film-poster">
                 <img
-                    src="../img/<?php echo htmlspecialchars($row['locandina'] ?? 'default-film.webp', ENT_QUOTES, 'UTF-8'); ?>"
+                    src="../../img/<?php echo htmlspecialchars($row['locandina'] ?? 'default-film.webp', ENT_QUOTES, 'UTF-8'); ?>"
                     alt="Locandina <?php echo $titolo_esc; ?>"
                     onerror="this.src='../img/default-film.webp'"
                 >
@@ -291,7 +291,6 @@ function conferma(idSpettacolo) {
         form.appendChild(inpLabel);
     });
 
-    // ✅ Salva in sessionStorage per ripristinare i posti se si torna indietro
     sessionStorage.setItem('posti_selezionati_' + idSpettacolo, JSON.stringify([...sel]));
 
     document.body.appendChild(form);
