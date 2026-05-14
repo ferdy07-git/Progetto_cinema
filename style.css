@@ -1096,3 +1096,20 @@ main {
 .match-msg.ok   { color: #1D9E75; display: flex; }
 .match-msg.fail { color: #E24B4A; display: flex; }
 
+.toggle-pass {
+    position: absolute;
+    right: 0.9rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--text-dim);
+    font-size: 1.1rem;
+    transition: color 0.2s;
+    font-size: 1.8rem;
+}
+
+.toggle-pass:hover { color: var(--gold); }
+
+.pass-wrapper input { padding-right: 3rem !important; }
