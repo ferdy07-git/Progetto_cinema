@@ -5,8 +5,8 @@ if(isset($_SESSION["user"])){
     exit();
 }
 
-require "../utils/password.php";
-require "../database/connessione.php";
+require "../../database/connessione.php";
+require "../../utils/password.php";
 
 $pass = $_POST["pas1"];
 $conf = $_POST["pas2"];
