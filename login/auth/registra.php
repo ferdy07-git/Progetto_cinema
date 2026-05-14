@@ -5,8 +5,8 @@ if(isset($_SESSION["user"])){
     exit(); 
 }
 
-require "../utils/password.php";
-require "../database/connessione.php";
+require "../../database/connessione.php";
+require "../../utils/password.php";
 
 $nome = $_POST["nick"];
 $pass = $_POST["pass"];
@@ -61,7 +61,7 @@ if ($result->num_rows > 0) {
     $_SESSION["user"]  = $nome;
     $_SESSION["email"] = $mail;
     $_SESSION["tipo"]  = 1;
-    header("Location: ../homepage.php");
+    header("Location: ../../homepage.php");
 }
 }
 ?>
