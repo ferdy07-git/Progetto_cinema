@@ -97,7 +97,7 @@
                             switch($res){
                                 case 1:
                                     print"<a href='#' class='menu-link'><span>🎫</span> Visualizza biglietti</a>
-                                          <a href='./login/recupera_password.html' class='menu-link'><span>🔑</span> Modifica password</a>";
+                                          <a href='./login/auth/recupera_password.html' class='menu-link'><span>🔑</span> Modifica password</a>";
                                 break;
                                 case 2:
                                     print "";
@@ -107,7 +107,7 @@
                                     break; 
                             }
                         ?>    
-                        <a href='./login/logout.php' class='menu-link logout'><span>👋</span> Esci</a>
+                        <a href='./login/auth/logout.php' class='menu-link logout'><span>👋</span> Esci</a>
                     </div>
                 </div>
             <?php endif; ?>
