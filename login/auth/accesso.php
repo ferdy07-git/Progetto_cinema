@@ -1,6 +1,6 @@
 <?php
-    require "../database/connessione.php";
-    require "../utils/password.php";
+require "../../database/connessione.php";
+require "../../utils/password.php";
  session_start();
     $nome = $_POST["nick"];
     $pass = $_POST["pass"];
@@ -19,7 +19,7 @@
 
         switch($tipo){
             case 1:
-                header("Location:../homepage.php");
+                header("Location:../../homepage.php");
                 break;
             case 2:
                 header("Location:../#.php");
