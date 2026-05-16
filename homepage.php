@@ -115,31 +115,6 @@
         <h2 class="hero-title">Film in <span>programmazione</span></h2>
         <p>Scegli il tuo spettacolo e acquista il biglietto</p>
  
-        <a href="https://wa.me/393515793820" target="_blank" style="
-            display:inline-flex;
-            align-items:center;
-            gap:10px;
-            margin-top:16px;
-            padding:12px 28px;
-            background:#25D366;
-            color:white;
-            font-size:17px;
-            font-weight:600;
-            border-radius:30px;
-            text-decoration:none;
-            box-shadow:0 4px 15px rgba(37,211,102,0.4);
-            transition:transform 0.2s, box-shadow 0.2s;
-            font-family:Arial, sans-serif;
-        "
-        onmouseover="this.style.transform='scale(1.07)';this.style.boxShadow='0 6px 20px rgba(37,211,102,0.55)'"
-        onmouseout="this.style.transform='scale(1)';this.style.boxShadow='0 4px 15px rgba(37,211,102,0.4)'"
-        >
-            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 32 32" fill="white">
-                <path d="M16 2C8.268 2 2 8.268 2 16c0 2.478.643 4.801 1.766 6.82L2 30l7.38-1.734A13.94 13.94 0 0 0 16 30c7.732 0 14-6.268 14-14S23.732 2 16 2zm0 25.6a11.547 11.547 0 0 1-5.89-1.608l-.422-.25-4.38 1.03 1.062-4.268-.276-.44A11.56 11.56 0 0 1 4.4 16C4.4 9.59 9.59 4.4 16 4.4S27.6 9.59 27.6 16 22.41 27.6 16 27.6zm6.34-8.62c-.347-.174-2.055-1.014-2.374-1.13-.318-.116-.55-.174-.78.174-.232.347-.896 1.13-1.1 1.362-.202.232-.404.26-.75.087-.347-.174-1.464-.54-2.788-1.72-1.03-.92-1.726-2.055-1.928-2.402-.202-.347-.022-.535.152-.708.156-.155.347-.405.52-.608.174-.202.232-.347.347-.578.116-.232.058-.434-.029-.608-.087-.174-.78-1.882-1.07-2.578-.282-.676-.568-.584-.78-.594l-.664-.012c-.232 0-.608.087-.926.434-.318.347-1.214 1.187-1.214 2.895s1.243 3.357 1.416 3.59c.174.232 2.447 3.733 5.928 5.235.828.358 1.474.572 1.977.732.83.264 1.587.227 2.184.138.666-.1 2.055-.84 2.345-1.652.29-.812.29-1.508.202-1.652-.086-.144-.318-.232-.664-.405z"/>
-            </svg>
-            Contattaci su WhatsApp
-        </a>
-
         <div class="search-bar-wrapper">
             <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
             <input
