@@ -2,6 +2,11 @@
 session_start();
 require "../../database/connessione.php";
 
+if (!isset($_SESSION["user"]) || ($_SESSION["tipo"] ?? 0) !== 2) {
+    header("Location: ../../homepage.php");
+    exit;
+}
+
 if (!isset($_SESSION["csrf_venditore"])) {
     $_SESSION["csrf_venditore"] = bin2hex(random_bytes(16));
 }
@@ -72,30 +77,24 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $id_sala     = (int)($_POST["sala"] ?? 0);
         $data_sp     = trim($_POST["data_spettacolo"] ?? "");
         $ora_inizio  = trim($_POST["ora_inizio"] ?? "");
-        $ora_fine    = trim($_POST["ora_fine"] ?? "");
 
-        if (!$id_film || !$id_sala || !$data_sp || !$ora_inizio || !$ora_fine) {
+        if (!$id_film || !$id_sala || !$data_sp || !$ora_inizio) {
             set_flash("error", "Compila tutti i campi.");
             redirect_to_list();
         }
 
-        if ($ora_fine <= $ora_inizio) {
-            set_flash("error", "L'ora di fine deve essere successiva all'ora di inizio.");
-            redirect_to_list();
-        }
-
         if ($action === "create") {
-            $stmt = $conn->prepare("INSERT INTO spettacolo (film, sala, data_spettacolo, ora_inizio, ora_fine) VALUES (?, ?, ?, ?, ?)");
+            $stmt = $conn->prepare("INSERT INTO spettacolo (film, sala, data_spettacolo, ora_inizio) VALUES (?, ?, ?, ?)");
             if ($stmt) {
-                $stmt->bind_param("iisss", $id_film, $id_sala, $data_sp, $ora_inizio, $ora_fine);
+                $stmt->bind_param("iisss", $id_film, $id_sala, $data_sp, $ora_inizio);
                 if (!$stmt->execute()) set_flash("error", "Errore durante l'aggiunta.");
                 $stmt->close();
             }
         } else {
             if ($id <= 0) { set_flash("error", "Spettacolo non valido."); redirect_to_list(); }
-            $stmt = $conn->prepare("UPDATE spettacolo SET film=?, sala=?, data_spettacolo=?, ora_inizio=?, ora_fine=? WHERE id_spettacolo=?");
+            $stmt = $conn->prepare("UPDATE spettacolo SET film=?, sala=?, data_spettacolo=?, ora_inizio=? WHERE id_spettacolo=?");
             if ($stmt) {
-                $stmt->bind_param("iisssi", $id_film, $id_sala, $data_sp, $ora_inizio, $ora_fine, $id);
+                $stmt->bind_param("iisssi", $id_film, $id_sala, $data_sp, $ora_inizio, $id);
                 if (!$stmt->execute()) set_flash("error", "Errore durante la modifica.");
                 $stmt->close();
             }
@@ -110,7 +109,6 @@ $query = "
         s.id_spettacolo,
         s.data_spettacolo,
         s.ora_inizio,
-        s.ora_fine,
         f.id_film,
         f.titolo AS titolo_film,
         f.locandina,
@@ -517,10 +515,6 @@ if ($editId > 0) {
                                     Ora inizio
                                     <input class="search-bar" type="time" name="ora_inizio" required>
                                 </label>
-                                <label class="form-label">
-                                    Ora fine
-                                    <input class="search-bar" type="time" name="ora_fine" required>
-                                </label>
                             </div>
                             <div class="admin-form-actions" style="margin-top:1rem;">
                                 <button class="btn-acquista" type="submit">Aggiungi spettacolo</button>
@@ -572,10 +566,6 @@ if ($editId > 0) {
                                     Ora inizio
                                     <input class="search-bar" type="time" name="ora_inizio" value="<?php echo htmlspecialchars(substr($spettToEdit['ora_inizio'], 0, 5), ENT_QUOTES); ?>" required>
                                 </label>
-                                <label class="form-label">
-                                    Ora fine
-                                    <input class="search-bar" type="time" name="ora_fine" value="<?php echo htmlspecialchars(substr($spettToEdit['ora_fine'], 0, 5), ENT_QUOTES); ?>" required>
-                                </label>
                             </div>
                             <div class="admin-form-actions" style="margin-top:1rem;">
                                 <button class="btn-acquista" type="submit">Salva modifiche</button>
@@ -609,7 +599,7 @@ if ($editId > 0) {
                             <div class="spett-meta">
                                 <span class="spett-badge badge-gold">🏛️ <?php echo htmlspecialchars($sp['nome_sala']); ?></span>
                                 <span class="spett-badge badge-muted">📅 <?php echo $dataFmt; ?></span>
-                                <span class="spett-badge badge-muted">🕐 <?php echo substr($sp['ora_inizio'],0,5); ?> – <?php echo substr($sp['ora_fine'],0,5); ?></span>
+                                <span class="spett-badge badge-muted">🕐 <?php echo substr($sp['ora_inizio'],0,5); ?> </span>
                                 <span class="spett-badge badge-muted">⏱ <?php echo htmlspecialchars($sp['durata']); ?></span>
                                 <?php if ($isPassato): ?>
                                     <span class="spett-badge" style="color:#e05c5c;background:rgba(224,92,92,.1);border:1px solid rgba(224,92,92,.25);">Passato</span>
