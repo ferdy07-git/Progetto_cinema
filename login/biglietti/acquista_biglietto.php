@@ -16,7 +16,6 @@
         spettacolo.id_spettacolo,
         spettacolo.data_spettacolo,
         spettacolo.ora_inizio,
-        spettacolo.ora_fine,
         sala.id_sala,
         sala.nome AS nome_sala,
         sala.posti AS totale_posti
@@ -59,6 +58,12 @@
 <body>
 
 <main>
+    <a href="../../homepage.php" class="auth-back-home" title="Torna alla homepage">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9.5z"/>
+            <polyline points="9 22 9 12 15 12 15 22"/>
+        </svg>
+    </a>
     <div class="container" id="film-container">
 
         <?php foreach ($films as $row):
@@ -67,7 +72,7 @@
             $sala_esc      = htmlspecialchars($row['nome_sala']  ?? '', ENT_QUOTES, 'UTF-8');
             $totale_posti  = (int)$row['totale_posti'];
             $colonne       = 10;
-            $righe         = $totale_posti / $colonne; // 10 o 20
+            $righe         = $totale_posti / $colonne;
         ?>
 
         <div class="film-card">
@@ -92,7 +97,7 @@
                     <div class="spettacolo-info">
                         <h3>Spettacolo</h3>
                         <p><?php echo htmlspecialchars($row['data_spettacolo']); ?></p>
-                        <p><?php echo htmlspecialchars($row['ora_inizio']); ?> &ndash; <?php echo htmlspecialchars($row['ora_fine']); ?></p>
+                        <p><?php echo htmlspecialchars($row['ora_inizio']); ?></p>
                         <p><?php echo $sala_esc; ?> (<?php echo $totale_posti; ?> posti)</p>
                     </div>
                 <?php else: ?>
