@@ -13,7 +13,6 @@
         spettacolo.id_spettacolo,
         spettacolo.data_spettacolo,
         spettacolo.ora_inizio,
-        spettacolo.ora_fine,
         sala.nome AS nome_sala
     FROM film
     INNER JOIN genere 
@@ -202,7 +201,7 @@
                                 <div class="spettacolo-info">
                                     <h3>Spettacolo disponibile</h3>
                                     <p>Data: <?php echo htmlspecialchars($row['data_spettacolo']); ?></p>
-                                    <p>Ore <?php echo htmlspecialchars($row['ora_inizio']); ?> &ndash; <?php echo htmlspecialchars($row['ora_fine']); ?></p>
+                                    <p>Ore <?php echo htmlspecialchars($row['ora_inizio']); ?></p>
                                     <p><?php echo htmlspecialchars($row['nome_sala']); ?></p>
                                 </div>
 
