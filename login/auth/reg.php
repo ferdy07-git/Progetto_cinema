@@ -18,7 +18,7 @@
     </a>
 
     <a class="auth-brand" href="../../homepage.php">
-        Cinema Palladino
+        Cinema Itis "Luigi di Maggio
         <span>Il tuo cinema</span>
     </a>
 
