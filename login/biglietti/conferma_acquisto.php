@@ -69,7 +69,7 @@ $totale    = $num_posti * $prezzo_unitario;
             </svg>
         </a>
 
-        <a href="index.php" class="confirm-brand">🎬 Cinema Palladino</a>
+        <a href="index.php" class="confirm-brand">🎬 Cinema Itis "Luigi di Maggio</a>
 
         <div class="confirm-card">
 
