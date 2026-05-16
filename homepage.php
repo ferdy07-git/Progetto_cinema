@@ -99,7 +99,7 @@
                                           <a href='./login/auth/recupera_password.html' class='menu-link'><span>🔑</span> Modifica password</a>";
                                 break;
                                 case 2:
-                                    print "";
+                                    print "<a href='./login/venditore/venditore.php' class='menu-link'><span>🛠️</span> Pannello venditore</a>";
                                     break;
                                 case 3:
                                     print"<a href='./login/admin/modifica.php' class='menu-link'><span>🛠️</span> Pannello admin</a>";
