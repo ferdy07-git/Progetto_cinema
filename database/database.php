@@ -28,7 +28,6 @@ $sql = "CREATE TABLE IF NOT EXISTS Spettacolo(
     sala INT NOT NULL,
     data_spettacolo DATE NOT NULL,
     ora_inizio TIME NOT NULL,
-    ora_fine TIME NOT NULL,
     FOREIGN KEY (film) REFERENCES Film(id_film),
     FOREIGN KEY(sala) REFERENCES Sala(id_sala)
 )";
@@ -41,7 +40,7 @@ $conn->query($sql);
 $sql = "CREATE TABLE IF NOT EXISTS Utente(
     id_utente INT AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(50) NOT NULL UNIQUE,
-    password_hash VARCHAR(64) NOT NULL,#modificare nome nel logico
+    password_hash VARCHAR(64) NOT NULL,
     email VARCHAR(40) UNIQUE ,
     tipo INT NOT NULL,
     FOREIGN KEY(tipo)  REFERENCES Tipologia_utente(id_tipo)
@@ -50,7 +49,7 @@ $conn->query($sql);
 $sql = "CREATE TABLE IF NOT EXISTS Biglietto(
     id_biglietto INT AUTO_INCREMENT PRIMARY KEY,
     importo FLOAT NOT NULL,
-    posto INT NOT NULL,#aggiungi nel logico
+    posto VARCHAR NOT NULL,
     spettacolo int NOT NULL,
     utente int NOT NULL,
     FOREIGN KEY(spettacolo) REFERENCES Spettacolo(id_spettacolo),
