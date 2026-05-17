@@ -23,6 +23,7 @@ if($pass !== $conf){
 if (!(
     strlen($pass) >= 8 &&
     preg_match('/[A-Z]/', $pass) &&
+    preg_match('/[0-9]/', $pass) &&
     preg_match('/[\W_]/', $pass)
 )) {
  $_SESSION["check"] = TRUE;
