@@ -16,9 +16,9 @@ function credenziali(){
 }
 function login(){
     [$user,$pass] = credenziali();
+    $path = substr(__DIR__,strpos(__DIR__,"htdocs")+6)."/../login/auth/form_accesso.php";
     if(is_null($user) || is_null($pass) || !(check($user,$pass))){
-        return true;
+        header("Location:$path");
     }
-    return false;
 }
 ?>
