@@ -32,11 +32,8 @@ if (!(
     }
 
 
-$sql = "SELECT nome FROM utente WHERE nome = ?";
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("s", $nome); 
-$stmt->execute();
-$result = $stmt->get_result();
+$sql = "SELECT nome FROM utente WHERE nome = '$nome'";
+$result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
     $_SESSION["check"] = TRUE;
@@ -44,11 +41,8 @@ if ($result->num_rows > 0) {
     exit();
 } 
 
-$sql = "SELECT email FROM utente WHERE email = ?";
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("s", $mail); 
-$stmt->execute();
-$result = $stmt->get_result();
+$sql = "SELECT email FROM utente WHERE email = '$mail'";
+$result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
     $_SESSION["check"] = TRUE;
