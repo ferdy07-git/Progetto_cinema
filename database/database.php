@@ -51,7 +51,7 @@ $sql = "CREATE TABLE IF NOT EXISTS Biglietto(
     importo FLOAT NOT NULL,
     posto VARCHAR(4) NOT NULL,
     spettacolo int NOT NULL,
-    utente int NOT NULL,
+    utente int,
     FOREIGN KEY(spettacolo) REFERENCES Spettacolo(id_spettacolo),
     FOREIGN KEY(utente) REFERENCES Utente(id_utente)
 
