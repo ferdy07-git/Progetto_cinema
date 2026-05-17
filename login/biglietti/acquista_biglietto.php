@@ -1,7 +1,10 @@
 <?php
     session_start();
     include("../../database/connessione.php");
-
+    include("../../utils/password.php");
+    if(login()){
+        header("Location:../auth/form_accesso.php");
+    }
     // Recupera dati film + spettacolo
     $id_spettacolo = (int)$_SESSION['id_spettacolo'];
 

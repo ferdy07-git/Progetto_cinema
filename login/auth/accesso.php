@@ -16,13 +16,14 @@ require "../../utils/password.php";
         $_SESSION["user"]     = $nome;
         $_SESSION["email"]    = $utente["email"];
         $_SESSION["tipo"]  = (int)$utente["tipo"];
-
+        $_SESSION["password"] = $password;
+        $_SESSION["check"] = FALSE;
         switch($tipo){
             case 1:
                 header("Location:../../homepage.php");
                 break;
             case 2:
-                header("Location:../#.php");
+                header("Location:../venditore/venditore.php");
                 break;
             case 3:
                 header("Location:../admin/modifica.php");

@@ -1,10 +1,5 @@
 <?php
 session_start();
-if(isset($_SESSION["user"])){
-    header("Location:homepage.php");
-    exit();
-}
-
 require "../../database/connessione.php";
 require "../../utils/password.php";
 
