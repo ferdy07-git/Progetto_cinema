@@ -58,24 +58,9 @@ $biglietti = $result ? $result->fetch_all(MYSQLI_ASSOC) : [];
                     <span class="name"><?php echo $nome; ?></span>
                     <span class="email"><?php echo $email; ?></span>
                 </div>
-                <?php
-                    $sql = "SELECT tipo FROM utente WHERE nome = '$nome'";
-                    $res = $conn->query($sql)->fetch_assoc()["tipo"];
-                    switch($res){
-                        case 1:
-                            echo "<a href='biglietti_acquistati.php' class='menu-link' style='color:var(--gold)'><span>🎫</span> Visualizza biglietti</a>
-                                  <a href='./login/auth/recupera_password.html' class='menu-link'><span>🔑</span> Modifica password</a>
-                                  <a href='./login/auth/elimina_account.php' class='menu-link'><span>❌</span> Elimina account</a>";
-                            break;
-                        case 2:
-                            echo "<a href='./login/venditore/venditore.php' class='menu-link'><span>🛠️</span> Pannello venditore</a>";
-                            break;
-                        case 3:
-                            echo "<a href='./login/admin/modifica.php' class='menu-link'><span>🛠️</span> Pannello admin</a>";
-                            break;
-                    }
-                ?>
-                <a href="./login/auth/logout.php" class="menu-link logout"><span>👋</span> Esci</a>
+                <a href='../auth/recupera_password.html' class='menu-link'><span>🔑</span> Modifica password</a>
+                <a href='../auth/elimina_account.php' class='menu-link'><span>❌</span> Elimina account</a>
+                <a href="../auth/logout.php" class="menu-link logout"><span>👋</span> Esci</a>
             </div>
         </div>
         
