@@ -2,20 +2,29 @@
 session_start();
 include("../../database/connessione.php");
 
-$id_spettacolo = isset($_POST['id_spettacolo']) ? intval($_POST['id_spettacolo']) : 0;
-$posti_num     = isset($_POST['posti_num'])   && is_array($_POST['posti_num'])   ? $_POST['posti_num']   : [];
-$posti_label   = isset($_POST['posti_label']) && is_array($_POST['posti_label']) ? $_POST['posti_label'] : [];
+$id_spettacolo = isset($_POST['id_spettacolo'])
+    ? intval($_POST['id_spettacolo'])
+    : 0;
 
-if ($id_spettacolo === 0 || empty($posti_num)) {
+$posti = isset($_POST['posti']) && is_array($_POST['posti'])
+    ? $_POST['posti']
+    : [];
+
+if ($id_spettacolo === 0 || empty($posti)) {
+
     header('Location: index.php?errore=dati_mancanti');
+
     exit;
 }
 
-$posti_sanitizzati       = array_map('intval', $posti_num);
-$posti_label_sanitizzati = array_map('htmlspecialchars', $posti_label);
+$posti_sanitizzati = array_map(
+    'htmlspecialchars',
+    $posti
+);
 
 $_SESSION['posti_selezionati'] = $posti_sanitizzati;
-$_SESSION['id_spettacolo']     = $id_spettacolo;
+
+$_SESSION['id_spettacolo'] = $id_spettacolo;
 
 $sql = "
     SELECT
@@ -24,27 +33,47 @@ $sql = "
         spettacolo.ora_inizio,
         sala.nome AS nome_sala
     FROM film
-    LEFT JOIN spettacolo ON film.id_film = spettacolo.film
-    LEFT JOIN sala       ON spettacolo.sala = sala.id_sala
+    LEFT JOIN spettacolo
+        ON film.id_film = spettacolo.film
+    LEFT JOIN sala
+        ON spettacolo.sala = sala.id_sala
     WHERE spettacolo.id_spettacolo = $id_spettacolo
 ";
 
 $result = $conn->query($sql);
-$row    = $result->fetch_assoc();
+
+$row = $result->fetch_assoc();
 
 if (!$row) {
-    header('Location: index.php?errore=spettacolo_non_trovato');
+
+    header(
+        'Location: index.php?errore=spettacolo_non_trovato'
+    );
+
     exit;
 }
 
-$nome_film       = $row['titolo'];
-$data_spettacolo = date('d/m/Y', strtotime($row['data_spettacolo']));
-$ora_spettacolo  = substr($row['ora_inizio'], 0, 5);
-$nome_sala       = $row['nome_sala'];
+$nome_film = $row['titolo'];
+
+$data_spettacolo = date(
+    'd/m/Y',
+    strtotime($row['data_spettacolo'])
+);
+
+$ora_spettacolo = substr(
+    $row['ora_inizio'],
+    0,
+    5
+);
+
+$nome_sala = $row['nome_sala'];
+
 $prezzo_unitario = 9.50;
 
+// ora conti direttamente le label
 $num_posti = count($posti_sanitizzati);
-$totale    = $num_posti * $prezzo_unitario;
+
+$totale = $num_posti * $prezzo_unitario;
 ?>
 <!DOCTYPE html>
 <html lang="it">
@@ -107,7 +136,7 @@ $totale    = $num_posti * $prezzo_unitario;
                         </span>
                     </div>
                     <div class="seats-grid">
-                        <?php foreach ($posti_label_sanitizzati as $label): ?>
+                        <?php foreach ($posti_sanitizzati as $label): ?>
                             <span class="seat-chip"><?= $label ?></span>
                         <?php endforeach; ?>
                     </div>
