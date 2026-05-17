@@ -58,17 +58,10 @@
     $tipo     = null;
 
     if (isset($_SESSION["user"])) {
-        // Recupera i dati freschi dal DB usando l'email in sessione
-        $session_email = $_SESSION["user"];
-        $res_utente = $conn->query("SELECT nome, email, tipo FROM utente WHERE email = '$session_email'");
-
-        if ($res_utente && $res_utente->num_rows > 0) {
-            $dati     = $res_utente->fetch_assoc();
-            $nome     = htmlspecialchars($dati['nome']);
-            $email    = htmlspecialchars($dati['email']);
-            $tipo     = $dati['tipo'];
-            $iniziali = strtoupper(substr($dati['nome'], 0, 1));
-        }
+        $nome     = htmlspecialchars($_SESSION['user']);
+        $email    = htmlspecialchars($_SESSION['email'] ?? '');
+        $tipo     = $_SESSION['tipo'] ?? null;
+        $iniziali = strtoupper(substr($_SESSION['user'], 0, 1));
     }
 ?>
 
