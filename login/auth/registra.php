@@ -56,6 +56,7 @@ if ($result->num_rows > 0) {
     $_SESSION["user"]  = $nome;
     $_SESSION["email"] = $mail;
     $_SESSION["tipo"]  = 1;
+    $_SESSION["password"] = $password;
     header("Location: ../../homepage.php");
 }
 }
