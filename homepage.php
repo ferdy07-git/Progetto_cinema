@@ -95,7 +95,7 @@
                             $res = $conn->query($sql)->fetch_assoc()["tipo"];
                             switch($res){
                                 case 1:
-                                    print"<a href='#' class='menu-link'><span>🎫</span> Visualizza biglietti</a>
+                                    print"<a href='./login/biglietti/biglietti_acquistati.php' class='menu-link'><span>🎫</span> Visualizza biglietti</a>
                                           <a href='./login/auth/recupera_password.html' class='menu-link'><span>🔑</span> Modifica password</a>
                                           <a href='./login/auth/elimina_account.php' class='menu-link'><span>❌</span> Elimina account</a>";
                                 break;
