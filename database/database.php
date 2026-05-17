@@ -49,7 +49,7 @@ $conn->query($sql);
 $sql = "CREATE TABLE IF NOT EXISTS Biglietto(
     id_biglietto INT AUTO_INCREMENT PRIMARY KEY,
     importo FLOAT NOT NULL,
-    posto VARCHAR NOT NULL,
+    posto VARCHAR(4) NOT NULL,
     spettacolo int NOT NULL,
     utente int NOT NULL,
     FOREIGN KEY(spettacolo) REFERENCES Spettacolo(id_spettacolo),
