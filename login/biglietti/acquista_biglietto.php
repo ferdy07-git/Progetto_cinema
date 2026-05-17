@@ -2,8 +2,9 @@
     session_start();
     include("../../database/connessione.php");
     include("../../utils/password.php");
-    login();
-
+    if(!isset($_SESSION["user"])){
+        header("Location:../auth/form_accesso.php");
+    }
     // Recupera dati film + spettacolo
     $id_spettacolo = (int)$_SESSION['id_spettacolo'];
 
@@ -60,12 +61,54 @@
 <body>
 
 <main>
+
+<?php
+    $nome = $_SESSION['user']['nome'] ?? '';
+    $email = $_SESSION['user']['email'] ?? '';
+
+    $iniziali = "";
+    if (!empty($nome)) {
+        $parti = explode(" ", trim($nome));
+        foreach ($parti as $parte) {
+            $iniziali .= strtoupper($parte[0]);
+        }
+    }
+?>
+
+<div class="hero-strip">
+    <div class="hero-topbar">
+        <h1 class="hero-site-title">Itis "Luigi di Maggio"</h1>
+        <div class="profile-menu">
+            <label for="toggle-menu" class="avatar-btn">
+                <?php echo $iniziali; ?>
+            </label>
+            <input type="checkbox" id="toggle-menu">
+            <div class="dropdown">               
+                <div class="user-info"> 
+                    <span class="name"><?php echo $nome; ?></span>
+                    <span class="email"><?php echo $email; ?></span>
+                </div>
+                <a href="../auth/recupera_password.html" class="menu-link">
+                    <span>🔑</span> Modifica password
+                </a>
+                <a href="../auth/elimina_account.php" class="menu-link">
+                    <span>❌</span> Elimina account
+                </a>
+                <a href="../auth/logout.php" class="menu-link logout">
+                    <span>👋</span> Esci
+                </a>
+            </div>
+        </div>       
+    </div>
     <a href="../../homepage.php" class="auth-back-home" title="Torna alla homepage">
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9.5z"/>
             <polyline points="9 22 9 12 15 12 15 22"/>
         </svg>
     </a>
+    <h2 class="hero-title">Acquista <span>Biglietti</span></h2>
+    <p>Seleziona i tuoi posti e completa l'acquisto</p>
+</div>
     <div class="container" id="film-container">
 
         <?php foreach ($films as $row):
