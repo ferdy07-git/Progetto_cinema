@@ -21,7 +21,6 @@ function set_flash_session(string $type, string $text): void {
 }
 
 function redirect_to_list(): void {
-    // Redirect robusto (anche se headers già inviati)
     if (!headers_sent()) {
         header("Location:./modifica.php");
     } else {
@@ -39,6 +38,13 @@ if ($rGen !== false) {
     }
 }
 
+// Carica sale per il form spettacolo
+$sale = [];
+$rSala = $conn->query("SELECT id_sala, nome, posti FROM sala ORDER BY nome");
+if ($rSala) {
+    while ($s = $rSala->fetch_assoc()) $sale[] = $s;
+}
+
 // Gestione azioni (POST)
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $token = $_POST["csrf"] ?? "";
@@ -54,7 +60,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 set_flash_session("error", "Film non valido.");
                 redirect_to_list();
             } else {
-                // Prima elimina eventuali spettacoli collegati
                 $ok1 = true;
                 $stmt1 = $conn->prepare("DELETE FROM spettacolo WHERE film = ?");
                 if ($stmt1) {
@@ -71,9 +76,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     $stmt2->close();
                 }
 
-                if ($ok1 && $ok2) {
-                    // niente messaggio di successo: torna direttamente alla lista
-                } else {
+                if (!($ok1 && $ok2)) {
                     set_flash_session("error", "Errore durante l'eliminazione del film.");
                 }
                 redirect_to_list();
@@ -97,9 +100,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     $stmt->bind_param("issssi", $id_genere, $titolo, $trama, $durata, $locandina, $id);
                     $ok = $stmt->execute();
                     $stmt->close();
-                    if ($ok) {
-                        // niente messaggio di successo: torna direttamente alla lista
-                    } else {
+                    if (!$ok) {
                         set_flash_session("error", "Errore durante la modifica del film.");
                     }
                 } else {
@@ -125,17 +126,38 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     $stmt->bind_param("issss", $id_genere, $titolo, $trama, $durata, $locandina);
                     $ok = $stmt->execute();
                     $stmt->close();
-                    if ($ok) {
-                        // niente messaggio di successo: torna direttamente alla lista
-                        redirect_to_list();
-                    } else {
+                    if (!$ok) {
                         set_flash_session("error", "Errore durante l'aggiunta del film.");
-                        redirect_to_list();
                     }
                 } else {
                     set_flash_session("error", "Errore durante la preparazione dell'aggiunta.");
-                    redirect_to_list();
                 }
+                redirect_to_list();
+            }
+        }
+
+        if ($action === "create_spettacolo") {
+            $id_film    = (int)($_POST["film"] ?? 0);
+            $id_sala    = (int)($_POST["sala"] ?? 0);
+            $data_sp    = trim($_POST["data_spettacolo"] ?? "");
+            $ora_inizio = trim($_POST["ora_inizio"] ?? "");
+
+            if (!$id_film || !$id_sala || !$data_sp || !$ora_inizio) {
+                set_flash_session("error", "Compila tutti i campi per aggiungere lo spettacolo.");
+                redirect_to_list();
+            } else {
+                $stmt = $conn->prepare("INSERT INTO spettacolo (film, sala, data_spettacolo, ora_inizio) VALUES (?, ?, ?, ?)");
+                if ($stmt) {
+                    $stmt->bind_param("iiss", $id_film, $id_sala, $data_sp, $ora_inizio);
+                    $ok = $stmt->execute();
+                    $stmt->close();
+                    if (!$ok) {
+                        set_flash_session("error", "Errore durante l'aggiunta dello spettacolo.");
+                    }
+                } else {
+                    set_flash_session("error", "Errore durante la preparazione dello spettacolo.");
+                }
+                redirect_to_list();
             }
         }
     }
@@ -172,6 +194,7 @@ $iniziali    = strtoupper(substr($_SESSION['user'] ?? 'A', 0, 1));
 
 $editId = (int)($_GET["edit"] ?? 0);
 $addMode = (int)($_GET["add"] ?? 0) === 1;
+$addSpettMode = (int)($_GET["add_spettacolo"] ?? 0) === 1;
 $filmToEdit = null;
 if ($editId > 0) {
     foreach ($films as $f) {
@@ -181,6 +204,8 @@ if ($editId > 0) {
         }
     }
 }
+
+$oggi = date('Y-m-d');
 ?>
 
 <!DOCTYPE html>
@@ -190,6 +215,28 @@ if ($editId > 0) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin - Gestione Film</title>
     <link rel="stylesheet" href="../style/style.css?v=<?php echo time(); ?>">
+    <style>
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: .75rem 1rem;
+        }
+        .form-grid .full { grid-column: 1 / -1; }
+        .form-label {
+            display: flex;
+            flex-direction: column;
+            gap: .35rem;
+            font-size: .78rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: .08em;
+            color: var(--text-muted);
+        }
+        @media (max-width: 600px) {
+            .form-grid { grid-template-columns: 1fr; }
+            .form-grid .full { grid-column: 1; }
+        }
+    </style>
 </head>
 <body class="page-home">
 
@@ -218,25 +265,29 @@ if ($editId > 0) {
 
         <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:14px;">
             <a class="btn-acquista" href="./modifica.php?add=1" style="text-decoration:none; display:inline-flex; align-items:center; justify-content:center;">
-                Aggiungi film
+                + Aggiungi film
             </a>
-            <?php if ($addMode || $filmToEdit): ?>
+            <a class="btn-acquista" href="./modifica.php?add_spettacolo=1" style="text-decoration:none; display:inline-flex; align-items:center; justify-content:center;">
+                🎬 Aggiungi spettacolo
+            </a>
+            <?php if ($addMode || $addSpettMode || $filmToEdit): ?>
                 <a class="btn-acquista" href="./modifica.php" style="text-decoration:none; display:inline-flex; align-items:center; justify-content:center;">
-                    Torna alla lista
+                    ← Torna alla lista
                 </a>
             <?php endif; ?>
         </div>
-            <div class="search-bar-wrapper" style="margin-top: 14px;">
-                <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-                <input
-                    type="text"
-                    id="search-input"
-                    class="search-bar"
-                    placeholder="Cerca un film per titolo..."
-                    autocomplete="off"
-                >
-                <button class="search-clear" id="search-clear" title="Cancella ricerca" style="display:none;">✕</button>
-            </div>
+
+        <div class="search-bar-wrapper" style="margin-top: 14px;">
+            <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input
+                type="text"
+                id="search-input"
+                class="search-bar"
+                placeholder="Cerca un film per titolo..."
+                autocomplete="off"
+            >
+            <button class="search-clear" id="search-clear" title="Cancella ricerca" style="display:none;">✕</button>
+        </div>
     </div>
 
     <div class="page-layout">
@@ -267,6 +318,61 @@ if ($editId > 0) {
                 <?php if (($flash["type"] ?? "") === "error" && $flash["text"]): ?>
                     <div class="no-results" style="display:flex; margin: 0 0 16px 0;">
                         <p>⚠️ <?php echo htmlspecialchars($flash["text"]); ?></p>
+                    </div>
+                <?php endif; ?>
+
+                <?php if ($addSpettMode): ?>
+                    <div class="film-card" style="margin-bottom:16px;">
+                        <div class="film-info" style="width:100%">
+                            <h2>🎬 Aggiungi nuovo spettacolo</h2>
+                            <p style="font-size:.85rem; color:var(--text-muted); margin:.25rem 0 .75rem;">Associa un film a una sala con data e orario.</p>
+
+                            <form method="POST" class="admin-form">
+                                <input type="hidden" name="csrf" value="<?php echo htmlspecialchars($csrf, ENT_QUOTES); ?>">
+                                <input type="hidden" name="action" value="create_spettacolo">
+
+                                <div class="form-grid">
+                                    <label class="form-label full">
+                                        Film
+                                        <select class="search-bar" name="film" required>
+                                            <option value="">Seleziona film</option>
+                                            <?php foreach ($films as $f): ?>
+                                                <option value="<?php echo (int)$f['id_film']; ?>">
+                                                    <?php echo htmlspecialchars($f['titolo']); ?>
+                                                </option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                    </label>
+
+                                    <label class="form-label full">
+                                        Sala
+                                        <select class="search-bar" name="sala" required>
+                                            <option value="">Seleziona sala</option>
+                                            <?php foreach ($sale as $s): ?>
+                                                <option value="<?php echo (int)$s['id_sala']; ?>">
+                                                    <?php echo htmlspecialchars($s['nome']); ?> (<?php echo (int)$s['posti']; ?> posti)
+                                                </option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                    </label>
+
+                                    <label class="form-label">
+                                        Data spettacolo
+                                        <input class="search-bar" type="date" name="data_spettacolo" min="<?php echo $oggi; ?>" required>
+                                    </label>
+
+                                    <label class="form-label">
+                                        Ora inizio
+                                        <input class="search-bar" type="time" name="ora_inizio" required>
+                                    </label>
+                                </div>
+
+                                <div class="admin-form-actions" style="margin-top:1rem;">
+                                    <button class="btn-acquista" type="submit">Aggiungi spettacolo</button>
+                                    <a class="btn-acquista" href="./modifica.php" style="text-decoration:none; display:inline-flex; align-items:center; justify-content:center;">Annulla</a>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 <?php endif; ?>
 
@@ -452,7 +558,7 @@ if ($editId > 0) {
                 }
             });
 
-            noResults.style.display = visible === 0 ? 'flex' : 'none';
+            if (noResults) noResults.style.display = visible === 0 ? 'flex' : 'none';
 
             if (risultatiInfo) {
                 risultatiInfo.textContent = visible > 0
@@ -497,4 +603,3 @@ if ($editId > 0) {
     </script>
 </body>
 </html>
-
