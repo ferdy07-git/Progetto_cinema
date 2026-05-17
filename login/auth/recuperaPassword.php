@@ -3,8 +3,8 @@ session_start();
 require "../../database/connessione.php";
 require "../../utils/password.php";
 
-$pass = $_POST["pas1"];
-$conf = $_POST["pas2"];
+$pass = $_POST["pass"];
+$conf = $_POST["conferma_pass"];
 $mail = $_POST["email"];
 
 // 1. Controllo coincidenza password
@@ -13,30 +13,26 @@ if ($pass !== $conf) {
     exit();
 }
 
-// 2. Controllo se la mail esiste nel database
-// Nota: Ho corretto la query aggiungendo "FROM utente"
-$sql_check = "SELECT email FROM utente WHERE email = '$mail'";
-$result = $conn->query($sql_check);
+// 2. Controlla se la mail esiste e recupera i dati utente
+$result = $conn->query("SELECT * FROM utente WHERE email = '$mail'");
 
-if ($result->num_rows == 0) {
-    // La mail non esiste
+if ($result->num_rows === 0) {
     header("Location: recupera_password.html?errore=credenziali");
     exit();
-} 
-
-// 3. Se siamo qui, la mail esiste e le password coincidono: procediamo con l'UPDATE
-$password_criptata = encrypt($pass);
-$sql_update = "UPDATE utente SET password_hash = '$password_criptata' WHERE email = '$mail'";
-
-if ($conn->query($sql_update) === TRUE) {
-    // Recuperiamo il nome utente per la sessione (opzionale, ma utile)
-    $res_utente = $result->fetch_assoc();
-    
-    // Login automatico dopo il cambio password
-    $_SESSION["user"] = $mail; // O il nick se lo recuperi con una SELECT
-    $_SESSION["password"] = $password_criptata;
-    
-    header("Location: ../homepage.php");
-    exit();
 }
+
+$utente = $result->fetch_assoc();
+
+// 3. Aggiorna la password
+$password_criptata = encrypt($pass);
+$conn->query("UPDATE utente SET password_hash = '$password_criptata' WHERE email = '$mail'");
+
+// 4. Popola la sessione e vai in homepage
+$_SESSION["user"]     = $utente["email"];
+$_SESSION["nick"]     = $utente["nick"];
+$_SESSION["nome"]     = $utente["nome"];
+$_SESSION["password"] = $password_criptata;
+
+header("Location: ../../homepage.php");
+exit();
 ?>
