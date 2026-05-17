@@ -8,4 +8,17 @@ function check($user,$pass){
     $password = $conn->query($sql)->fetch_assoc()["password_hash"];
     return $password==$pass;
 }
+function credenziali(){
+    if(isset($_SESSION["user"]) && isset($_SESSION["password"])){
+    return [$_SESSION["user"],$_SESSION["password"]];
+    }
+    return [NULL,NULL];
+}
+function login(){
+    [$user,$pass] = credenziali();
+    if(is_null($user) || is_null($pass) || !(check($user,$pass))){
+        return true;
+    }
+    return false;
+}
 ?>
