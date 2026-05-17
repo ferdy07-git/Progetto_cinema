@@ -44,8 +44,10 @@ $biglietti = $result ? $result->fetch_all(MYSQLI_ASSOC) : [];
 <body class="page-home">
 
 <!-- ── TOPBAR ─────────────────────────────── -->
+ 
 <div class="hero-strip">
     <div class="hero-topbar">
+        
         <h1 class="hero-site-title">Itis "Luigi di Maggio"</h1>
 
         <div class="profile-menu">
@@ -76,7 +78,14 @@ $biglietti = $result ? $result->fetch_all(MYSQLI_ASSOC) : [];
                 <a href="./login/auth/logout.php" class="menu-link logout"><span>👋</span> Esci</a>
             </div>
         </div>
+        
     </div>
+    <a href="../../homepage.php" class="auth-back-home" title="Torna alla homepage">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9.5z"/>
+            <polyline points="9 22 9 12 15 12 15 22"/>
+        </svg>
+    </a>
 
     <h2 class="hero-title">I Miei <span>Biglietti</span></h2>
     <p><?php echo count($biglietti); ?> bigliett<?php echo count($biglietti) === 1 ? 'o acquistato' : 'i acquistati'; ?></p>
