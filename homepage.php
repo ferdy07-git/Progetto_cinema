@@ -1,7 +1,7 @@
 <?php
     session_start();
     include("./database/connessione.php");
-    // locandine film
+
     $query = "
     SELECT 
         film.id_film,
@@ -51,11 +51,24 @@
 
     sort($generi);
     sort($sale);
-    if(isset($_SESSION["user"])){
-    // Dati utente dalla sessione
-    $nome  = htmlspecialchars($_SESSION['user']  ?? 'Utente');
-    $email = htmlspecialchars($_SESSION['email'] ?? '');
-    $iniziali = strtoupper(substr($_SESSION['user'] ?? 'U', 0, 1));
+
+    $nome     = '';
+    $email    = '';
+    $iniziali = '';
+    $tipo     = null;
+
+    if (isset($_SESSION["user"])) {
+        // Recupera i dati freschi dal DB usando l'email in sessione
+        $session_email = $_SESSION["user"];
+        $res_utente = $conn->query("SELECT nome, email, tipo FROM utente WHERE email = '$session_email'");
+
+        if ($res_utente && $res_utente->num_rows > 0) {
+            $dati     = $res_utente->fetch_assoc();
+            $nome     = htmlspecialchars($dati['nome']);
+            $email    = htmlspecialchars($dati['email']);
+            $tipo     = $dati['tipo'];
+            $iniziali = strtoupper(substr($dati['nome'], 0, 1));
+        }
     }
 ?>
 
@@ -73,7 +86,6 @@
         <div class="hero-topbar">
             <h1 class="hero-site-title">Itis "Luigi di Maggio"</h1>
 
-            
             <?php if (!isset($_SESSION['user'])): ?>
                 <a class='btn-accedi' href='./login/auth/form_accesso.php'>
                     <svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='12' cy='8' r='5'/><path d='M3 21a9 9 0 0 1 18 0'/></svg>
@@ -90,23 +102,20 @@
                             <span class='email'><?php echo $email; ?></span>
                         </div>
 
-                        <?php 
-                            $sql = "SELECT tipo FROM utente WHERE nome = '$nome'";
-                            $res = $conn->query($sql)->fetch_assoc()["tipo"];
-                            switch($res){
-                                case 1:
-                                    print"<a href='./login/biglietti/biglietti_acquistati.php' class='menu-link'><span>🎫</span> Visualizza biglietti</a>
-                                          <a href='./login/auth/recupera_password.html' class='menu-link'><span>🔑</span> Modifica password</a>
-                                          <a href='./login/auth/elimina_account.php' class='menu-link'><span>❌</span> Elimina account</a>";
-                                break;
-                                case 2:
-                                    print "<a href='./login/venditore/venditore.php' class='menu-link'><span>🛠️</span> Pannello venditore</a>";
-                                    break;
-                                case 3:
-                                    print"<a href='./login/admin/modifica.php' class='menu-link'><span>🛠️</span> Pannello admin</a>";
-                                    break; 
-                            }
-                        ?>    
+                        <?php switch($tipo):
+                            case 1: ?>
+                                <a href='./login/biglietti/biglietti_acquistati.php' class='menu-link'><span>🎫</span> Visualizza biglietti</a>
+                                <a href='./login/auth/recupera_password.html' class='menu-link'><span>🔑</span> Modifica password</a>
+                                <a href='./login/auth/elimina_account.php' class='menu-link'><span>❌</span> Elimina account</a>
+                            <?php break;
+                            case 2: ?>
+                                <a href='./login/venditore/venditore.php' class='menu-link'><span>🛠️</span> Pannello venditore</a>
+                            <?php break;
+                            case 3: ?>
+                                <a href='./login/admin/modifica.php' class='menu-link'><span>🛠️</span> Pannello admin</a>
+                            <?php break;
+                        endswitch; ?>
+
                         <a href='./login/auth/logout.php' class='menu-link logout'><span>👋</span> Esci</a>
                     </div>
                 </div>
@@ -114,18 +123,13 @@
         </div>
         <h2 class="hero-title">Film in <span>programmazione</span></h2>
         <p>Scegli il tuo spettacolo e acquista il biglietto</p>
- 
+
         <div class="search-bar-wrapper">
             <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-            <input
-                type="text"
-                id="search-input"
-                class="search-bar"
-                placeholder="Cerca un film per titolo o trama..."
-                autocomplete="off"
-            >
+            <input type="text" id="search-input" class="search-bar" placeholder="Cerca un film per titolo o trama..." autocomplete="off">
             <button class="search-clear" id="search-clear" title="Cancella ricerca" style="display:none;">✕</button>
         </div>
+
         <div class="sala-filter">
             <span class="sala-filter__label">Filtra per sala</span>
             <div class="sala-filter__buttons">
@@ -137,13 +141,10 @@
                 <?php endforeach; ?>
             </div>
         </div>
-
     </div>
-
 
     <div class="page-layout">
 
-        <!-- SIDEBAR GENERI -->
         <aside class="sidebar-generi">
             <h3 class="sidebar-title">Generi</h3>
             <div class="genere-list-wrapper">
@@ -166,7 +167,6 @@
             </div>
         </aside>
 
-        <!-- MAIN CONTENT -->
         <main>
             <div class="container" id="film-container">
 
@@ -175,7 +175,6 @@
                     $genere_esc = htmlspecialchars($row['nome_genere'], ENT_QUOTES, 'UTF-8');
                     $sala_esc   = htmlspecialchars($row['nome_sala'] ?? '', ENT_QUOTES, 'UTF-8');
                 ?>
-
                     <div class="film-card"
                          data-titolo="<?php echo strtolower($titolo_esc); ?>"
                          data-trama="<?php echo strtolower(htmlspecialchars($row['trama'], ENT_QUOTES, 'UTF-8')); ?>"
@@ -189,13 +188,9 @@
                         >
 
                         <div class="film-info">
-
                             <h2><?php echo $titolo_esc; ?></h2>
-
                             <p class="genere"><?php echo htmlspecialchars($row['nome_genere']); ?></p>
-
                             <p class="trama"><?php echo htmlspecialchars($row['trama']); ?></p>
-
                             <p class="durata">Durata: <?php echo htmlspecialchars($row['durata']); ?></p>
 
                             <?php if ($row['id_spettacolo']): ?>
@@ -205,23 +200,18 @@
                                     <p>Ore <?php echo substr(htmlspecialchars($row['ora_inizio']),0,5); ?></p>
                                     <p><?php echo htmlspecialchars($row['nome_sala']); ?></p>
                                 </div>
-
-                                 <a class="btn-acquista" href="./login/biglietti/seleziona_film.php?id_spettacolo=<?php echo (int)$row['id_spettacolo']; ?>">
+                                <a class="btn-acquista" href="./login/biglietti/seleziona_film.php?id_spettacolo=<?php echo (int)$row['id_spettacolo']; ?>">
                                     Acquista Biglietto
                                 </a>
-
                             <?php else: ?>
                                 <div class="spettacolo-info">
                                     <h3>Nessuno spettacolo programmato</h3>
                                     <p>Torna presto per gli aggiornamenti</p>
                                 </div>
-
                                 <a class="btn-acquista" aria-disabled="true">Non disponibile</a>
                             <?php endif; ?>
-
                         </div>
                     </div>
-
                 <?php endforeach; ?>
 
             </div>
@@ -257,18 +247,9 @@
                 const genere = card.dataset.genere || '';
                 const sala = card.dataset.sala || '';
 
-                const matchSearch =
-                    !searchTerm ||
-                    titolo.includes(searchTerm) ||
-                    trama.includes(searchTerm);
-
-                const matchGenere =
-                    activeGenere === 'tutti' ||
-                    genere === activeGenere;
-
-                const matchSala =
-                    activeSala === 'tutte' ||
-                    sala === activeSala;
+                const matchSearch = !searchTerm || titolo.includes(searchTerm) || trama.includes(searchTerm);
+                const matchGenere = activeGenere === 'tutti' || genere === activeGenere;
+                const matchSala   = activeSala === 'tutte' || sala === activeSala;
 
                 if (matchSearch && matchGenere && matchSala) {
                     card.style.display = '';
