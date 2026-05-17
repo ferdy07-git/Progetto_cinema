@@ -201,7 +201,7 @@
                                 <div class="spettacolo-info">
                                     <h3>Spettacolo disponibile</h3>
                                     <p>Data: <?php echo htmlspecialchars($row['data_spettacolo']); ?></p>
-                                    <p>Ore <?php echo htmlspecialchars($row['ora_inizio']); ?></p>
+                                    <p>Ore <?php echo substr(htmlspecialchars($row['ora_inizio']),0,5); ?></p>
                                     <p><?php echo htmlspecialchars($row['nome_sala']); ?></p>
                                 </div>
 
