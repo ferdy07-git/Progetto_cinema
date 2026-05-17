@@ -44,7 +44,7 @@
     $qp = "SELECT posto FROM biglietto WHERE spettacolo = $id_spettacolo";
     $rp = $conn->query($qp);
     while ($p = $rp->fetch_assoc()) {
-        $posti_occupati[] = (int)$p['posto'];
+        $posti_occupati[] = $p['posto'];
     }
     $posti_occupati_js = json_encode($posti_occupati);
 ?>
@@ -100,7 +100,7 @@
                     <div class="spettacolo-info">
                         <h3>Spettacolo</h3>
                         <p><?php echo htmlspecialchars($row['data_spettacolo']); ?></p>
-                        <p><?php echo htmlspecialchars($row['ora_inizio']); ?></p>
+                        <p><?php echo substr(htmlspecialchars($row['ora_inizio']),0,5); ?></p>
                         <p><?php echo $sala_esc; ?> (<?php echo $totale_posti; ?> posti)</p>
                     </div>
                 <?php else: ?>
@@ -158,68 +158,99 @@
 const lettere = ['A','B','C','D','E','F','G','H','I','J',
                  'K','L','M','N','O','P','Q','R','S','T'];
 
-// Mappa: id_spettacolo => Set di numeri posto selezionati
+// id_spettacolo => Set di label posti
 const selezioni = {};
 
 document.querySelectorAll('.griglia-posti').forEach(griglia => {
+
     const idSpettacolo = griglia.dataset.spettacolo;
     const totale       = parseInt(griglia.dataset.totale);
     const colonne      = parseInt(griglia.dataset.colonne);
     const righe        = totale / colonne;
-    const occupati     = new Set(JSON.parse(griglia.dataset.occupati));
+
+    // posti occupati tipo ["A1","A2"]
+    const occupati = new Set(JSON.parse(griglia.dataset.occupati));
 
     selezioni[idSpettacolo] = new Set();
 
     for (let r = 0; r < righe; r++) {
+
         const rowDiv = document.createElement('div');
         rowDiv.className = 'row-label';
 
-        // Label lettera
-        const label = document.createElement('span');
-        label.className = 'row-letter';
-        label.textContent = lettere[r];
-        rowDiv.appendChild(label);
+        // lettera riga
+        const labelRiga = document.createElement('span');
+        labelRiga.className = 'row-letter';
+        labelRiga.textContent = lettere[r];
 
-        // Posti sinistra (primi 5)
+        rowDiv.appendChild(labelRiga);
+
+        // SINISTRA
         for (let c = 1; c <= colonne / 2; c++) {
-            const numPosto = r * colonne + c;
-            const btn = document.createElement('button');
-            btn.className = 'posto-btn';
-            btn.title = `${lettere[r]}${c}`;
-            btn.dataset.posto = numPosto;
-            btn.dataset.label = `${lettere[r]}${c}`;
 
-            if (occupati.has(numPosto)) {
+            const postoLabel = `${lettere[r]}${c}`;
+
+            const btn = document.createElement('button');
+
+            btn.className = 'posto-btn';
+            btn.type = 'button';
+
+            btn.title = postoLabel;
+
+            // IDENTIFICATORE UNICO
+            btn.dataset.posto = postoLabel;
+
+            if (occupati.has(postoLabel)) {
+
                 btn.classList.add('occupato');
                 btn.disabled = true;
+
             } else {
+
                 btn.classList.add('libero');
-                btn.addEventListener('click', () => togglePosto(btn, idSpettacolo));
+
+                btn.addEventListener('click', () => {
+                    togglePosto(btn, idSpettacolo);
+                });
             }
+
             rowDiv.appendChild(btn);
         }
 
-        // Corridoio centrale
+        // CORRIDOIO
         const corridoio = document.createElement('div');
         corridoio.className = 'corridoio';
+
         rowDiv.appendChild(corridoio);
 
-        // Posti destra (ultimi 5)
+        // DESTRA
         for (let c = colonne / 2 + 1; c <= colonne; c++) {
-            const numPosto = r * colonne + c;
-            const btn = document.createElement('button');
-            btn.className = 'posto-btn';
-            btn.title = `${lettere[r]}${c}`;
-            btn.dataset.posto = numPosto;
-            btn.dataset.label = `${lettere[r]}${c}`;
 
-            if (occupati.has(numPosto)) {
+            const postoLabel = `${lettere[r]}${c}`;
+
+            const btn = document.createElement('button');
+
+            btn.className = 'posto-btn';
+            btn.type = 'button';
+
+            btn.title = postoLabel;
+
+            btn.dataset.posto = postoLabel;
+
+            if (occupati.has(postoLabel)) {
+
                 btn.classList.add('occupato');
                 btn.disabled = true;
+
             } else {
+
                 btn.classList.add('libero');
-                btn.addEventListener('click', () => togglePosto(btn, idSpettacolo));
+
+                btn.addEventListener('click', () => {
+                    togglePosto(btn, idSpettacolo);
+                });
             }
+
             rowDiv.appendChild(btn);
         }
 
@@ -228,94 +259,125 @@ document.querySelectorAll('.griglia-posti').forEach(griglia => {
 });
 
 function togglePosto(btn, idSpettacolo) {
-    const numPosto = parseInt(btn.dataset.posto);
+
+    const posto = btn.dataset.posto;
+
     const sel = selezioni[idSpettacolo];
 
     if (btn.classList.contains('selezionato')) {
+
         btn.classList.replace('selezionato', 'libero');
-        sel.delete(numPosto);
+
+        sel.delete(posto);
+
     } else {
+
         btn.classList.replace('libero', 'selezionato');
-        sel.add(numPosto);
+
+        sel.add(posto);
     }
+
     aggiornaRiepilogo(idSpettacolo);
 }
 
 function aggiornaRiepilogo(idSpettacolo) {
-    const sel         = selezioni[idSpettacolo];
-    const riepilogo   = document.getElementById(`riepilogo-${idSpettacolo}`);
-    const btnConferma = document.getElementById(`btn-${idSpettacolo}`);
-    const colonne     = parseInt(
-        document.getElementById(`griglia-${idSpettacolo}`).dataset.colonne
+
+    const sel = selezioni[idSpettacolo];
+
+    const riepilogo = document.getElementById(
+        `riepilogo-${idSpettacolo}`
+    );
+
+    const btnConferma = document.getElementById(
+        `btn-${idSpettacolo}`
     );
 
     if (sel.size === 0) {
+
         riepilogo.innerHTML = 'Nessun posto selezionato';
+
         btnConferma.disabled = true;
+
         return;
     }
 
-    const etichette = [...sel].sort((a, b) => a - b).map(n => {
-        const r = Math.floor((n - 1) / colonne);
-        const c = ((n - 1) % colonne) + 1;
-        return `${lettere[r]}${c}`;
-    });
+    const etichette = [...sel].sort();
 
     riepilogo.innerHTML =
         `Selezionati: <strong>${etichette.join(', ')}</strong>` +
         ` &mdash; Totale: <strong>${sel.size} posto/i</strong>`;
+
     btnConferma.disabled = false;
 }
 
 function conferma(idSpettacolo) {
+
     const sel = selezioni[idSpettacolo];
+
     if (sel.size === 0) return;
 
     const form = document.createElement('form');
+
     form.method = 'POST';
+
     form.action = 'conferma_acquisto.php';
 
     const inputSpettacolo = document.createElement('input');
+
     inputSpettacolo.type  = 'hidden';
     inputSpettacolo.name  = 'id_spettacolo';
     inputSpettacolo.value = idSpettacolo;
+
     form.appendChild(inputSpettacolo);
 
-    // ✅ Manda sia il numero (per il DB) che l'etichetta (per la visualizzazione)
-    [...sel].forEach(numPosto => {
-        const btn = document.querySelector(`[data-posto="${numPosto}"]`);
-        const label = btn ? btn.dataset.label : numPosto;
+    // INVIA SOLO LE LABEL
+    [...sel].forEach(label => {
 
-        const inpNumero = document.createElement('input');
-        inpNumero.type  = 'hidden';
-        inpNumero.name  = 'posti_num[]';
-        inpNumero.value = numPosto;
-        form.appendChild(inpNumero);
+        const input = document.createElement('input');
 
-        const inpLabel = document.createElement('input');
-        inpLabel.type  = 'hidden';
-        inpLabel.name  = 'posti_label[]';
-        inpLabel.value = label;
-        form.appendChild(inpLabel);
+        input.type  = 'hidden';
+        input.name  = 'posti[]';
+        input.value = label;
+
+        form.appendChild(input);
     });
 
-    sessionStorage.setItem('posti_selezionati_' + idSpettacolo, JSON.stringify([...sel]));
+    // salva sessionStorage
+    sessionStorage.setItem(
+        'posti_selezionati_' + idSpettacolo,
+        JSON.stringify([...sel])
+    );
 
     document.body.appendChild(form);
+
     form.submit();
 }
+
+// RIPRISTINO
 document.querySelectorAll('.griglia-posti').forEach(griglia => {
+
     const idSpettacolo = griglia.dataset.spettacolo;
-    const salvati = sessionStorage.getItem('posti_selezionati_' + idSpettacolo);
+
+    const salvati = sessionStorage.getItem(
+        'posti_selezionati_' + idSpettacolo
+    );
+
     if (!salvati) return;
 
-    JSON.parse(salvati).forEach(numPosto => {
-        const btn = griglia.querySelector(`[data-posto="${numPosto}"]`);
+    JSON.parse(salvati).forEach(label => {
+
+        const btn = griglia.querySelector(
+            `[data-posto="${label}"]`
+        );
+
         if (btn && btn.classList.contains('libero')) {
+
             btn.classList.replace('libero', 'selezionato');
-            selezioni[idSpettacolo].add(numPosto);
+
+            selezioni[idSpettacolo].add(label);
         }
     });
+
     aggiornaRiepilogo(idSpettacolo);
 });
 </script>
