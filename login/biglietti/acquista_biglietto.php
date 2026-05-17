@@ -63,8 +63,9 @@
 <main>
 
 <?php
-    $nome = $_SESSION['user']['nome'] ?? '';
-    $email = $_SESSION['user']['email'] ?? '';
+    $nome  = htmlspecialchars($_SESSION['user']  ?? 'Utente');
+    $email = htmlspecialchars($_SESSION['email'] ?? '');
+    $iniziali = strtoupper(substr($_SESSION['user'] ?? 'U', 0, 1));
 
     $iniziali = "";
     if (!empty($nome)) {
