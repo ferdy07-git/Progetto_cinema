@@ -70,7 +70,7 @@ body.page-home {
 
 .hero-title {
     font-family: var(--font-display);
-    font-size: 50px;
+    font-size: 38px;
     font-weight: 900;
     letter-spacing: 0.02em;
     color: var(--text);
@@ -133,7 +133,7 @@ body.page-home {
     text-align: center;
     position: relative;
 
-    padding: 0 0 1.25rem;
+    padding: 0 0 0.75rem;
 
     background: var(--bg);
 
