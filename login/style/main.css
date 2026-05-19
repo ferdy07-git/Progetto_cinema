@@ -1,9 +1,10 @@
-/* Entry point unico */
+@import url("./base.css");
 
-@import url("./style.css");
+@import url("./navbar.css");
+@import url("./homepage.css");
 
-/*
-Quando sposti definitivamente una sezione da style.css
-aggiungi qui il nuovo file e rimuovi il codice originale
-da style.css, altrimenti ci saranno override/incongruenze.
-*/
+@import url("./auth.css");
+@import url("./acquista.css");
+@import url("./conferma.css");
+@import url("./biglietti.css"); 
+@import url("./admin.css");    
