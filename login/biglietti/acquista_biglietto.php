@@ -2,9 +2,7 @@
     session_start();
     include("../../database/connessione.php");
     include("../../utils/password.php");
-    if(!isset($_SESSION["user"])){
-        header("Location:../auth/form_accesso.php");
-    }
+    login();
     // Recupera dati film + spettacolo
     $id_spettacolo = (int)$_SESSION['id_spettacolo'];
 
@@ -55,8 +53,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Acquista biglietto</title>
-    <link rel="stylesheet" href="../style/style.css">
-    <link rel="stylesheet" href="../style/style_acquista.css">
+    <link rel="stylesheet" href="../style/main.css?v=<?php echo time(); ?>">
 </head>
 <body>
 
