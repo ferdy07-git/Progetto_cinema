@@ -2,6 +2,8 @@
     session_start();
     include("./database/connessione.php");
 
+    $oggi = date('Y-m-d');
+
     $query = "
     SELECT 
         film.id_film,
@@ -21,7 +23,7 @@
         ON film.id_film = spettacolo.film
     LEFT JOIN sala 
         ON spettacolo.sala = sala.id_sala
-    ORDER BY film.titolo
+    ORDER BY spettacolo.data_spettacolo DESC, spettacolo.ora_inizio DESC, film.titolo ASC
     ";
 
     $result = $conn->query($query);
@@ -186,22 +188,49 @@
                             <p class="trama"><?php echo htmlspecialchars($row['trama']); ?></p>
                             <p class="durata">Durata: <?php echo htmlspecialchars($row['durata']); ?></p>
 
-                            <?php if ($row['id_spettacolo']): ?>
-                                <div class="spettacolo-info">
-                                    <h3>Spettacolo disponibile</h3>
-                                    <p>Data: <?php echo htmlspecialchars($row['data_spettacolo']); ?></p>
-                                    <p>Ore <?php echo substr(htmlspecialchars($row['ora_inizio']),0,5); ?></p>
-                                    <p><?php echo htmlspecialchars($row['nome_sala']); ?></p>
-                                </div>
-                                <a class="btn-acquista" href="./login/biglietti/seleziona_film.php?id_spettacolo=<?php echo (int)$row['id_spettacolo']; ?>">
-                                    Acquista Biglietto
-                                </a>
+                            <?php if ($row['id_spettacolo']): 
+                                $data = $row['data_spettacolo'];
+                                $passato = $data < $oggi;
+                                $futuro  = $data > $oggi;
+                                $oggi_stesso = $data === $oggi;
+                            ?>
+                                <?php if ($passato): ?>
+                                    <div class="spettacolo-info spettacolo-info--past">
+                                        <h3>Già proiettato</h3>
+                                        <p>Data: <?php echo htmlspecialchars($data); ?></p>
+                                        <p>Ore <?php echo substr(htmlspecialchars($row['ora_inizio']),0,5); ?></p>
+                                        <p><?php echo htmlspecialchars($row['nome_sala']); ?></p>
+                                    </div>
+                                    <a class="btn-acquista btn-acquista--disabled" aria-disabled="true">Non disponibile</a>
+
+                                <?php elseif ($oggi_stesso): ?>
+                                    <div class="spettacolo-info spettacolo-info--today">
+                                        <h3>Oggi in sala!</h3>
+                                        <p>Ore <?php echo substr(htmlspecialchars($row['ora_inizio']),0,5); ?></p>
+                                        <p><?php echo htmlspecialchars($row['nome_sala']); ?></p>
+                                    </div>
+                                    <a class="btn-acquista" href="./login/biglietti/seleziona_film.php?id_spettacolo=<?php echo (int)$row['id_spettacolo']; ?>">
+                                        Acquista Biglietto
+                                    </a>
+
+                                <?php else: ?>
+                                    <div class="spettacolo-info">
+                                        <h3>Spettacolo disponibile</h3>
+                                        <p>Data: <?php echo htmlspecialchars($data); ?></p>
+                                        <p>Ore <?php echo substr(htmlspecialchars($row['ora_inizio']),0,5); ?></p>
+                                        <p><?php echo htmlspecialchars($row['nome_sala']); ?></p>
+                                    </div>
+                                    <a class="btn-acquista" href="./login/biglietti/seleziona_film.php?id_spettacolo=<?php echo (int)$row['id_spettacolo']; ?>">
+                                        Acquista Biglietto
+                                    </a>
+                                <?php endif; ?>
+
                             <?php else: ?>
-                                <div class="spettacolo-info">
-                                    <h3>Nessuno spettacolo programmato</h3>
+                                <div class="spettacolo-info spettacolo-info--soon">
+                                    <h3>Prossimamente disponibile</h3>
                                     <p>Torna presto per gli aggiornamenti</p>
                                 </div>
-                                <a class="btn-acquista" aria-disabled="true">Non disponibile</a>
+                                <a class="btn-acquista btn-acquista--disabled" aria-disabled="true">Non disponibile</a>
                             <?php endif; ?>
                         </div>
                     </div>
