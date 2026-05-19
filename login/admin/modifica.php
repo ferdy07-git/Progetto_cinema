@@ -215,28 +215,6 @@ $oggi = date('Y-m-d');
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin - Gestione Film</title>
     <link rel="stylesheet" href="../style/main.css?v=<?php echo time(); ?>">
-    <style>
-        .form-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: .75rem 1rem;
-        }
-        .form-grid .full { grid-column: 1 / -1; }
-        .form-label {
-            display: flex;
-            flex-direction: column;
-            gap: .35rem;
-            font-size: .78rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: .08em;
-            color: var(--text-muted);
-        }
-        @media (max-width: 600px) {
-            .form-grid { grid-template-columns: 1fr; }
-            .form-grid .full { grid-column: 1; }
-        }
-    </style>
 </head>
 <body class="page-home">
 
