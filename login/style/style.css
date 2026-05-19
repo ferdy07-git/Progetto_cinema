@@ -1437,3 +1437,28 @@ main {
             .spett-actions { flex-direction: row; flex-wrap: wrap; }
             .spett-actions .btn-acquista { width: auto; }
         }
+.spettacolo-info--soon {
+    border-color: rgba(255,255,255,0.05);
+    background: rgba(255,255,255,0.02);
+}
+
+.spettacolo-info--soon h3 {
+    color: var(--text-muted);
+}
+
+.spettacolo-info--soon h3::before {
+    content: '🕐';
+}
+
+.btn-acquista--disabled {
+    background: var(--surface-2);
+    color: var(--text-dim);
+    border: 1px solid var(--border);
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.btn-acquista--disabled:hover {
+    background: var(--surface-2);
+    transform: none;
+}
