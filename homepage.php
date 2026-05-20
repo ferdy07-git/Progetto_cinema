@@ -177,9 +177,9 @@
                          data-sala="<?php echo $sala_esc; ?>">
 
                         <img
-                            src="img/<?php echo htmlspecialchars($row['locandina'] ?? 'default-film.webp'); ?>"
+                            src="./img/<?php echo htmlspecialchars($row['locandina'] ?? 'default-film.webp'); ?>"
                             alt="Locandina <?php echo $titolo_esc; ?>"
-                            onerror="this.src='img/default-film.webp'"
+                            onerror="this.onerror=null; this.src='img/default-film.webp'"
                         >
 
                         <div class="film-info">
