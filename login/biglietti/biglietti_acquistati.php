@@ -82,12 +82,14 @@ $biglietti = $result ? $result->fetch_all(MYSQLI_ASSOC) : [];
 
         <?php if (empty($biglietti)): ?>
         <div class="ticket-empty">
-            <div class="icon">🎟</div>
-            <p>Nessun biglietto acquistato</p>
-            <span>Esplora i film disponibili e acquista il tuo primo biglietto!</span>
+            <center> 
+            <div class="icon" >🎟</div>
+            <br>
+            <p>Nessun biglietto acquistato.</p><br>
+            <span>Esplora i film disponibili e acquista il tuo primo biglietto!</span><br>
             <a href="../../homepage.php" class="btn-acquista" style="margin-top:1.5rem; display:inline-block; text-decoration:none; width:fit-content;">
                 Sfoglia i film
-            </a>
+            </a></center>
         </div>
 
         <?php else: ?>
