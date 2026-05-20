@@ -1,5 +1,5 @@
 <?php
-$conn = new mysqli("localhost", "root", "", "");
+$conn = new mysqli("db", "root", "", "");
 $sql = "CREATE DATABASE IF NOT EXISTS cinema";
 $conn->query($sql);
 $sql = "USE cinema";
