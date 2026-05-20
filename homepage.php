@@ -96,22 +96,25 @@
                             <span class='name'><?php echo $nome; ?></span>
                             <span class='email'><?php echo $email; ?></span>
                         </div>
+                <?php switch($tipo):
+                    case 1: ?>
+                        <a href='./login/biglietti/biglietti_acquistati.php' class='menu-link'><span>🎫</span> Visualizza biglietti</a>
+                        <a href='./login/auth/recupera_password.html' class='menu-link'><span>🔑</span> Modifica password</a>
+                        <a href='https://wa.me/393515793820' class='menu-link menu-link--whatsapp' target='_blank' rel='noopener'>
+                            <span>💬</span> Contatta su WhatsApp
+                        </a>
+                        <a href='./login/auth/elimina_account.php' class='menu-link'><span>❌</span> Elimina account</a>
+                    <?php break;
+                    case 2: ?>
+                        <a href='./login/venditore/venditore.php' class='menu-link'><span>🛠️</span> Pannello venditore</a>
+                    <?php break;
+                    case 3: ?>
+                        <a href='./login/admin/modifica.php' class='menu-link'><span>🛠️</span> Pannello admin</a>
+                    <?php break;
+                endswitch; ?>
 
-                        <?php switch($tipo):
-                            case 1: ?>
-                                <a href='./login/biglietti/biglietti_acquistati.php' class='menu-link'><span>🎫</span> Visualizza biglietti</a>
-                                <a href='./login/auth/recupera_password.html' class='menu-link'><span>🔑</span> Modifica password</a>
-                                <a href='./login/auth/elimina_account.php' class='menu-link'><span>❌</span> Elimina account</a>
-                            <?php break;
-                            case 2: ?>
-                                <a href='./login/venditore/venditore.php' class='menu-link'><span>🛠️</span> Pannello venditore</a>
-                            <?php break;
-                            case 3: ?>
-                                <a href='./login/admin/modifica.php' class='menu-link'><span>🛠️</span> Pannello admin</a>
-                            <?php break;
-                        endswitch; ?>
-
-                        <a href='./login/auth/logout.php' class='menu-link logout'><span>👋</span> Esci</a>
+                <a href='./login/auth/logout.php' class='menu-link logout'><span>👋</span> Esci</a>
+ 
                     </div>
                 </div>
             <?php endif; ?>
