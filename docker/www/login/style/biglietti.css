@@ -1,0 +1,47 @@
+/* ══════════════════════════════════════════════
+   BIGLIETTI — Storico acquisti utente
+   Usato da: biglietti_acquistati.php
+   ══════════════════════════════════════════════ */
+
+.tickets-container {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+.ticket-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.ticket-meta h3 {
+    font-family: var(--font-display);
+    color: var(--gold);
+    margin-bottom: 0.5rem;
+}
+
+.ticket-dl-btn {
+    background: var(--gold);
+    color: var(--bg);
+    padding: 0.6rem 1.2rem;
+    border-radius: var(--radius-sm);
+    text-decoration: none;
+    font-weight: 600;
+    transition: background 0.2s;
+}
+
+.ticket-dl-btn:hover {
+    background: var(--gold-light);
+}
+
+.ticket-empty {
+    text-align: center;
+    color: var(--text-muted);
+    padding: 4rem 2rem;
+}

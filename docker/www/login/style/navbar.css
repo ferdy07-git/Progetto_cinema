@@ -1,0 +1,255 @@
+/* ══════════════════════════════════════════════
+   NAVBAR — hero-strip, topbar, profile menu
+   Usato da: acquista_biglietto.php, biglietti_acquistati.php,
+             modifica.php, venditore.php
+══════════════════════════════════════════════ */
+
+/* ── HERO STRIP (barra sticky in cima) ─────── */
+.hero-strip {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 0 0 0.75rem;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.hero-strip > p {
+    color: var(--text-muted);
+    font-size: 9px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin: 0.75rem 0 1.25rem;
+}
+
+/* ── HERO TOPBAR ────────────────────────────── */
+.hero-topbar {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 2.5rem;
+    width: 100%;
+    border-bottom: 1px solid var(--border);
+}
+
+.hero-topbar .btn-accedi,
+.hero-topbar .profile-menu {
+    justify-self: end;
+}
+
+.hero-title {
+    font-family: var(--font-display);
+    font-size: 36px;
+    font-weight: 900;
+    letter-spacing: 0.02em;
+    color: var(--text);
+    text-align: center;
+    white-space: nowrap;
+    justify-self: center;
+}
+
+.hero-title span { color: var(--gold); }
+
+.hero-site-title {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 900;
+    letter-spacing: 0.02em;
+    color: white;
+    position: absolute;
+    top: 1rem;
+    left: 2.5rem;
+}
+
+/* ── ACCEDI BUTTON ──────────────────────────── */
+.btn-accedi {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    text-decoration: none;
+    font-family: var(--font-body);
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--gold);
+    background: var(--gold-dim);
+    border: 1px solid rgba(201,168,76,0.3);
+    padding: 0.55rem 1.1rem;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s, transform 0.2s, color 0.2s;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.btn-accedi:hover {
+    background: var(--gold);
+    color: var(--bg);
+    border-color: var(--gold);
+    transform: translateY(-1px);
+}
+
+.btn-accedi svg {
+    flex-shrink: 0;
+}
+
+/* ── PROFILE MENU ───────────────────────────── */
+.profile-menu {
+    position: relative;
+    user-select: none;
+    flex-shrink: 0;
+}
+
+.avatar-btn {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: var(--gold-dim);
+    color: var(--gold);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-body);
+    font-size: 0.8rem;
+    font-weight: 700;
+    cursor: pointer;
+    border: 2px solid rgba(201,168,76,0.4);
+    letter-spacing: 0.05em;
+    transition: background 0.2s, border-color 0.2s, transform 0.2s;
+}
+
+.avatar-btn:hover {
+    background: var(--gold);
+    color: var(--bg);
+    border-color: var(--gold);
+    transform: translateY(-1px);
+}
+
+#toggle-menu {
+    display: none;
+}
+
+.dropdown {
+    position: absolute;
+    top: calc(100% + 14px);
+    right: 0;
+    width: 240px;
+    background: var(--surface);
+    border: 1px solid var(--border-hover);
+    border-radius: var(--radius);
+    box-shadow: 0 16px 40px rgba(0,0,0,0.5);
+    padding: 8px 0;
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: opacity 0.25s ease, transform 0.25s cubic-bezier(0.68,-0.55,0.265,1.55), visibility 0.25s;
+    z-index: 999;
+}
+
+#toggle-menu:checked ~ .dropdown {
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.dropdown::before {
+    content: '';
+    position: absolute;
+    top: -8px;
+    right: 14px;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-bottom: 8px solid var(--border-hover);
+}
+
+.dropdown::after {
+    content: '';
+    position: absolute;
+    top: -7px;
+    right: 15px;
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+    border-bottom: 7px solid var(--surface);
+}
+
+.user-info {
+    padding: 12px 18px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 4px;
+}
+
+.user-info .name {
+    display: block;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--text);
+}
+
+.user-info .email {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin-top: 2px;
+}
+
+.menu-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 18px;
+    text-decoration: none;
+    color: var(--text-muted);
+    font-family: var(--font-body);
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: background 0.15s, color 0.15s, padding-left 0.15s;
+}
+
+.menu-link:hover {
+    background: var(--surface-2);
+    color: var(--text);
+    padding-left: 22px;
+}
+
+.menu-link.logout {
+    color: #e05c5c;
+    border-top: 1px solid var(--border);
+    margin-top: 4px;
+}
+
+.menu-link.logout:hover {
+    background: rgba(224,92,92,0.08);
+    color: #f07070;
+}
+
+/* ── BACK HOME BUTTON ───────────────────────── */
+.auth-back-home {
+    position: fixed;
+    top: 6.25rem;
+    left: 1.25rem;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: background 0.2s, color 0.2s, border-color 0.2s, transform 0.2s;
+    z-index: 200;
+}
+
+.auth-back-home:hover {
+    background: var(--gold-dim);
+    color: var(--gold);
+    border-color: rgba(201,168,76,0.3);
+    transform: translateY(-1px);
+}
