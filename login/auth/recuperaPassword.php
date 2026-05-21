@@ -27,12 +27,6 @@ $utente = $result->fetch_assoc();
 $password_criptata = encrypt($pass);
 $conn->query("UPDATE utente SET password_hash = '$password_criptata' WHERE email = '$mail'");
 
-// 4. Popola la sessione e vai in homepage
-$_SESSION["user"]     = $utente["email"];
-$_SESSION["nick"]     = $utente["nick"];
-$_SESSION["nome"]     = $utente["nome"];
-$_SESSION["password"] = $password_criptata;
-
-header("Location: ../../homepage.php");
+header("Location: ./form_accesso.php");
 exit();
 ?>
