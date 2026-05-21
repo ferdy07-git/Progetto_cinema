@@ -52,6 +52,10 @@ session_start();
                 <div class="req-item" id="r-special">
                     <i class="ti ti-circle-dashed"></i> Almeno un carattere speciale (!@#…)
                 </div>
+                <div class="req-item" id="r-number">
+                    <i class="ti ti-circle-dashed"></i> Almeno un numero (0-9)
+                </div>
+                
                 <div class="strength-bar"><div class="strength-fill" id="s-fill"></div></div>
                 <div class="strength-label" id="s-label"></div>
             </div>
@@ -69,7 +73,7 @@ session_start();
         </div>
          
         <div class="auth-actions">
-            <input type="submit" value="Invia link di recupero" >
+            <input type="submit" value="Modifica" >
             <a href="form_accesso.php">Torna ad Accedi</a>
             <a href="reg.php">Non hai un account? Registrati</a>
         </div>
@@ -92,6 +96,7 @@ session_start();
         { id: 'r-len',     test: v => v.length >= 8,   },
         { id: 'r-upper',   test: v => /[A-Z]/.test(v), },
         { id: 'r-special', test: v => /[\W_]/.test(v), },
+        { id: 'r-number', test: v=> /[0-9]/.test(v), }
     ];
 
     passInput.addEventListener('input', () => {
