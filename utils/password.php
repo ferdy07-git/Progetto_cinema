@@ -4,9 +4,12 @@ function encrypt($pass){
 }
 function check($user,$pass){
     require __DIR__."/../database/connessione.php";
+    if($user !=NULL){
     $sql = "SELECT password_hash FROM utente WHERE nome = '$user'";
     $password = $conn->query($sql)->fetch_assoc()["password_hash"];
     return $password==$pass;
+    }
+    return false;
 }
 function credenziali(){
     if(isset($_SESSION["user"]) && isset($_SESSION["password"])){
