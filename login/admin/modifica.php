@@ -2,7 +2,7 @@
 session_start();
 require "../../database/connessione.php";
 require "../../utils/password.php";
-check_log(2);
+check_log(3);
 if (!isset($_SESSION["csrf_admin"])) {
     $_SESSION["csrf_admin"] = bin2hex(random_bytes(16));
 }
