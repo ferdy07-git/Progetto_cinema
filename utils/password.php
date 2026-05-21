@@ -21,4 +21,17 @@ function login(){
         header("Location:$path");
     }
 }
+function check_log($type){
+    login();
+    [$user,$pass] = credenziali();
+    require __DIR__."/../database/connessione.php";
+    $sql = "SELECT tipo FROM utente WHERE nome = '$user'";
+    $tipo = $conn->query($sql)->fetch_assoc()["tipo"];
+    if($tipo != $type){
+        $path = substr(__DIR__,strpos(__DIR__,"htdocs")+6)."/../login/auth/form_accesso.php";
+        if(is_null($user) || is_null($pass) || !(check($user,$pass))){
+        header("Location:$path");
+        }
+    }
+}
 ?>
