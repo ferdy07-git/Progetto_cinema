@@ -55,7 +55,7 @@ $biglietti = $result ? $result->fetch_all(MYSQLI_ASSOC) : [];
                     <span class="name"><?php echo $nome; ?></span>
                     <span class="email"><?php echo $email; ?></span>
                 </div>
-                <a href='../auth/recupera_password.html' class='menu-link'><span>🔑</span> Modifica password</a>
+                <a href='../auth/rec_password.php' class='menu-link'><span>🔑</span> Modifica password</a>
                 <a href='../auth/elimina_account.php' class='menu-link'><span>❌</span> Elimina account</a>
                 <a href="../auth/logout.php" class="menu-link logout"><span>👋</span> Esci</a>
             </div>
