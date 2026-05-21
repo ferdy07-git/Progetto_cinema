@@ -1125,9 +1125,9 @@ main {
 
 /* ── Back home button (nel hero, fuori da .auth-page) ── */
 .hero-strip .auth-back-home {
-    position: absolute;
-    top: 1rem;
-    left: 1.25rem;
+    align-self: flex-start;
+    margin-left: 2.5rem;
+    margin-top: 0.75rem;
     width: 38px;
     height: 38px;
     display: flex;
