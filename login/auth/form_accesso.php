@@ -1,3 +1,11 @@
+<?php
+session_start();
+require "../../utils/password.php";
+[$user,$pass] = credenziali();
+if(check($user,$pass)){
+    header("Location:../../homepage.php");
+}
+?>
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -42,14 +50,14 @@
         </div>
         
       <?php
-            session_start();
-            if(isset($_SESSION["check"])&& $_SESSION["check"])
+            if(isset($_SESSION["check"])&& $_SESSION["check"]){
                 print"<center><label style='color: red'>Accesso non riuscito</label></center>";
             session_destroy();
+            }
             ?>
         <div class="auth-actions">
             <input type="submit" value="Accedi">
-            <a href="recupera_password.html">Ho dimenticato la password</a>
+            <a href="rec_password.php">Ho dimenticato la password</a>
             <a href="reg.php">Crea un account</a>
         </div>
     </form>
