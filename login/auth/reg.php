@@ -1,3 +1,10 @@
+<?php
+session_start();
+require "../../utils/password.php";
+[$user,$pass] = credenziali();
+if(check($user,$pass)){
+    header("Location:../../homepage.php");
+}?>
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -72,10 +79,9 @@
             <div class="match-msg" id="match-msg"></div>
         </div>
             <?php
-            session_start();
-            if(isset($_SESSION["check"])&& $_SESSION["check"])
+            if(isset($_SESSION["check"])&& $_SESSION["check"]){
                 print"<center><label style='color: red'>Registrazione non riuscita</label></center>";
-            session_destroy();
+            session_destroy();}
             ?>
         <div class="auth-actions">
             <input type="submit" value="Crea account">
