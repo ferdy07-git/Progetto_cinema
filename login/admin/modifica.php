@@ -1,12 +1,8 @@
 <?php
 session_start();
 require "../../database/connessione.php";
-
-if (!isset($_SESSION["user"]) || ($_SESSION["tipo"] ?? 0) !== 3) {
-    header("Location: ../../homepage.php");
-    exit;
-}
-
+require "../../utils/password.php";
+check_log(2);
 if (!isset($_SESSION["csrf_admin"])) {
     $_SESSION["csrf_admin"] = bin2hex(random_bytes(16));
 }
