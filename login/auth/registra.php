@@ -1,12 +1,12 @@
 <?php
 session_start();
-if(isset($_SESSION["user"])){
-    header("Location:homepage.php");
+require "../../utils/password.php";
+[$user,$pass] = credenziali();
+if(check($user,$pass)){
+    header("Location:../../homepage.php");
     exit(); 
 }
-
 require "../../database/connessione.php";
-require "../../utils/password.php";
 
 $nome = $_POST["nick"];
 $pass = $_POST["pass"];
