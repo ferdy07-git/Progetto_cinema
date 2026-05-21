@@ -21,7 +21,7 @@ session_start();
     </a>
 
     <a class="auth-brand" href="../../homepage.php">
-        Cinema Itis "Luigi di Maggio 
+        Cinema Itis "Luigi di Maggio"
         <span>Il tuo cinema</span>
     </a>
 
