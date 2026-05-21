@@ -1,11 +1,8 @@
 <?php
 session_start();
 include("../../database/connessione.php");
-
-if (!isset($_SESSION['user'])) {
-    header("Location: ./login/auth/form_accesso.php");
-    exit;
-}
+include("../../utils/password.php");
+login();
 
 $nome     = htmlspecialchars($_SESSION['user']  ?? 'Utente');
 $email    = htmlspecialchars($_SESSION['email'] ?? '');
