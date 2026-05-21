@@ -14,11 +14,6 @@ $conf = $_POST["conferma_pass"];
 $mail = $_POST["email"];
 
 
-if($pass !== $conf){
-    $_SESSION["check"] = TRUE;
-    header("Location:reg.php");
-    exit();
-}
 
 if (!(
     strlen($pass) >= 8 &&
