@@ -100,7 +100,7 @@
                 <?php switch($tipo):
                     case 1: ?>
                         <a href='./login/biglietti/biglietti_acquistati.php' class='menu-link'><span>🎫</span> Visualizza biglietti</a>
-                        <a href='./login/auth/recupera_password.html' class='menu-link'><span>🔑</span> Modifica password</a>
+                        <a href='./login/auth/rec_password.php' class='menu-link'><span>🔑</span> Modifica password</a>
                         <a href='https://wa.me/393515793820' class='menu-link menu-link--whatsapp' target='_blank' rel='noopener'>
                             <span>💬</span> Contatta su WhatsApp
                         </a>
