@@ -23,7 +23,8 @@
         ON film.id_film = spettacolo.film
     LEFT JOIN sala 
         ON spettacolo.sala = sala.id_sala
-    ORDER BY spettacolo.data_spettacolo DESC, spettacolo.ora_inizio DESC, film.titolo ASC
+    WHERE spettacolo.data_spettacolo >='$oggi'
+    ORDER BY spettacolo.data_spettacolo , spettacolo.ora_inizio , film.titolo ASC
     ";
 
     $result = $conn->query($query);
