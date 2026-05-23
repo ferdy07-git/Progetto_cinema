@@ -155,7 +155,7 @@ $oggi = date('Y-m-d');
                 </div>
                 <div class="stat-card">
                     <span class="stat-label">Incassi totali</span>
-                    <span class="stat-value"><?php echo $totIncassi; ?></span>
+                    <span class="stat-value"><?php echo $totIncassi; ?> €</span>
                     <span class="stat-sub">su tutti gli spettacoli</span>
                 </div>
                 <div class="stat-card">
@@ -199,6 +199,17 @@ $oggi = date('Y-m-d');
                                 <span class="spett-badge badge-muted">📅 <?php echo $dataFmt; ?></span>
                                 <span class="spett-badge badge-muted">🕐 <?php echo substr($sp['ora_inizio'],0,5); ?></span>
                                 <span class="spett-badge badge-muted">⏱ <?php echo htmlspecialchars($sp['durata']); ?></span>
+                                <span class="spett-badge badge-muted">💵 Incassi totali:    
+                                <?php 
+                                    $id = $sp["id_spettacolo"]; 
+                                    $sql = "SELECT SUM(importo) AS tot FROM biglietto WHERE spettacolo = $id";
+                                    $dato = $conn->query($sql)->fetch_assoc()["tot"];
+                                    if(is_null($dato)){
+                                        $dato = 0;
+                                    }
+                                    print($dato);
+                                ?>€
+                                </span>
                                 <?php if ($isPassato): ?>
                                     <span class="spett-badge" style="color:#e05c5c;background:rgba(224,92,92,.1);border:1px solid rgba(224,92,92,.25);">Passato</span>
                                 <?php elseif ($sp['data_spettacolo'] === $oggi): ?>
@@ -215,6 +226,7 @@ $oggi = date('Y-m-d');
                                         🎟️ <?php echo (int)$sp['biglietti_venduti']; ?> / <?php echo (int)$sp['posti']; ?> posti
                                     </span>
                                     <span style="font-size:.7rem; color:var(--text-dim);"><?php echo $pct; ?>%</span>
+                                    
                                 </div>
                                 <div class="occupancy-bar-wrap">
                                     <div class="occupancy-bar-fill" style="width:<?php echo $pct; ?>%; background:<?php echo $barColor; ?>;"></div>
