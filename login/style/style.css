@@ -1320,47 +1320,68 @@ main {
 
 /* ── Stats row ──────────────────────────────── */
 .stats-row {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1rem;
-    margin-bottom: 1.5rem;
+display: grid;
+/* Forza 4 colonne uguali su una sola riga */
+grid-template-columns: repeat(4, 1fr); 
+gap: 1rem;
+margin-bottom: 1.5rem;
+width: 100%; /* Assicura che occupi tutta la larghezza disponibile */
 }
 
 .stat-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 1.25rem 1.5rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
-    transition: border-color 0.2s, transform 0.2s;
+background: var(--surface);
+border: 1px solid var(--border);
+border-radius: var(--radius);
+/* Ridotto il padding per rendere le card più piccole verticalmente */
+padding: 1rem 1.25rem; 
+display: flex;
+flex-direction: column;
+gap: 0.25rem;
+transition: border-color 0.2s, transform 0.2s;
+height: 100%; /* Assicura altezza uniforme se il contenuto varia */
+box-sizing: border-box;
 }
 
 .stat-card:hover {
-    border-color: rgba(201,168,76,0.3);
-    transform: translateY(-2px);
+border-color: rgba(201,168,76,0.3);
+transform: translateY(-2px);
 }
 
 .stat-label {
-    font-size: 0.7rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--text-dim);
+font-size: 0.7rem;
+font-weight: 600;
+text-transform: uppercase;
+letter-spacing: 0.1em;
+color: var(--text-dim);
 }
 
 .stat-value {
-    font-family: var(--font-display);
-    font-size: 2rem;
-    font-weight: 900;
-    color: var(--gold);
-    line-height: 1.1;
+font-family: var(--font-display);
+/* Leggermente ridotto il font size per adattarsi meglio */
+font-size: 1.75rem; 
+font-weight: 900;
+color: var(--gold);
+line-height: 1.1;
 }
 
 .stat-sub {
-    font-size: 0.75rem;
-    color: var(--text-muted);
+font-size: 0.75rem;
+color: var(--text-muted);
+}
+
+/* ─ Responsive per schermi piccoli ─────────────────────────────── */
+@media (max-width: 1024px) {
+    .stats-row {
+        /* Su tablet/laptop piccoli, passa a 2x2 */
+        grid-template-columns: repeat(2, 1fr); 
+    }
+}
+
+@media (max-width: 640px) {
+    .stats-row {
+        /* Su mobile, torna a colonna singola */
+        grid-template-columns: 1fr;
+    }
 }
 
 /* ── Spettacolo card ─────────────────────────── */
