@@ -99,6 +99,7 @@ $oggi = date('Y-m-d');
         </div>
 
         <h2 class="hero-title">Pannello <span>Venditore</span></h2>
+        <p>Vendi biglietti per gli spettacoli in programmazione</p>
 
         <div class="search-bar-wrapper" style="margin-top:14px;">
             <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
@@ -135,6 +136,11 @@ $oggi = date('Y-m-d');
                 $totSpett = count($spettacoli);
                 $totBiglietti = array_sum(array_column($spettacoli, 'biglietti_venduti'));
                 $spettOggi = count(array_filter($spettacoli, fn($sp) => $sp['data_spettacolo'] === $oggi));
+                $sql = "SELECT SUM(importo) AS tot FROM biglietto";
+                $totIncassi = $conn->query($sql)->fetch_assoc()["tot"];
+                if(is_null($totIncassi)){
+                    $totIncassi = 0;
+                }
             ?>
             <div class="stats-row">
                 <div class="stat-card">
@@ -145,6 +151,11 @@ $oggi = date('Y-m-d');
                 <div class="stat-card">
                     <span class="stat-label">Biglietti venduti</span>
                     <span class="stat-value"><?php echo $totBiglietti; ?></span>
+                    <span class="stat-sub">su tutti gli spettacoli</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-label">Incassi totali</span>
+                    <span class="stat-value"><?php echo $totIncassi; ?></span>
                     <span class="stat-sub">su tutti gli spettacoli</span>
                 </div>
                 <div class="stat-card">
