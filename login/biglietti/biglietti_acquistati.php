@@ -8,6 +8,8 @@ $nome     = htmlspecialchars($_SESSION['user']  ?? 'Utente');
 $email    = htmlspecialchars($_SESSION['email'] ?? '');
 $iniziali = strtoupper(substr($_SESSION['user'] ?? 'U', 0, 1));
 
+$oggi = date('Y-m-d');
+
 // Recupera biglietti dell'utente
 $result = $conn->query("
     SELECT 
@@ -25,7 +27,8 @@ $result = $conn->query("
     JOIN sala sa       ON s.sala       = sa.id_sala
     JOIN utente u      ON b.utente     = u.id_utente
     WHERE u.nome = '" . $conn->real_escape_string($nome) . "'
-    ORDER BY s.data_spettacolo DESC, s.ora_inizio DESC
+    AND  s.data_spettacolo >='$oggi'
+    ORDER BY s.data_spettacolo , s.ora_inizio, f.titolo ASC
 ");
 
 $biglietti = $result ? $result->fetch_all(MYSQLI_ASSOC) : [];
