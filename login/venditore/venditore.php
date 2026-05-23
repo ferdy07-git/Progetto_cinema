@@ -56,7 +56,7 @@ $query = "
     FROM spettacolo s
     INNER JOIN film f ON s.film = f.id_film
     INNER JOIN sala sa ON s.sala = sa.id_sala
-    ORDER BY s.data_spettacolo DESC, s.ora_inizio ASC
+    ORDER BY s.data_spettacolo , s.ora_inizio ASC
 ";
 $result = $conn->query($query);
 if ($result === false) die("Errore: " . htmlspecialchars($conn->error));
