@@ -7,6 +7,7 @@ if(check($user,$pass)){
     exit(); 
 }
 require "../../database/connessione.php";
+require "../../utils/utils.php";
 
 $nome = $_POST["nick"];
 $pass = $_POST["pass"];
@@ -25,7 +26,11 @@ if (!(
     header("Location:reg.php");
     exit();
     }
-
+if(!(checkmail($mail))){
+ $_SESSION["check"] = TRUE;
+    header("Location:reg.php");
+    exit();
+}
 
 $sql = "SELECT nome FROM utente WHERE nome = '$nome'";
 $result = $conn->query($sql);
